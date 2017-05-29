@@ -39,4 +39,6 @@ public class Fashion1DAO {
 		}
 		return result;
 	}
+	
+	//public List<Fashion1DTO dto> listBoard()
 }
