@@ -48,10 +48,10 @@
 	function sendOk() {
         var f = document.pwdForm;
 
-        var str = f.userPwd.value;
+        var str = f.mem_Pwd.value;
         if(!str) {
             alert("\n패스워드를 입력하세요. ");
-            f.userPwd.focus();
+            f.mem_Pwd.focus();
             return;
         }
 
@@ -87,9 +87,9 @@
 			  <tr style="height:60px;" align="center"> 
 			      <td> 
 			        &nbsp;
-			        <input type="text" name="userId" class="loginTF" maxlength="15"
+			        <input type="text" name="mem_Id" class="loginTF" maxlength="15"
 			                   tabindex="1"
-			                   value="${sessionScope.member.userId}"
+			                   value="${sessionScope.member.mem_Id}"
 	                           readonly="readonly">
 			           &nbsp;
 			      </td>
@@ -97,11 +97,11 @@
 			  <tr align="center" height="60"> 
 			      <td>
 			        &nbsp;
-			        <label for="userPwd" id="lblUserPwd" class="lbl" >패스워드</label>
-			        <input type="password" name="userPwd" id="userPwd" class="loginTF" maxlength="20" 
+			        <label for="mem_Pwd" id="lblmem_Pwd" class="lbl" >패스워드</label>
+			        <input type="password" name="mem_Pwd" id="mem_Pwd" class="loginTF" maxlength="20" 
 			                   tabindex="2"
-	                           onfocus="document.getElementById('lblUserPwd').style.display='none';"
-	                           onblur="bgLabel(this, 'lblUserPwd');">
+	                           onfocus="document.getElementById('lblmem_Pwd').style.display='none';"
+	                           onblur="bgLabel(this, 'lblmem_Pwd');">
 			        &nbsp;
 			      </td>
 			  </tr>

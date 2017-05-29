@@ -17,13 +17,13 @@ public class MemberDAO {
 		
 		try {
 			/*
-			SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD')
+			SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD' ) created 
 			FROM member m
 			LEFT OUTER JOIN member_info mi
 			ON m.mem_Id = mi.mem_Id
 			WHERE m.mem_id = 'admin'
 			*/
-			sb.append(" SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD')");
+			sb.append(" SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD') created ");
 			sb.append(" FROM member m ");
 			sb.append(" LEFT OUTER JOIN member_info mi ");
 			sb.append(" ON m.mem_Id = mi.mem_Id ");
@@ -40,8 +40,18 @@ public class MemberDAO {
 				dto.setMem_Pwd(rs.getString("mem_Pwd"));
 				dto.setMem_img(rs.getString("mem_img"));
 				dto.setBirth(rs.getString("birth"));
+				
 				dto.setEmail(rs.getString("email"));
+				String[] email = dto.getEmail().split("@");
+				dto.setEmail1(email[0]);
+				dto.setEmail2(email[1]);
+				
 				dto.setTel(rs.getString("tel"));
+				String[] tel = dto.getTel().split("-");
+				dto.setTel1(tel[0]);
+				dto.setTel2(tel[1]);
+				dto.setTel3(tel[2]);
+				
 				dto.setZip(rs.getString("zip"));
 				dto.setAddr1(rs.getString("addr1"));
 				dto.setAddr2(rs.getString("addr2"));
@@ -94,13 +104,16 @@ public class MemberDAO {
 			pstmt.setString(4, dto.getMem_img());
 			pstmt.setString(5, dto.getMem_Id());
 			pstmt.setString(6, dto.getBirth());
-			pstmt.setString(7, dto.getEmail());
-			pstmt.setString(8, dto.getTel());
+			String email = dto.getEmail1()+"@"+dto.getEmail2();
+			pstmt.setString(7, email);
+			String tel = dto.getTel1()+"-"+dto.getTel2()+"-"+dto.getTel3();
+			pstmt.setString(8, tel);
 			pstmt.setString(9, dto.getZip());
 			pstmt.setString(10, dto.getAddr1());
 			pstmt.setString(11, dto.getAddr2());
 			
-			pstmt.executeUpdate();
+			result=pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			System.out.println(e.toString());
 		} finally {
@@ -128,25 +141,34 @@ public class MemberDAO {
 			 */
 			sb.append(" UPDATE member_info SET birth = ?, email = ?, tel = ?, zip = ?, addr1 = ?, addr2 = ? ");
 			sb.append(" WHERE mem_id = ? ");
-			sb.append(" UPDATE member SET mem_Name = ?, mem_Pwd = ?, mem_img = ?, modify_Date = SYSDATE ");
-			sb.append(" WHERE mem_id = ? ");
 			
 			pstmt=conn.prepareStatement(sb.toString());
-			
 			pstmt.setString(1, dto.getBirth());
-			pstmt.setString(2, dto.getEmail());
-			pstmt.setString(3, dto.getTel());
+			String email = dto.getEmail1()+"@"+dto.getEmail2();
+			pstmt.setString(2, email);
+			String tel = dto.getTel1()+"-"+dto.getTel2()+"-"+dto.getTel3();
+			pstmt.setString(3, tel);
 			pstmt.setString(4, dto.getZip());
 			pstmt.setString(5, dto.getAddr1());
 			pstmt.setString(6, dto.getAddr2());
 			pstmt.setString(7, dto.getMem_Id());
+			result = pstmt.executeUpdate();
 			
-			pstmt.setString(8, dto.getMem_Name());
-			pstmt.setString(9, dto.getMem_Pwd());
-			pstmt.setString(10, dto.getMem_img());
-			pstmt.setString(11, dto.getMem_Id());
-
-			pstmt.executeUpdate();
+			
+			pstmt.close();
+			sb.setLength(0);
+			
+						
+			sb.append(" UPDATE member SET mem_Name = ?, mem_Pwd = ?, mem_img = ?, modify_Date = SYSDATE ");
+			sb.append(" WHERE mem_id = ? ");
+			
+			pstmt=conn.prepareStatement(sb.toString());
+			pstmt.setString(1, dto.getMem_Name());
+			pstmt.setString(2, dto.getMem_Pwd());
+			pstmt.setString(3, dto.getMem_img());
+			pstmt.setString(4, dto.getMem_Id());
+			result += pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

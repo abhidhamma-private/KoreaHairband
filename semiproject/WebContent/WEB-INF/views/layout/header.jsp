@@ -21,9 +21,11 @@
 			<c:if test="${not empty sessionScope.member}">
 				<span style="color: blue;">${sessionScope.member.mem_Name}</span>님 <i></i>
 				<c:if test="${sessionScope.member.mem_Id=='admin'}">
-					<a href="<%=cp%>/admin/main.do">관리자</a>
+					<a href="<%=cp%>/admin/main.do">관리자페이지</a>
 					<i></i>
 				</c:if>
+				<a href="<%=cp%>/member/update.do"><span
+					class="glyphicon glyphicon-update"></span> 정보수정</a>
 				<a href="<%=cp%>/member/logout.do"><span
 					class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
 			</c:if>
