@@ -23,7 +23,7 @@
 </div>
 
 <!-- main -->
-<div style="width: 900px; height: 900px; margin: 0 auto;">
+<div style="width: 900px; height: 600px; margin: 0 auto;">
 	<jsp:include page="/WEB-INF/views/layout/slider.jsp"/>
 		메인입니다.
 </div>
