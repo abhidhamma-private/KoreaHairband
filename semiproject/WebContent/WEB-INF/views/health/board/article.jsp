@@ -53,7 +53,6 @@
 	                		<td align="right">
 	                		    <button type="button" class="btn"
 	                		                onclick="javascript:location.href='<%=cp%>/health/notice.do'">목록으로 </button>
-	                		                onclick="javascript:location.href='<%=cp%>/health/notice.do'"> 목록으로 </button>
 	                		</td>
 	                	</tr>
 	                </tfoot>
