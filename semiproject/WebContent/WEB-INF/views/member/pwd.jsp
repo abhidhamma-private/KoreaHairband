@@ -16,6 +16,8 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 
 <style type="text/css">
 .lbl {
@@ -35,7 +37,6 @@
 }
 </style>
 
-<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript">
 	function bgLabel(ob, id) {
 	    if(!ob.value) {
@@ -54,9 +55,15 @@
             f.mem_Pwd.focus();
             return;
         }
-
-        f.action = "<%=cp%>/";
-        f.submit();
+        
+		if("${mode}"=='update'){
+			f.action = "<%=cp%>/member/update.do";
+	        f.submit();	
+		}
+		if("${mode}"=='delete'){
+			f.action = "<%=cp%>/member/delete_ok.do";
+	        f.submit();
+		}
 	}
 </script>
 
@@ -73,7 +80,7 @@
 	    <div style="margin: 70px auto 60px; width:420px;">
 		
 	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">패스워드 재확인</span>
+	        	<span style="font-weight: bold; font-size:27px; color: #424951;">[${title}] 패스워드 재확인</span>
 	        </div>
 		
 			<form name="pwdForm" method="post" action="">

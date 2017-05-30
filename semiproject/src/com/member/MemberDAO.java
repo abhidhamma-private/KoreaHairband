@@ -17,13 +17,13 @@ public class MemberDAO {
 		
 		try {
 			/*
-			SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD' ) created 
+			SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2, created_Date, modify_Date
 			FROM member m
 			LEFT OUTER JOIN member_info mi
 			ON m.mem_Id = mi.mem_Id
 			WHERE m.mem_id = 'admin'
 			*/
-			sb.append(" SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, birth, email, tel, zip, addr1, addr2, TO_CHAR(created_date, 'YY/MM/DD') created ");
+			sb.append(" SELECT m.mem_Id, mem_Name, mem_Pwd, enabled, mem_img, point, TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2, created_Date, modify_Date ");
 			sb.append(" FROM member m ");
 			sb.append(" LEFT OUTER JOIN member_info mi ");
 			sb.append(" ON m.mem_Id = mi.mem_Id ");
@@ -38,7 +38,9 @@ public class MemberDAO {
 				dto.setMem_Id(rs.getString("mem_Id"));
 				dto.setMem_Name(rs.getString("mem_Name"));
 				dto.setMem_Pwd(rs.getString("mem_Pwd"));
+				dto.setEnabled(rs.getInt("enabled"));
 				dto.setMem_img(rs.getString("mem_img"));
+				dto.setPoint(rs.getInt("point"));
 				dto.setBirth(rs.getString("birth"));
 				
 				dto.setEmail(rs.getString("email"));
@@ -55,7 +57,8 @@ public class MemberDAO {
 				dto.setZip(rs.getString("zip"));
 				dto.setAddr1(rs.getString("addr1"));
 				dto.setAddr2(rs.getString("addr2"));
-				dto.setCreated_Date(rs.getString("created"));
+				dto.setCreated_Date(rs.getString("created_date"));
+				dto.setModify_Date(rs.getString("modify_Date"));
 			}
 		} catch (Exception e) {
 			System.out.println(e.toString());
@@ -189,18 +192,16 @@ public class MemberDAO {
 		
 		try {
 			/*
-			DELETE FROM member_info WHERE mem_Id = 'test'
 			DELETE FROM member WHERE mem_Id = 'test'
 			*/
-			sb.append(" DELETE FROM member_info WHERE mem_Id = ? ");
 			sb.append(" DELETE FROM member WHERE mem_Id = ? ");
 			
 			pstmt=conn.prepareStatement(sb.toString());
 			
 			pstmt.setString(1, mem_Id);
-			pstmt.setString(2, mem_Id);
-
-			pstmt.executeUpdate();
+			
+			result = pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {

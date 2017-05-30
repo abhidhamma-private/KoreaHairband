@@ -46,6 +46,8 @@ public class MemberServlet extends HttpServlet {
 		} else if (uri.indexOf("login_ok.do") != -1) {
 			// 로그인 처리
 			login_ok(req, resp);
+		} else if (uri.indexOf("mypage.do") != -1) {
+			mypage(req, resp);
 		} else if (uri.indexOf("logout.do") != -1) {
 			// 로그아웃 처리
 			logout(req, resp);
@@ -55,13 +57,19 @@ public class MemberServlet extends HttpServlet {
 		} else if (uri.indexOf("member_ok.do") != -1) {
 			// 회원가입처리
 			member_ok(req, resp);
+		} else if (uri.indexOf("pwd.do") != -1) {
+			pwd(req, resp);
 		} else if (uri.indexOf("update.do") != -1) {
 			update(req, resp);
 		} else if (uri.indexOf("update_ok.do") != -1) {
 			update_ok(req, resp);
+		} else if (uri.indexOf("delete.do") != -1) {
+			delete(req, resp);
+		} else if (uri.indexOf("delete_ok.do") != -1) {
+			delete_ok(req, resp);
 		} else if (uri.indexOf("mem_IdCheck.do") != -1) {
 			mem_IdCheck(req, resp);
-		}
+		} 
 	}
 
 	protected void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -97,6 +105,19 @@ public class MemberServlet extends HttpServlet {
 		// 메인으로 리다이렉트 한다.
 		String cp = req.getContextPath();
 		resp.sendRedirect(cp + "/main.do");
+	}
+	protected void mypage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 세션값으로 회원정보 로드
+		MemberDAO dao = new MemberDAO();
+		MemberDTO dto = dao.readMember(info.getMem_Id());
+		
+		if (dto == null) {
+			// 로그인 페이지로 포워딩
+			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+			return;
+		}
+		req.setAttribute("dto", dto);
+		forward(req, resp, "/WEB-INF/views/member/mypage.jsp");
 	}
 
 	protected void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -160,18 +181,43 @@ public class MemberServlet extends HttpServlet {
 
 		forward(req, resp, "/WEB-INF/views/member/complete.jsp");
 	}
+	protected void pwd(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String mode = req.getParameter("update");
+		
+		
+		if(mode == null){
+			req.setAttribute("mode", "delete");
+			req.setAttribute("title", "회원탈퇴");
+			req.setAttribute("message", "한번 삭제된 개인정보는 복구되지 않습니다!");
 
+			forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+		} else {
+			req.setAttribute("mode", "update");
+			req.setAttribute("title", "정보수정");
+			req.setAttribute("message", "회원님의 정보를 수정합니다.");
+
+			forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+		}
+	}
+	
 	protected void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 회원수정폼
-		MemberDAO dao = new MemberDAO();
-		MemberDTO dto = dao.readMember(info.getMem_Id());
 
-		if (dto == null) {
-			req.setAttribute("message", "로그인 상태가 아니거나 회원 정보가 존재하지 않습니다.");
-			forward(req, resp, "/WEB-INF/views/member/login.jsp");
+		// 회원정보 로드
+		MemberDAO dao = new MemberDAO();
+
+		// 파리미터 받기
+		String mem_Id = req.getParameter("mem_Id");
+		String mem_Pwd = req.getParameter("mem_Pwd");
+
+		MemberDTO dto = dao.readMember(mem_Id);
+		if (dto == null || !mem_Pwd.equals(dto.getMem_Pwd())) {
+			req.setAttribute("mode", "update");
+			req.setAttribute("title", "정보수정");
+			req.setAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+			forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
 			return;
 		}
-
+		// 회원수정폼
 		req.setAttribute("dto", dto);
 		req.setAttribute("mode", "update");
 		req.setAttribute("title", "정보 수정");
@@ -207,10 +253,58 @@ public class MemberServlet extends HttpServlet {
 			return;
 		}
 
-		// 메인 페이지로 리다이렉트
-		// 메인으로 리다이렉트 한다.
-		String cp = req.getContextPath();
-		resp.sendRedirect(cp + "/main.do");
+		StringBuffer sb = new StringBuffer();
+		sb.append("<b>" + dto.getMem_Name() + "</b>님 정보수정을 성공했습니다.<br>");
+		sb.append("아래 버튼을 누르면 메인화면으로 이동합니다.<br>");
+
+		req.setAttribute("title", "정보 수정 완료!");
+		req.setAttribute("message", sb.toString());
+
+		forward(req, resp, "/WEB-INF/views/member/complete.jsp");
+	}
+
+	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.setAttribute("mode", "delete");
+		req.setAttribute("title", "회원탈퇴");
+		req.setAttribute("message", "한번 삭제된 개인정보는 복구되지 않습니다!");
+
+		forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+	}
+
+	protected void delete_ok(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 회원정보 로드
+		MemberDAO dao = new MemberDAO();
+
+		// 파리미터 받기
+		String mem_Id = req.getParameter("mem_Id");
+		String mem_Pwd = req.getParameter("mem_Pwd");
+
+		MemberDTO dto = dao.readMember(mem_Id);
+		if (dto == null || !mem_Pwd.equals(dto.getMem_Pwd())) {
+			req.setAttribute("mode", "delete");
+			req.setAttribute("title", "회원탈퇴");
+			req.setAttribute("message", "아이디 또는 패스워드가 일치하지 않습니다.");
+			forward(req, resp, "/WEB-INF/views/member/pwd.jsp");
+			return;
+		}
+
+		dao.deleteMember(mem_Id);
+		// 로그아웃 처리
+		// 세션의 저장된 로그인 정보를 지운다.
+		HttpSession session = req.getSession();
+		session.removeAttribute("member");
+		// 세션에 저장된 모든 정보를 지우고 세션을 초기화 한다.
+		session.invalidate();
+		
+		StringBuffer sb = new StringBuffer();
+		sb.append("<b>" + dto.getMem_Name() + "</b>님 그동안 이용해주셔서 감사합니다.<br>");
+		sb.append("아래 버튼을 누르면 메인화면으로 이동합니다.<br>");
+
+		req.setAttribute("title", "회원 탈퇴 완료!");
+		req.setAttribute("message", sb.toString());
+
+		forward(req, resp, "/WEB-INF/views/member/complete.jsp");
+
 	}
 
 	protected void mem_IdCheck(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

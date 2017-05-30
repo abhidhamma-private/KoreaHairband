@@ -16,9 +16,8 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
 
-<script type="text/javascript"
-	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 
 <script type="text/javascript">
 	function memberOk() {
@@ -405,9 +404,7 @@
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 	</div>
 
-	<script type="text/javascript"
-		src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
-	<script type="text/javascript"
-		src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
+	<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 </body>
 </html>

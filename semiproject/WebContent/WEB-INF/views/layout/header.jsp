@@ -24,10 +24,9 @@
 					<a href="<%=cp%>/admin/main.do">관리자페이지</a>
 					<i></i>
 				</c:if>
-				<a href="<%=cp%>/member/update.do"><span
-					class="glyphicon glyphicon-update"></span> 정보수정</a>
-				<a href="<%=cp%>/member/logout.do"><span
-					class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
+				<a href="<%=cp%>/member/mypage.do"><span class="glyphicon glyphicon-mypage"></span> 마이페이지</a>
+					<i></i>
+				<a href="<%=cp%>/member/logout.do"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
 			</c:if>
 		</div>
 	</div>
@@ -61,8 +60,8 @@
 					</ul></li>
 				<li class='active sub'><a href='<%=cp%>/pet/petTalk.do'>반려동물</a>
 					<ul>
-						<li><a href='<%=cp%>/pet/petInfo.do'>정보공유</a></li>
-						<li><a href='<%=cp%>/pet/petTalk.do'>자유게시판</a></li>
+						<li><a href='<%=cp%>/pet/petInfo/list.do'>정보공유</a></li>
+						<li><a href='<%=cp%>/pet/petTalk/list.do'>자유게시판</a></li>
 					</ul></li>
 				<li class='active sub'><a href='<%=cp%>/it/board.do'>IT</a>
 					<ul>
