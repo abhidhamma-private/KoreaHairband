@@ -45,7 +45,6 @@ function bgLabel(ob, id) {
 	    document.getElementById(id).style.display="none";
     }
 }
-
 function sendLogin() {
     var f = document.loginForm;
 

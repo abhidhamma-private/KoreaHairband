@@ -18,7 +18,6 @@ public class MyUtil {
 		
 		return pageCount;
 	}
-	
     //********************************************
 	// 其捞隆(paging) 贸府(GET 规侥)
 	public String paging(int current_page, int total_page, String list_url) {

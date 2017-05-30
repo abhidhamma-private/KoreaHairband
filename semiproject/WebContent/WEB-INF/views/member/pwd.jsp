@@ -45,7 +45,6 @@
 		    document.getElementById(id).style.display="none";
 	    }
 	}
-
 	function sendOk() {
         var f = document.pwdForm;
 

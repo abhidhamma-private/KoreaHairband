@@ -31,7 +31,6 @@
 		</div>
 	</div>
 </div>
-
 <div class="container">
 	<div id="page-header-navi">
 		<div class="header-menu">
