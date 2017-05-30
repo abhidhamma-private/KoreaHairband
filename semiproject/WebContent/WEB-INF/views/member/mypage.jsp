@@ -29,7 +29,12 @@
 <hr>
 ID : ${dto.mem_Id}<br>
 이름 : ${dto.mem_Name}<br>
-프로필사진 : ${dto.mem_img}<br>
+프로필사진 : <br>
+<c:if test="${dto.mem_img!=null}">
+	<img src="<%=cp%>/uploads/photo/${dto.mem_img}" style="max-width:150px; height:auto; resize:both;">
+</c:if>
+<br>
+
 포인트 : ${dto.point}<br>
 생일 : ${dto.birth}<br>
 이메일 : ${dto.email}<br>

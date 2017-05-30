@@ -18,6 +18,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
+
 	function memberOk() {
 		var f = document.memberForm;
 		var str;
@@ -122,7 +123,7 @@
 			f.email2.focus();
 			return;
 		}
-
+		
 		var mode = "${mode}";
 		if (mode == "created") {
 			f.action = "<%=cp%>/member/member_ok.do";
@@ -132,6 +133,8 @@
 
 		f.submit();
 	}
+	
+	
 
 	function changeEmail() {
 		var f = document.memberForm;
@@ -201,7 +204,7 @@
 			</div>
 
 			<div>
-				<form name="memberForm" method="post">
+				<form name="memberForm" method="post" enctype="multipart/form-data">
 					<table
 						style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 						<tr>
@@ -357,6 +360,20 @@
 									<input type="text" name="addr2" value="${dto.addr2}"
 										maxlength="50" class="boxTF" style="width: 95%;"
 										placeholder="나머지 주소">
+								</p>
+							</td>
+						</tr>
+						
+						<tr>
+							<td width="100" valign="top"
+								style="text-align: right; padding-top: 5px;"><label
+								style="font-weight: 900;">프로필사진</label></td>
+							<td style="padding: 0 0 15px 15px;">
+								<p style="margin-bottom: 5px;">
+									<input type="file" name="mem_img" class="boxTF" size="53" style="height: 25px;" accept="image/*" value="${dto.mem_img}">
+									<c:if test="${mode=='update'}">
+										<input type="hidden" name="mem_img" value="${dto.mem_img}">			        
+			        				</c:if>
 								</p>
 							</td>
 						</tr>

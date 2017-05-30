@@ -1,5 +1,6 @@
 package com.member;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -11,6 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
+import com.util.FileManager;
+
 import net.sf.json.JSONObject;
 
 @WebServlet("/member/*")
@@ -18,7 +23,8 @@ public class MemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	private SessionInfo info = null;
-
+	private String pathname;
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		process(req, resp);
@@ -37,9 +43,9 @@ public class MemberServlet extends HttpServlet {
 	}
 
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("UTF-8");
-		String uri = req.getRequestURI();
-
+		req.setCharacterEncoding("utf-8");
+		String uri=req.getRequestURI();
+		
 		if (uri.indexOf("login.do") != -1) {
 			// 로그인 폼
 			login(req, resp);
@@ -146,20 +152,43 @@ public class MemberServlet extends HttpServlet {
 		// 회원가입 처리
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = new MemberDTO();
+		
+		// 이미지 용량/인코딩타입 설정
+		String encType="utf-8";
+		int maxSize=1*1024*1024;
 
-		dto.setMem_Id(req.getParameter("mem_Id"));
-		dto.setMem_Name(req.getParameter("mem_Name"));
-		dto.setMem_Pwd(req.getParameter("mem_Pwd"));
-		dto.setMem_img(req.getParameter("mem_img"));
-		dto.setBirth(req.getParameter("birth"));
-		dto.setEmail1(req.getParameter("email1"));
-		dto.setEmail2(req.getParameter("email2"));
-		dto.setTel1(req.getParameter("tel1"));
-		dto.setTel2(req.getParameter("tel2"));
-		dto.setTel3(req.getParameter("tel3"));
-		dto.setZip(req.getParameter("zip"));
-		dto.setAddr1(req.getParameter("addr1"));
-		dto.setAddr2(req.getParameter("addr2"));
+		// 이미지 저장 경로
+		HttpSession session=req.getSession();
+		String root=session.getServletContext().getRealPath("/");
+		pathname=root+"uploads"+File.separator+"photo";
+		File f=new File(pathname);
+		if(! f.exists())
+			f.mkdirs();
+				
+				
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+
+
+		dto.setMem_Id(mreq.getParameter("mem_Id"));
+		dto.setMem_Name(mreq.getParameter("mem_Name"));
+		dto.setMem_Pwd(mreq.getParameter("mem_Pwd"));
+		
+		if(mreq.getFile("mem_img")!=null) {
+			String mem_img=mreq.getFilesystemName("mem_img");
+			dto.setMem_img(mem_img);
+		}
+		
+		dto.setBirth(mreq.getParameter("birth"));
+		dto.setEmail1(mreq.getParameter("email1"));
+		dto.setEmail2(mreq.getParameter("email2"));
+		dto.setTel1(mreq.getParameter("tel1"));
+		dto.setTel2(mreq.getParameter("tel2"));
+		dto.setTel3(mreq.getParameter("tel3"));
+		dto.setZip(mreq.getParameter("zip"));
+		dto.setAddr1(mreq.getParameter("addr1"));
+		dto.setAddr2(mreq.getParameter("addr2"));
 
 		int result = dao.insertMember(dto);
 		if (result == 0) {
@@ -229,10 +258,43 @@ public class MemberServlet extends HttpServlet {
 		MemberDAO dao = new MemberDAO();
 		MemberDTO dto = new MemberDTO();
 
+		// 이미지 용량/인코딩타입 설정
+		String encType="utf-8";
+		int maxSize=1*1024*1024;
+		
+		// 이미지 저장 경로
+		HttpSession session=req.getSession();
+		String root=session.getServletContext().getRealPath("/");
+		pathname=root+"uploads"+File.separator+"photo";
+		File f=new File(pathname);
+		if(! f.exists())
+			f.mkdirs();
+				
+		MultipartRequest mreq=new MultipartRequest(
+				req, pathname, maxSize, encType,
+				new DefaultFileRenamePolicy());
+				
+		String mem_img=mreq.getParameter("mem_img");
 		dto.setMem_Id(req.getParameter("mem_Id"));
 		dto.setMem_Name(req.getParameter("mem_Name"));
 		dto.setMem_Pwd(req.getParameter("mem_Pwd"));
-		dto.setMem_img(req.getParameter("mem_img"));
+		
+		// 이미지 파일을 업로드 한경우
+		if(mreq.getFile("mem_img")!=null) {
+			// 기존 이미지 파일 지우기
+			FileManager.doFiledelete(pathname, mem_img);
+			
+			// 서버에 저장된 파일명
+			String server_img=mreq.getFilesystemName("mem_img");
+			
+			// 파일 이름 변경
+			server_img = FileManager.doFilerename(pathname, server_img);
+			
+			dto.setMem_img(server_img);
+			// 새로운 이미지 파일을 올리지 않은 경우 기존 이미지 파일로
+			dto.setMem_img(mem_img);
+		}
+		System.out.println("111");
 		dto.setBirth(req.getParameter("birth"));
 		dto.setEmail1(req.getParameter("email1"));
 		dto.setEmail2(req.getParameter("email2"));
@@ -242,7 +304,6 @@ public class MemberServlet extends HttpServlet {
 		dto.setZip(req.getParameter("zip"));
 		dto.setAddr1(req.getParameter("addr1"));
 		dto.setAddr2(req.getParameter("addr2"));
-
 		int result = dao.updateMember(dto);
 		if (result == 0) {
 			dto = dao.readMember("mem_Id");
