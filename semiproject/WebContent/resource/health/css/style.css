@@ -1,0 +1,60 @@
+@CHARSET "UTF-8";
+/* 전체적용 */
+* {
+padding:0;
+margin:0;
+}
+.btn{
+	background:#337AB7;
+	color:white;
+}
+
+
+
+input[name=searchValue] {
+	border:3px solid #337AB7;
+	
+}
+select[name=searchKey] {
+	border:3px solid #337AB7;
+	
+} 
+
+
+
+
+
+select > option {
+	line-height: 30px;
+}
+/* main.jsp */
+li.dropdown:hover ul{ display: block; };
+
+.body-title > h3 {
+background:#337AB7;
+};
+.container{
+padding:0px;	
+}
+/* board_temp.jsp */
+thead{
+	background:#337AB7;
+	color:white;
+}
+
+#paging {
+	text-align: center; 
+	min-height: 50px; 
+	line-height: 50px;
+}
+
+#paging > ul{
+	height: 34px;
+	
+}
+a > span {
+	width: 8px;
+	height: 20px;
+	margin-right:5px;
+	padding-top:2px;
+}
