@@ -17,7 +17,7 @@ public class MemberDAO {
 		
 		try {
 			/*
-			SELECT m.mem_Id, mem_Name, mem_Pwd, mem_img, TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2, created_Date, modify_Date
+			SELECT m.mem_Id, mem_Name, mem_Pwd, enabled, mem_img, point, TO_CHAR(birth, 'YYYY-MM-DD') birth, email, tel, zip, addr1, addr2, created_Date, modify_Date
 			FROM member m
 			LEFT OUTER JOIN member_info mi
 			ON m.mem_Id = mi.mem_Id
