@@ -17,6 +17,7 @@ function article(num) {
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css"/>
 </head>
 
 <body>
