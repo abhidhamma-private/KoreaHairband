@@ -275,9 +275,9 @@ public class MemberServlet extends HttpServlet {
 				new DefaultFileRenamePolicy());
 				
 		String mem_img=mreq.getParameter("mem_img");
-		dto.setMem_Id(req.getParameter("mem_Id"));
-		dto.setMem_Name(req.getParameter("mem_Name"));
-		dto.setMem_Pwd(req.getParameter("mem_Pwd"));
+		dto.setMem_Id(mreq.getParameter("mem_Id"));
+		dto.setMem_Name(mreq.getParameter("mem_Name"));
+		dto.setMem_Pwd(mreq.getParameter("mem_Pwd"));
 		
 		// 이미지 파일을 업로드 한경우
 		if(mreq.getFile("mem_img")!=null) {
@@ -291,19 +291,19 @@ public class MemberServlet extends HttpServlet {
 			server_img = FileManager.doFilerename(pathname, server_img);
 			
 			dto.setMem_img(server_img);
+		} else {
 			// 새로운 이미지 파일을 올리지 않은 경우 기존 이미지 파일로
 			dto.setMem_img(mem_img);
 		}
-		System.out.println("111");
-		dto.setBirth(req.getParameter("birth"));
-		dto.setEmail1(req.getParameter("email1"));
-		dto.setEmail2(req.getParameter("email2"));
-		dto.setTel1(req.getParameter("tel1"));
-		dto.setTel2(req.getParameter("tel2"));
-		dto.setTel3(req.getParameter("tel3"));
-		dto.setZip(req.getParameter("zip"));
-		dto.setAddr1(req.getParameter("addr1"));
-		dto.setAddr2(req.getParameter("addr2"));
+		dto.setBirth(mreq.getParameter("birth"));
+		dto.setEmail1(mreq.getParameter("email1"));
+		dto.setEmail2(mreq.getParameter("email2"));
+		dto.setTel1(mreq.getParameter("tel1"));
+		dto.setTel2(mreq.getParameter("tel2"));
+		dto.setTel3(mreq.getParameter("tel3"));
+		dto.setZip(mreq.getParameter("zip"));
+		dto.setAddr1(mreq.getParameter("addr1"));
+		dto.setAddr2(mreq.getParameter("addr2"));
 		int result = dao.updateMember(dto);
 		if (result == 0) {
 			dto = dao.readMember("mem_Id");

@@ -18,7 +18,23 @@
 <script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-
+	//첨부파일
+	$(function(){ 
+		var num=1;
+		var mem_img;
+		$('body').on('change', 'input[name=file_upload]', function(){ 
+			//alert(num);
+			if(window.FileReader){ 
+				mem_img = $(this)[0].files[0].name; 
+			} 
+			else { //ie구버전
+				mem_img = $(this).val().split('/').pop().split('\\').pop();
+			} 
+			$(this).siblings('.mem_img').val(mem_img); 
+			
+		});
+	
+	});
 	function memberOk() {
 		var f = document.memberForm;
 		var str;
@@ -188,6 +204,12 @@
 		});
 	}
 </script>
+<style type="text/css">
+.fileBox{position: relative}
+.fileBox .mem_img{display:inline-block; width:190px; height:25px;}
+.fileBox .btn_file{display:inline-block; width:80px; height:25px; margin-left:5px; border:1px solid #ccc; font-size:12px; background:none; text-align:center; vertical-align:middle; line-height:25px; cursor:pointer}
+.fileBox input[type='file'], .fileBox input[type='button']{position:absolute; /*top:14px; left:202px;*/ width:1px; height:1px; padding:0; overflow:hidden; clip:rect(0,0,0,0); border:0}
+</style>
 </head>
 <body>
 
@@ -363,20 +385,17 @@
 								</p>
 							</td>
 						</tr>
-						
 						<tr>
-							<td width="100" valign="top"
-								style="text-align: right; padding-top: 5px;"><label
-								style="font-weight: 900;">프로필사진</label></td>
-							<td style="padding: 0 0 15px 15px;">
-								<p style="margin-bottom: 5px;">
-									<input type="file" name="mem_img" class="boxTF" size="53" style="height: 25px;" accept="image/*" value="${dto.mem_img}">
-									<c:if test="${mode=='update'}">
-										<input type="hidden" name="mem_img" value="${dto.mem_img}">			        
-			        				</c:if>
-								</p>
+							<td width="100" valign="top" style="text-align: right; padding-top: 5px;">
+							<label style="font-weight: 900;">프로필사진</label>
+							</td>
+							<td class="fileBox" style="padding: 0 0 15px 15px;">
+								<input class="mem_img" type="text" name="mem_img" readonly="readonly" value="${dto.mem_img}">
+								<label for="file_upload" class="btn_file">찾아보기</label>
+								<input id="file_upload" type="file" name="file_upload">
 							</td>
 						</tr>
+						
 						<c:if test="${mode=='created'}">
 							<tr>
 								<td width="100" valign="top"
