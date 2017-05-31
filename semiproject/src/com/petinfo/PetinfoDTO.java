@@ -5,6 +5,15 @@ public class PetinfoDTO {
 	private String category, mem_name, mem_id;
 	private String subject, content, created;
 	private int hitCount;
+	private long gap;
+
+	public long getGap() {
+		return gap;
+	}
+
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
 
 	public int getNotice() {
 		return notice;

@@ -62,15 +62,6 @@ function searchList(){
       <td align="left" width="50%">
         ${dataCount}개 (${page}/${total_page}페이지)
       </td>
-      <td align="right" >
-          <select id="rows" class="selectField" onchange="">
-          	<option value="5" >5개씩 보기 </option>
-          	<option value="10">10개씩 보기 </option>
-          	<option value="20">20개씩 보기 </option>
-          	<option value="30">30개씩 보기 </option>
-          	
-          </select>
-      </td>
    </tr>
 </table>
 
@@ -78,24 +69,37 @@ function searchList(){
   <tr><td height="1" colspan="6" bgcolor="#cccccc"></td></tr>
   <tr align="center" height="35"> 
       <th width="60" style="color: #787878;">번호</th>
-      <th width="80" style="color: #787878;">카테고리</th>
       <th style="color: #787878;">제목</th>
       <th width="100" style="color: #787878;">작성자</th>
       <th width="80" style="color: #787878;">작성일</th>
       <th width="60" style="color: #787878;">조회수</th>
   </tr>
   <tr><td height="1" colspan="6" bgcolor="#cccccc"></td></tr>
+ 
+<c:forEach var="dto" items="${listNotice}">
+	  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
+	      <td>
+	           <span style="display: inline-block;width: 50px;height:18px;line-height:18px; background: #ED4C00;color: #FFFFFF; ">공지</span>
+	      </td>
+	      <td align="left" style="padding-left: 10px;">
+	         <a href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }</a>
+	      </td>
+	       <td align="center">${dto.mem_name }</td>
+	       <td align="center">${dto.created }</td>
+	       <td align="center">${dto.hitCount}</td>
+	  </tr>
+</c:forEach> 
 
 <c:forEach var="dto" items="${list}">
   <tr align="center" bgcolor="#ffffff" height="35"> 
       <td align="center">${dto.listNum }</td>
-      <td align="center">[${dto.category }]</td>
       <td align="left" style="padding-left: 10px;">
-         <a href="${articleUrl}&num=${dto.bbs_num}">${dto.subject }</a>
+         <a href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }</a>
+          <c:if test="${dto.gap<1}"><img src="<%=cp%>/resource/img/new.gif"></c:if>
       </td>
       <td align="center">${dto.mem_name }</td>
       <td align="center">${dto.created }</td>
-      <td align="center">${dto.hitCount }</td>
+      <td align="center">${dto.hitCount}</td>
   </tr>
 </c:forEach> 
   

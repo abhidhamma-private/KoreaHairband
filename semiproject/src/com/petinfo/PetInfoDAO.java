@@ -130,12 +130,12 @@ public class PetInfoDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
-		
+		String cate = null;
 		try {
 			sb.append("SELECT * FROM (");
 			sb.append("	SELECT ROWNUM rnum, tb.* FROM( ");
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
-			sb.append("				TO_CHAR(created, 'YYYY-MM-DD')created ");
+			sb.append("				created ");
 			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
 			sb.append("		ORDER BY bbs_num DESC ");
 			sb.append("	)tb WHERE ROWNUM <= ? ");
@@ -149,13 +149,18 @@ public class PetInfoDAO {
 			
 			while(rs.next()){
 				PetinfoDTO dto = new PetinfoDTO();
-				
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));
-				dto.setCategory(rs.getString("category"));
+				dto.setCategory(cate);
 				dto.setSubject(rs.getString("subject"));
-				dto.setContent(rs.getString("hitCount"));
+				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
 				
 				list.add(dto);
@@ -186,12 +191,13 @@ public class PetInfoDAO {
 		PreparedStatement pstmt=null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
+		String cate = null;
 		
 		try {
 			sb.append("SELECT * FROM (");
 			sb.append("	SELECT ROWNUM rnum, tb.* FROM( ");
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
-			sb.append("				TO_CHAR(created, 'YYYY-MM-DD')created ");
+			sb.append("				created ");
 			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
 			if(searchKey.equals("mem_name")){
 				sb.append( " WHERE INSTR(mem_name, ?) = 1");
@@ -214,13 +220,19 @@ public class PetInfoDAO {
 			
 			while(rs.next()){
 				PetinfoDTO dto = new PetinfoDTO();
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
 				
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));
-				dto.setCategory(rs.getString("category"));
+				dto.setCategory(cate);
 				dto.setSubject(rs.getString("subject"));
-				dto.setContent(rs.getString("hitCount"));
+				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
 				
 				list.add(dto);
@@ -279,9 +291,9 @@ public class PetInfoDAO {
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 		ResultSet rs = null;
-		
+		String cate = null;
 		try {
-			sb.append("SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
+			sb.append("SELECT bbs_num, p.mem_id, mem_name, content, category, subject, hitCount,	");
 			sb.append("		created ");
 			sb.append(" FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
 			sb.append(" WHERE bbs_num=?");
@@ -292,14 +304,23 @@ public class PetInfoDAO {
 			
 			if(rs.next()){
 				dto = new PetinfoDTO();
-				dto.setBbs_num(rs.getInt("bbs_nem"));
-				dto.setMem_id(rs.getString("mem_name"));
+				
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
+				
+				dto.setBbs_num(rs.getInt("bbs_num"));
+				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));	
 				dto.setSubject(rs.getString("subject"));
 				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				dto.setHitCount(rs.getInt("hitCount"));
-				dto.setCategory(rs.getString("category"));
+				dto.setCategory(cate);
+				
 			}
 			
 		} catch (Exception e) {
@@ -316,15 +337,257 @@ public class PetInfoDAO {
 	}
 	
 	//이전글
-	
+	public PetinfoDTO preReadBoard(int bbs_num, String searchKey, String searchValue){
+		PetinfoDTO dto = null;
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		ResultSet rs = null;
+		String cate = null;
+		try {
+			if(searchValue!=null&&searchValue.length()!=0){
+				sb.append("	SELECT ROWNUM, tb.* FROM( ");
+				sb.append("		SELECT bbs_num, subject, category ");
+				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				if(searchKey.equals("mem_name")){
+					sb.append("		WHERE (INSTR(mem_name, ?)=1 ) ");
+				}else if(searchKey.equals("created")){
+					searchValue=searchValue.replaceAll("-", "");
+					sb.append(" 	WHERE TO_CHAR(created, 'YYYYMMDD') = ?");
+				}else{
+					sb.append(" 	WHERE INSTR(" + searchKey + ", ?) >= 1");
+				}
+				sb.append("			AND (bbs_num > ?) ");
+				sb.append("		ORDER BY bbs_num ASC");
+				sb.append("	)tb WHERE ROWNUM = 1");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setString(1, searchValue);
+				pstmt.setInt(2, bbs_num);
+			}else{
+				sb.append("	SELECT ROWNUM, tb.* FROM( ");
+				sb.append("		SELECT bbs_num, subject, category ");
+				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append("		WHERE bbs_num > ?");
+				sb.append("		ORDER BY bbs_num ASC");
+				sb.append("	)tb WHERE ROWNUM = 1 ");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setInt(1, bbs_num);
+			}
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				dto = new PetinfoDTO();
+				
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
+				
+				dto.setBbs_num(rs.getInt("bbs_num"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setCategory(cate);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return dto;
+	}
 	
 	//다음글
-	
+	public PetinfoDTO nextReadBoard(int bbs_num, String searchValue, String searchKey){
+		PetinfoDTO dto = null;
+		PreparedStatement pstmt = null;
+		StringBuffer sb = new StringBuffer();
+		ResultSet rs = null;
+		String cate = null;
+		try {
+			if(searchValue!=null&&searchValue.length()!=0){
+				sb.append("	SELECT ROWNUM, tb.* FROM( ");
+				sb.append("		SELECT bbs_num, subject, category ");
+				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				if(searchKey.equals("mem_name")){
+					sb.append("		WHERE (INSTR(mem_name, ?)=1 ) ");
+				}else if(searchKey.equals("created")){
+					searchValue=searchValue.replaceAll("-", "");
+					sb.append(" 	WHERE TO_CHAR(created, 'YYYYMMDD') = ?");
+				}else{
+					sb.append(" 	WHERE INSTR(" + searchKey + ", ?) >= 1");
+				}
+				sb.append("			AND (bbs_num < ?) ");
+				sb.append("		ORDER BY bbs_num DESC");
+				sb.append("	)tb WHERE ROWNUM = 1");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setString(1, searchValue);
+				pstmt.setInt(2, bbs_num);
+			}else{
+				sb.append("	SELECT ROWNUM, tb.* FROM( ");
+				sb.append("		SELECT bbs_num, subject, category ");
+				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append("		WHERE bbs_num < ?");
+				sb.append("		ORDER BY bbs_num DESC");
+				sb.append("	)tb WHERE ROWNUM = 1 ");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				pstmt.setInt(1, bbs_num);
+			}
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()){
+				dto = new PetinfoDTO();
+				
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
+				
+				dto.setBbs_num(rs.getInt("bbs_num"));
+				dto.setSubject(rs.getString("subject"));
+				dto.setCategory(cate);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return dto;
+	}
 	
 	//게시글 수정
-	
+	public int updateBoard(PetinfoDTO dto, String mem_id){
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try{
+			sql = "UPDATE pet1 SET subject=?, content=?, category=? WHERE bbs_num=? AND mem_id =?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1,dto.getSubject());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setString(3, dto.getCategory());
+			pstmt.setInt(4, dto.getBbs_num());
+			pstmt.setString(5, mem_id);
+			
+			result = pstmt.executeUpdate();
+			
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return result;
+	}
 	
 	//게시글 삭제
+	public int deleteBoard(int bbs_num, String mem_id){
+		int result = 0;
+		PreparedStatement pstmt = null;
+		String sql;
+		
+		try {
+			if(mem_id.equals("admin")){
+				sql="DELETE FROM pet1 WHERE bbs_num=?";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bbs_num);
+				result = pstmt.executeUpdate();
+			}else{
+				sql="DELETE FROM pet1 WHERE bbs_num=? AND mem_id=? ";
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, bbs_num);
+				pstmt.setString(2, mem_id);
+				result = pstmt.executeUpdate();				
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		
+		return result;
+	}
 	
+	//공지사항에 체크된것만 리스트 출력
+	
+	public List<PetinfoDTO> listPetInfoNotice(){
+		List<PetinfoDTO> listNotice=new ArrayList<PetinfoDTO>();
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		StringBuffer sb = new StringBuffer();
+		String cate = null;
+		try {
+			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
+			sb.append("				TO_CHAR(created, 'YYYY-MM-DD')created ");
+			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+			sb.append("		WHERE notice=1 ");
+			sb.append("		ORDER BY bbs_num DESC ");
+			
+			pstmt = conn.prepareStatement(sb.toString());
+			
+			rs=pstmt.executeQuery();
+			
+			while(rs.next()){
+				PetinfoDTO dto = new PetinfoDTO();
+				if(rs.getString("category").equals("cat"))
+					 cate = "고양이";
+				else if(rs.getString("category").equals("dog"))
+					 cate = "강아지";
+				else if(rs.getString("category").equals("hamster"))
+					 cate = "강아지";
+				dto.setBbs_num(rs.getInt("bbs_num"));
+				dto.setMem_id(rs.getString("mem_id"));
+				dto.setMem_name(rs.getString("mem_name"));
+				dto.setCategory(cate);
+				dto.setSubject(rs.getString("subject"));
+				dto.setHitCount(rs.getInt("hitCount"));
+				dto.setCreated(rs.getString("created"));
+				
+				listNotice.add(dto);
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}if(rs!=null){
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return listNotice;
+	}
 	
 }
