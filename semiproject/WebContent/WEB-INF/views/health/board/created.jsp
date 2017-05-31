@@ -28,9 +28,9 @@ function sendOk() {
 	
 
 	if(mode=="created")
-		f.action="<%=cp%>/health/Bcreated_ok.do";
+		f.action="<%=cp%>/health/created_okB.do";
 	else if(mode=="update")
-		f.action="<%=cp%>/health/Bupdate_ok.do";
+		f.action="<%=cp%>/health/update_okB.do";
 
     f.submit();
 	
@@ -89,7 +89,7 @@ function sendOk() {
 	                                  <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/notice.do';"> 취소 </button>
 								
 									  <c:if test="${mode=='update'}">
-										<input type="hidden" name="bbs_num" value="${dto.bbs_num}">			        
+										<input type="hidden" name="bbs_num" value="${dto.bbs_Num}">			        
 										<input type="hidden" name="savefilename" value="${dto.savefilename}">			        
 										<input type="hidden" name="page" value="${page}">			        
 							          </c:if>

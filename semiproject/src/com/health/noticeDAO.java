@@ -214,7 +214,7 @@ public class noticeDAO {
 			sql = "UPDATE health2 SET hitcount = hitcount +1 WHERE bbs_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
-			
+			pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

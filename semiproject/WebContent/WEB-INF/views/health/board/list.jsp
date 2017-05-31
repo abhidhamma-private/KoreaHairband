@@ -46,24 +46,25 @@ function article(num) {
 	            <table class="table table-hover" id="maintable">
 	                <thead>
 	                    <tr>
-	                        <th class="text-center" style="width: 70px;">1</th>
-	                        <th class="text-center">제목</th>
-	                        <th class="text-center" style="width: 100px;">글쓴이</th>
-	                        <th class="text-center" style="width: 100px;">날짜</th>
+	                        <th class="text-center" style="width: 70px;">번호</th>
+	                        <th class="text-center" style="width: 550px;">제목</th>
+	                        <th class="text-center" style="width: 70px;">글쓴이</th>
+	                        <th class="text-center" style="width: 70px;">날짜</th>
 	                        <th class="text-center" style="width: 70px;">조회수</th> 
 	                        <th class="text-center" style="width: 70px;">추천</th>
 	                    </tr>
 	                </thead>
 	                <tbody>
-	                    
+	                    <c:forEach var="dto" items="${list}">
 	                    <tr>
-	                        <td class="text-center">1</td>
-	                        <td><a href="#">[건강]제목입니다...</a></td>
-	                        <td class="text-center">스프링</td>
-	                        <td class="text-center">2010-10-10</td>
-	                        <td class="text-center">10</td> 
+	                        <td class="text-center">${dto.listNum}</td>
+	                        <td><a href="javascript:article('${dto.bbs_Num}');">${dto.subject}</a></td>
+	                        <td class="text-center">${dto.mem_Name}</td>
+	                        <td class="text-center">${dto.created}</td>
+	                        <td class="text-center">${dto.hitCount }</td> 
 	                        <td class="text-center">0</td> 
 	                    </tr>
+	                    </c:forEach>
 	                    
 	                </tbody>
 	            </table>
@@ -71,30 +72,21 @@ function article(num) {
 			
 			<div style="clear: both;">
 	        		<div style="float: left; width: 20%; min-width: 85px;">
-	        		    <button type="button" class="btn" onclick="javascript:location.href='/';">전체목록</button>
+	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/board.do';">전체목록</button>
 	        		</div>
 	        		
 	        		<div style="float: right; width: 20%; min-width: 85px; text-align: right;">
-	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/Bcreated.do';"><span class="glyphicon glyphicon glyphicon-pencil"></span> 글쓰기</button>
+	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/createdB.do';"><span class="glyphicon glyphicon glyphicon-pencil"></span> 글쓰기</button>
 	        		</div>
 	        </div>
 			
 	       <div id="paging">
 	       		  
-	              
-	                <ul class="pagination">
-					  
-					  <li><a href="#"><span class="glyphicon glyphicon-chevron-left"></span></a></li>
-					  <li><a href="#">1</a></li>
-					  <li><a href="#">2</a></li>
-					  <li><a href="#">3</a></li>
-					  <li><a href="#">4</a></li>
-					  <li><a href="#">5</a></li>
-					  <li><a href="#"><span class="glyphicon glyphicon-chevron-right"></span></a></li>
-					</ul>
+	               ${paging}
 					
 					
 			</div>
+			<br><br>
 	        
 	        
 	        

@@ -13,16 +13,21 @@
 <script type="text/javascript">
 function deleteNotice(num) {
    if(confirm("게시물을 삭제 하시겠습니까 ?")) {
-    	 var url="<%=cp%>/health/delete.do?num="+num+"&page=${page}";
-    	 location.href=url;
+    	 
+    		 var url="<%=cp%>/health/delete.do?num="+num+"&page=${page}";
+        	 location.href=url;	 
+    	 
+	   	 
     }	
  
 }
 
 function updateNotice(num) {
-
-    var url="<%=cp%>/health/update.do?num="+num+"&page=${page}";
-    location.href=url;
+	
+		var url="<%=cp%>/health/update.do?num="+num+"&page=${page}";
+	    location.href=url;	
+	
+    
 
 
 }
@@ -56,12 +61,16 @@ function updateNotice(num) {
 	                     </tr>
                          <tr style="border-bottom:none;">
                              <td colspan="2">
+                                 <c:if test=" ${'0' ne dto.savefilename}">
+                             
                                  <img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
+                             
+                             	</c:if>
                              </td>
                          </tr>
 	                     <tr>
 	                         <td colspan="2" style="min-height: 30px;">
-	                              	${dto.content}
+	                              	<pre>${dto.content}</pre>
 	                         </td>
 	                     </tr>
 	                     <tr>
@@ -78,14 +87,14 @@ function updateNotice(num) {
 	                		<td>	                		
 	                		        <button type="button" class="btn" onclick="updateNotice(${dto.bbs_num});">수정</button>
 	                		        <button type="button" class="btn" onclick="deleteNotice(${dto.bbs_num});">삭제</button>
-	                		        <br>
+	                		        <br><br>
 	                		    <pre>댓글1</pre>
 	                		    <pre>댓글2</pre>
 	                		    <pre>댓글3</pre>
 	                		</td>
 	                		<td align="right">
 	                		    <button type="button" class="btn"
-	                		                onclick="javascript:location.href='#"> 목록으로 </button>
+	                		                onclick="javascript:location.href='<%=cp%>/health/notice.do'"> 목록으로 </button>
 	                		</td>
 	                	</tr>
 	                </tfoot>

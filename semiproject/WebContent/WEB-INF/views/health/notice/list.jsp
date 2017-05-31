@@ -81,7 +81,7 @@ function article(num) {
 			
 			<div style="clear: both; width:900px;">
 	        		<div style="float: left; width: 20%; min-width: 85px;">
-	        		    <button type="button" class="btn" onclick="javascript:location.href='/';">전체목록</button>
+	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/board.do';">전체목록</button>
 	        		</div>
 	        		
 	        		<div style="float: right; width: 20%; min-width: 85px; text-align: right;">
