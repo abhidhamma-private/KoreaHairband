@@ -49,7 +49,6 @@ public class HealthServlet extends MyServlet {
 		// notice
 		if (uri.indexOf("notice.do") != -1) {
 			notice(req, resp);
-			return;
 		} else if (uri.indexOf("created.do") != -1) {
 			forward(req, resp, "/WEB-INF/views/health/notice/created.jsp");
 		} else if (uri.indexOf("created_ok.do") != -1) {
@@ -79,8 +78,300 @@ public class HealthServlet extends MyServlet {
 			updateSubmitB(req, resp);
 		} else if (uri.indexOf("deleteB.do") != -1) {
 			deleteB(req, resp);
+		} else if (uri.indexOf("reply.do") != -1) {
+			replyForm(req, resp);
+		} else if (uri.indexOf("reply_ok.do") != -1) {
+			replySubmit(req, resp);
 		}
 	}
+	
+	// board
+		protected void replyForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			// 답변폼
+			boardDAO dao = new boardDAO();
+			String cp = req.getContextPath();
+			
+			int num=Integer.parseInt(req.getParameter("num"));
+			String page = req.getParameter("page");
+			
+			boardDTO dto = dao.readboard(num);
+			
+			if(dto==null) {
+				resp.sendRedirect(cp+"/health/board.do?page="+page);
+				return;
+			}
+			
+			String s = "[" + dto.getSubject()+"]에 대한 답변입니다\n";
+			dto.setContent(s);
+			
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("mode", "reply");
+			
+			forward(req, resp, "/WEB-INF/views/health/board/created.jsp");
+		}
+		
+		protected void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			// 답변 완료
+			boardDAO dao = new boardDAO();
+			String cp = req.getContextPath();
+			
+			String page = req.getParameter("page");
+			System.out.println("페이지없음?: "+page);
+			
+			String encType="utf-8";
+			int maxSize=5*1024*1024;
+			
+			MultipartRequest mreq=new MultipartRequest(
+					req, pathname, maxSize, encType,
+					new DefaultFileRenamePolicy());
+			
+			
+			// 이미지 파일을 업로드 한경우
+			if(mreq.getFile("upload")!=null) {
+				boardDTO dto = new boardDTO();
+				
+				dto.setSubject(mreq.getParameter("subject"));
+				dto.setContent(mreq.getParameter("content"));
+				dto.setGroupNum(Integer.parseInt(mreq.getParameter("groupNum")));
+				dto.setOrderNo(Integer.parseInt(mreq.getParameter("orderNo")));
+				dto.setDepth(Integer.parseInt(mreq.getParameter("depth")));
+				dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
+				System.out.println("이게 어디서 오는거지?:"+dto.getGroupNum());
+				dto.setMem_Id(info.getMem_Id());
+				
+				
+				
+				
+				// 서버에 저장된 파일명
+				String saveFilename=mreq.getFilesystemName("upload");
+				
+				// 파일이름변경
+				saveFilename = FileManager.doFilerename(pathname, saveFilename);
+				
+				// 저장
+				dto.setSavefilename(saveFilename);
+				int result= dao.insertBoard(dto, "reply");
+				System.out.println("성공?:"+result);
+				
+				
+			} else {
+				boardDTO dto = new boardDTO();
+				dto.setSavefilename("0");
+				dto.setSubject(mreq.getParameter("subject"));
+				dto.setContent(mreq.getParameter("content"));
+				dto.setGroupNum(Integer.parseInt(mreq.getParameter("groupNum")));
+				dto.setOrderNo(Integer.parseInt(mreq.getParameter("orderNo")));
+				dto.setDepth(Integer.parseInt(mreq.getParameter("depth")));
+				dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
+				System.out.println("이게 어디서 오는거지?:"+dto.getGroupNum());
+				dto.setMem_Id(info.getMem_Id());
+				
+				int result= dao.insertBoard(dto, "reply");
+				System.out.println("사진없이성공?:"+result);
+			}
+			req.setAttribute("page", page);
+			
+			
+			
+			resp.sendRedirect(cp+"/health/board.do");
+		}
+	
+		protected void board(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+			boardDAO dao = new boardDAO();
+			MyUtil util = new MyUtil();
+			String cp = req.getContextPath();
+
+			String page = req.getParameter("page");
+			int current_page = 1;
+			if (page != null)
+				current_page = Integer.parseInt(page);
+
+			int dataCount = dao.dataCount();
+			int rows = 8;
+			int total_page = util.pageCount(rows, dataCount);
+			if (current_page > total_page)
+				current_page = total_page;
+			int start = (current_page - 1) * rows + 1;
+			int end = current_page * rows;
+
+			List<boardDTO> list;
+			list = dao.listBoard(start, end);
+
+			int listNum, n = 0;
+			Iterator<boardDTO> it = list.iterator();
+			while (it.hasNext()) {
+				boardDTO dto = it.next();
+				listNum = dataCount - (start + n - 1);
+				dto.setListNum(listNum);
+				n++;
+			}
+			String listUrl = cp + "/health/board.do";
+			String articleUrl = cp + "/health/articleB.do?page=" + current_page;
+			String paging = util.paging(current_page, total_page, listUrl);
+
+			req.setAttribute("list", list);
+			req.setAttribute("paging", paging);
+			req.setAttribute("dataCount", dataCount);
+			req.setAttribute("page", current_page);
+			req.setAttribute("total_page", total_page);
+			req.setAttribute("articleUrl", articleUrl);
+
+			forward(req, resp, "/WEB-INF/views/health/board/list.jsp");
+		}
+
+		protected void createdFormB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			req.setAttribute("mode", "created");
+
+			forward(req, resp, "/WEB-INF/views/health/board/created.jsp");
+		}
+
+		protected void createdSubmitB(HttpServletRequest req, HttpServletResponse resp)
+				throws ServletException, IOException {
+			String cp = req.getContextPath();
+			boardDAO dao = new boardDAO();
+			String encType = "utf-8";
+			int maxSize = 5 * 1024 * 1024;
+
+			MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+
+			boardDTO dto = new boardDTO();
+			if (mreq.getFile("upload") != null) {
+				dto.setMem_Id(info.getMem_Id());
+				dto.setSubject(mreq.getParameter("subject"));
+				dto.setContent(mreq.getParameter("content"));
+				String saveFilename = mreq.getFilesystemName("upload");
+				saveFilename = FileManager.doFilerename(pathname, saveFilename);
+
+				dto.setSavefilename(saveFilename);
+
+				dao.insertBoard(dto, "created");
+			} else {
+				dto.setMem_Id(info.getMem_Id());
+				dto.setSubject(mreq.getParameter("subject"));
+				dto.setContent(mreq.getParameter("content"));
+				dto.setSavefilename("파일없음");
+
+				dao.insertBoard(dto, "created");
+			}
+
+			resp.sendRedirect(cp + "/health/board.do");
+			return;
+		}
+
+		protected void articleB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			String cp = req.getContextPath();
+
+			boardDAO dao = new boardDAO();
+
+			int num = Integer.parseInt(req.getParameter("num"));
+			String page = req.getParameter("page");
+			dao.updatehitCount(num);
+			boardDTO dto = dao.readboard(num);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/health/list.do?page=" + page);
+				return;
+			}
+
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+			req.setAttribute("num", num);
+
+			String path = "/WEB-INF/views/health/board/article.jsp";
+			forward(req, resp, path);
+		}
+
+		protected void updateFormB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			String cp = req.getContextPath();
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+			boardDAO dao = new boardDAO();
+
+			String page = req.getParameter("page");
+
+			int num = Integer.parseInt(req.getParameter("num"));
+			boardDTO dto = dao.readboard(num);
+
+			if (dto == null) {
+				resp.sendRedirect(cp + "/health/board.do?page=" + page);
+				return;
+			}
+
+			if (!dto.getMem_Id().equals(info.getMem_Id())) {
+				resp.sendRedirect(cp + "/health/board.do?page=" + page);
+				return;
+			}
+
+			req.setAttribute("dto", dto);
+			req.setAttribute("page", page);
+
+			req.setAttribute("mode", "update");
+			String path = "/WEB-INF/views/health/board/created.jsp";
+			forward(req, resp, path);
+		}
+
+		protected void updateSubmitB(HttpServletRequest req, HttpServletResponse resp)
+				throws ServletException, IOException {
+			String cp = req.getContextPath();
+			boardDAO dao = new boardDAO();
+
+			String encType = "utf-8";
+			int maxSize = 5 * 1024 * 1024;
+
+			MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
+
+			String page = mreq.getParameter("page");
+			String imageFilename = mreq.getParameter("imageFilename");
+
+			boardDTO dto = new boardDTO();
+
+			dto.setBbs_Num(Integer.parseInt(mreq.getParameter("bbs_num")));
+			dto.setSubject(mreq.getParameter("subject"));
+			dto.setContent(mreq.getParameter("content"));
+
+			if (mreq.getFile("upload") != null) {
+				FileManager.doFiledelete(pathname, imageFilename);
+				String saveFilename = mreq.getFilesystemName("upload");
+				saveFilename = FileManager.doFilerename(pathname, saveFilename);
+
+				dto.setSavefilename(saveFilename);
+			} else {
+				dto.setSavefilename(imageFilename);
+			}
+
+			dao.updateBoard(dto);
+			resp.sendRedirect(cp + "/health/board.do?page=" + page);
+		}
+
+		protected void deleteB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			String cp = req.getContextPath();
+			HttpSession session = req.getSession();
+			SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+			boardDAO dao = new boardDAO();
+
+			int num = Integer.parseInt(req.getParameter("num"));
+			String page = req.getParameter("page");
+
+			boardDTO dto = dao.readboard(num);
+			if (dto == null) {
+				resp.sendRedirect(cp + "/health/board.do?page=" + page);
+				return;
+			}
+
+			if (!dto.getMem_Id().equals(info.getMem_Id()) && !info.getMem_Id().equals("admin")) {
+				resp.sendRedirect(cp + "/health/board.do?page=" + page);
+				return;
+			}
+
+			FileManager.doFiledelete(pathname, dto.getSavefilename());
+
+			dao.deleteBoard(num);
+
+			resp.sendRedirect(cp + "/health/board.do?page=" + page);
+		}
 
 	// notice
 	protected void notice(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -266,201 +557,8 @@ public class HealthServlet extends MyServlet {
 
 		resp.sendRedirect(cp + "/health/notice.do?page=" + page);
 	}
-
-	// board
-	protected void board(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		boardDAO dao = new boardDAO();
-		MyUtil util = new MyUtil();
-		String cp = req.getContextPath();
-
-		String page = req.getParameter("page");
-		int current_page = 1;
-		if (page != null)
-			current_page = Integer.parseInt(page);
-
-		int dataCount = dao.dataCount();
-		int rows = 8;
-		int total_page = util.pageCount(rows, dataCount);
-		if (current_page > total_page)
-			current_page = total_page;
-		int start = (current_page - 1) * rows + 1;
-		int end = current_page * rows;
-
-		List<boardDTO> list;
-		list = dao.listBoard(start, end);
-
-		int listNum, n = 0;
-		Iterator<boardDTO> it = list.iterator();
-		while (it.hasNext()) {
-			boardDTO dto = it.next();
-			listNum = dataCount - (start + n - 1);
-			dto.setListNum(listNum);
-			n++;
-		}
-		String listUrl = cp + "/health/board.do";
-		String articleUrl = cp + "/health/articleB.do?page=" + current_page;
-		String paging = util.paging(current_page, total_page, listUrl);
-
-		req.setAttribute("list", list);
-		req.setAttribute("paging", paging);
-		req.setAttribute("dataCount", dataCount);
-		req.setAttribute("page", current_page);
-		req.setAttribute("total_page", total_page);
-		req.setAttribute("articleUrl", articleUrl);
-
-		forward(req, resp, "/WEB-INF/views/health/board/list.jsp");
-	}
-
-	protected void createdFormB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setAttribute("mode", "created");
-
-		forward(req, resp, "/WEB-INF/views/health/board/created.jsp");
-	}
-
-	protected void createdSubmitB(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String cp = req.getContextPath();
-		boardDAO dao = new boardDAO();
-		String encType = "utf-8";
-		int maxSize = 5 * 1024 * 1024;
-
-		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
-
-		boardDTO dto = new boardDTO();
-		if (mreq.getFile("upload") != null) {
-			dto.setMem_Id(info.getMem_Id());
-			dto.setSubject(mreq.getParameter("subject"));
-			dto.setContent(mreq.getParameter("content"));
-			String saveFilename = mreq.getFilesystemName("upload");
-			saveFilename = FileManager.doFilerename(pathname, saveFilename);
-
-			dto.setSavefilename(saveFilename);
-
-			dao.insertBoard(dto, "created");
-		} else {
-			dto.setMem_Id(info.getMem_Id());
-			dto.setSubject(mreq.getParameter("subject"));
-			dto.setContent(mreq.getParameter("content"));
-			dto.setSavefilename("파일없음");
-
-			dao.insertBoard(dto, "created");
-		}
-
-		resp.sendRedirect(cp + "/health/board.do");
-		return;
-	}
-
-	protected void articleB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
-
-		boardDAO dao = new boardDAO();
-
-		int num = Integer.parseInt(req.getParameter("num"));
-		String page = req.getParameter("page");
-		dao.updatehitCount(num);
-		boardDTO dto = dao.readboard(num);
-		if (dto == null) {
-			resp.sendRedirect(cp + "/health/list.do?page=" + page);
-			return;
-		}
-
-		req.setAttribute("dto", dto);
-		req.setAttribute("page", page);
-
-		String path = "/WEB-INF/views/health/board/article.jsp";
-		forward(req, resp, path);
-	}
-
-	protected void updateFormB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		boardDAO dao = new boardDAO();
-
-		String page = req.getParameter("page");
-
-		int num = Integer.parseInt(req.getParameter("num"));
-		boardDTO dto = dao.readboard(num);
-
-		if (dto == null) {
-			resp.sendRedirect(cp + "/health/board.do?page=" + page);
-			return;
-		}
-
-		if (!dto.getMem_Id().equals(info.getMem_Id())) {
-			resp.sendRedirect(cp + "/health/board.do?page=" + page);
-			return;
-		}
-
-		req.setAttribute("dto", dto);
-		req.setAttribute("page", page);
-
-		req.setAttribute("mode", "update");
-		String path = "/WEB-INF/views/health/board/created.jsp";
-		forward(req, resp, path);
-	}
-
-	protected void updateSubmitB(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		String cp = req.getContextPath();
-		boardDAO dao = new boardDAO();
-
-		String encType = "utf-8";
-		int maxSize = 5 * 1024 * 1024;
-
-		MultipartRequest mreq = new MultipartRequest(req, pathname, maxSize, encType, new DefaultFileRenamePolicy());
-
-		String page = mreq.getParameter("page");
-		String imageFilename = mreq.getParameter("imageFilename");
-
-		boardDTO dto = new boardDTO();
-
-		dto.setBbs_Num(Integer.parseInt(mreq.getParameter("bbs_num")));
-		dto.setSubject(mreq.getParameter("subject"));
-		dto.setContent(mreq.getParameter("content"));
-
-		if (mreq.getFile("upload") != null) {
-			FileManager.doFiledelete(pathname, imageFilename);
-			String saveFilename = mreq.getFilesystemName("upload");
-			saveFilename = FileManager.doFilerename(pathname, saveFilename);
-
-			dto.setSavefilename(saveFilename);
-		} else {
-			dto.setSavefilename(imageFilename);
-		}
-
-		dao.updateBoard(dto);
-		resp.sendRedirect(cp + "/health/board.do?page=" + page);
-	}
-
-	protected void deleteB(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String cp = req.getContextPath();
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		boardDAO dao = new boardDAO();
-
-		int num = Integer.parseInt(req.getParameter("num"));
-		String page = req.getParameter("page");
-
-		boardDTO dto = dao.readboard(num);
-		if (dto == null) {
-			resp.sendRedirect(cp + "/health/board.do?page=" + page);
-			return;
-		}
-
-		if (!dto.getMem_Id().equals(info.getMem_Id()) && !info.getMem_Id().equals("admin")) {
-			resp.sendRedirect(cp + "/health/board.do?page=" + page);
-			return;
-		}
-
-		FileManager.doFiledelete(pathname, dto.getSavefilename());
-
-		dao.deleteBoard(num);
-
-		resp.sendRedirect(cp + "/health/board.do?page=" + page);
-	}
+	
+	
+	
 
 }

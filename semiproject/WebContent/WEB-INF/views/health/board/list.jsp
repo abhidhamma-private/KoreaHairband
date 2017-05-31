@@ -58,7 +58,15 @@ function article(num) {
 	                    <c:forEach var="dto" items="${list}">
 	                    <tr>
 	                        <td class="text-center">${dto.listNum}</td>
-	                        <td><a href="javascript:article('${dto.bbs_Num}');">${dto.subject}</a></td>
+	                        <td>
+	                        <c:forEach var="n" begin="1" end="${dto.depth}">
+	                                &nbsp;&nbsp;
+	                            </c:forEach>
+	                            <c:if test="${dto.depth!=0}">
+	                                └
+	                            </c:if>
+	                        <a href="javascript:article('${dto.bbs_Num}');">${dto.subject}</a>
+	                        </td>
 	                        <td class="text-center">${dto.mem_Name}</td>
 	                        <td class="text-center">${dto.created}</td>
 	                        <td class="text-center">${dto.hitCount }</td> 

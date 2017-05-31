@@ -81,7 +81,7 @@ function updateBoard(num) {
 	                		<td>	                		
 	                		        <button type="button" class="btn" onclick="updateBoard(${dto.bbs_Num});">수정</button>
 	                		        <button type="button" class="btn" onclick="deleteBoard(${dto.bbs_Num});">삭제</button>
-	                		        <button type="button" class="btn" onclick="javascript:location.href='#'">답글</button>
+	                		        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/reply.do?num=${dto.bbs_Num}&page=${page}'">답글</button>
 	                		        <br><br>
 	                		    <pre>댓글1</pre>
 	                		    <pre>댓글2</pre>

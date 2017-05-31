@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
 <script type="text/javascript">
 function sendOk() {
-	var f = document.noticeForm;
+	var f = document.boardForm;
 	var mode = "${mode}";
 	
 
@@ -31,6 +31,8 @@ function sendOk() {
 		f.action="<%=cp%>/health/created_okB.do";
 	else if(mode=="update")
 		f.action="<%=cp%>/health/update_okB.do";
+	else if(mode=="reply")
+       		f.action="<%=cp%>/health/reply_ok.do";
 
     f.submit();
 	
@@ -48,7 +50,7 @@ function sendOk() {
 
     <div class="bodyFrame"  style="float:none; margin-left: auto; margin-right: auto;">
 	    <div>
-	        <form name="noticeForm" method="post" enctype="multipart/form-data" action="<%=cp%>/health/created_ok.do">
+	        <form name="boardForm" method="post" enctype="multipart/form-data">
 	            <div class="bs-write">
 	                <table class="table" style="width: 900px; height: 600px; margin: 0 auto;">
 	                    <tbody>
@@ -87,7 +89,15 @@ function sendOk() {
 	                            <td colspan="4" style="text-align: center; padding-top: 15px;">
 	                                  <button  class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}<span class="glyphicon glyphicon-ok"></span></button>
 	                                  <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/notice.do';"> 취소 </button>
-								
+									  
+									  
+									  <c:if test="${mode=='reply'}">
+	                                      <input type="hidden" name="page" value="${page}">
+	                                      <input type="hidden" name="groupNum" value="${dto.groupNum}">
+	                                      <input type="hidden" name="orderNo" value="${dto.orderNo}">
+	                                      <input type="hidden" name="depth" value="${dto.depth}">
+	                                      <input type="hidden" name="parent" value="${dto.parent}">
+	                                  </c:if>
 									  <c:if test="${mode=='update'}">
 										<input type="hidden" name="bbs_num" value="${dto.bbs_Num}">			        
 										<input type="hidden" name="savefilename" value="${dto.savefilename}">			        
