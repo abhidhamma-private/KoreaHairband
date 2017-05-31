@@ -2,11 +2,35 @@
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ include file="/resource/health/setting.jsp" %>
 
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>spring</title>
+<script type="text/javascript">
+function article(num) {
+	var url="${articleUrl}&num="+num;
+	location.href=url;
+}
+
+</script>
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+</head>
+
+<body>
+
+<!-- header -->
+<div style="width: 900px; margin: 0px auto;">
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+</div>
+<br><br>
+	
 
 
-
-	<div class="container">
-		 <div style="width:100%; height:100px;">
+		<div class="container" style="width: 900px; margin: 0 auto; padding:0; position:relative;">
+		 <!-- <div style="width:100%; height:100px;">
 			<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
 				
 			</div>
@@ -14,11 +38,11 @@
 			<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
 			
 			</div>
-		</div>
+		</div> -->
 		
 	
 	
-        <div class="table-responsive" style="clear: both;">
+        <div class="table" style="clear: both; width: 900px; margin: 0 auto; position:relative;">
 	            <table class="table table-hover" id="maintable">
 	                <thead>
 	                    <tr>
@@ -51,7 +75,7 @@
 	        		</div>
 	        		
 	        		<div style="float: right; width: 20%; min-width: 85px; text-align: right;">
-	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/created.do';"><span class="glyphicon glyphicon glyphicon-pencil"></span> 글쓰기</button>
+	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/Bcreated.do';"><span class="glyphicon glyphicon glyphicon-pencil"></span> 글쓰기</button>
 	        		</div>
 	        </div>
 			
@@ -86,6 +110,15 @@
 							  <button type="button" class="btn" onclick="searchList();"><span class="glyphicon glyphicon-search"></span> 검색</button>
 	        		     </form>
 	        		</div>
-	   		 </div>
+	   		 </div><br>
+		
+	   		
+<!-- footer -->
+<div style="width: 900px; margin: 0 auto;position:relative;">
+    <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>
+</div>
 
+</body>
+</html>
+	   		 
 	   		 

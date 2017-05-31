@@ -1,7 +1,7 @@
 package com.health;
 
 public class noticeDTO {
-//bbs_num, mem_id, subject, content,file_num, savefilename
+//bbs_num, mem_Id, subject, content,file_num, savefilename
  //health2
 private int bbs_num, hitcount;
 private String mem_id,subject,content, created;

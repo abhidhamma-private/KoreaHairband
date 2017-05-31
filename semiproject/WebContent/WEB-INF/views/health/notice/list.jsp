@@ -17,17 +17,16 @@ function article(num) {
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css"/>
 </head>
 
 <body>
 
 <!-- header -->
-<div style="width: 900px; margin: 0 auto;">
+<div style="width: 900px; margin: 0px auto;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 <br><br>
-	<div style="width: 900px; height: 600px; margin: 0 auto;">
+	<div style="width: 900px; margin: 0 auto; position:relative;">
 		 <!-- <div style="width:100%; height:100px;">
 			<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
 				
@@ -112,8 +111,8 @@ function article(num) {
 							  <button type="button" class="btn" onclick="searchList();"><span class="glyphicon glyphicon-search"></span> 검색</button>
 	        		     </form>
 	        		</div>
-	   		 </div>
-	   		 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+	   		 </div><br>
+	   		
 <!-- footer -->
 <div style="width: 900px; margin: 0 auto;">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"/>

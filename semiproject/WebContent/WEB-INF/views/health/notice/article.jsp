@@ -10,14 +10,32 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
+<script type="text/javascript">
+function deleteNotice(num) {
+   if(confirm("게시물을 삭제 하시겠습니까 ?")) {
+    	 var url="<%=cp%>/health/delete.do?num="+num+"&page=${page}";
+    	 location.href=url;
+    }	
+ 
+}
+
+function updateNotice(num) {
+
+    var url="<%=cp%>/health/update.do?num="+num+"&page=${page}";
+    location.href=url;
+
+
+}
+
+</script>
+
 </head>	
 <body>
 <!-- header -->
 <div style="width: 900px; margin: 0 auto;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>	
-	    <div class="table-responsive" style="clear: both;">
+	    <div class="table-responsive" style="clear: both; position:relative;">
 	        <div class="article">
 	            <table class="table" style="width: 900px; height: 600px; margin: 0 auto;">
 	                 <thead>
@@ -58,8 +76,8 @@
 	                <tfoot>
 	                	<tr>
 	                		<td>	                		
-	                		        <button type="button" class="btn" onclick="">수정</button>
-	                		        <button type="button" class="btn" onclick="">삭제</button>
+	                		        <button type="button" class="btn" onclick="updateNotice(${dto.bbs_num});">수정</button>
+	                		        <button type="button" class="btn" onclick="deleteNotice(${dto.bbs_num});">삭제</button>
 	                		        <br>
 	                		    <pre>댓글1</pre>
 	                		    <pre>댓글2</pre>
@@ -67,7 +85,7 @@
 	                		</td>
 	                		<td align="right">
 	                		    <button type="button" class="btn"
-	                		                onclick="javascript:location.href='<%=cp%>/health/notice.do'"> 목록으로 </button>
+	                		                onclick="javascript:location.href='#"> 목록으로 </button>
 	                		</td>
 	                	</tr>
 	                </tfoot>

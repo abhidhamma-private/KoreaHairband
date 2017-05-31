@@ -131,4 +131,95 @@ public class noticeDAO {
 		
 		return dto;
 	}
+	
+	public int deleteNotice(int bbs_num) {
+		int result = 0;
+		String sql="";
+		PreparedStatement pstmt = null;
+		try {
+			sql = "DELETE FROM health2_file WHERE bbs_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbs_num);
+			result = pstmt.executeUpdate();
+			
+			pstmt.close();
+	
+			sql = "DELETE FROM health2 WHERE bbs_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbs_num);
+			result = pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int updateNotice(noticeDTO dto) {
+		int result = 0;
+		String sql="";
+		PreparedStatement pstmt = null;
+		
+		if(dto.getSavefilename()==null) {
+			dto.setSavefilename("파일없음");
+		}
+		
+		try {
+			sql = "DELETE FROM health2_file WHERE bbs_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBbs_num());
+			result = pstmt.executeUpdate();
+			System.out.println("헬스2파일 지워진 리슐트 : " + result);
+			pstmt.close();
+			
+			sql = "INSERT INTO health2_file(file_num,BBS_NUM,savefilename) values(health2_file_seq.nextval,?,?)";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, dto.getBbs_num());
+			pstmt.setString(2, dto.getSavefilename());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("헬스2파일 인서트리슐트 : " + result);
+			pstmt.close();
+	
+			sql = "UPDATE health2 SET subject = ?, content = ? WHERE bbs_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, dto.getSubject());
+			pstmt.setString(2, dto.getContent());
+			pstmt.setInt(3, dto.getBbs_num());
+			
+			result = pstmt.executeUpdate();
+			System.out.println("헬스2 업데이트리슐트 : " + result);
+			pstmt.close();
+			
+			
+
+			
+			
+			//삭제할때 파일 먼저~ 그리고 파일테이블 그리고 글테이블 마지막으로 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
+	
+	public int updatehitCount(int bbs_num) {
+		String sql="";
+		PreparedStatement pstmt = null;
+		int result = 0;
+		
+		try {
+			sql = "UPDATE health2 SET hitcount = hitcount +1 WHERE bbs_num=?";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbs_num);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	
 }
