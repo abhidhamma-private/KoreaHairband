@@ -25,6 +25,56 @@ function updateBoard(num) {
 	    location.href=url;
 }
 
+//좋아요
+
+//게시물 좋아요 개수
+function countLikeBoard(num) {
+	var url="<%=cp%>/health/countLikeBoard.do";
+	$.post(url, {num:num}, function(data){
+		var count=data.countLikeBoard;
+		
+		$("#countLikeBoard").html(count);
+	}, "json");
+}
+
+//게시물 좋아요 추가
+function login() {
+	location.href="<%=cp%>/member/login.do";
+}
+
+function sendLikeBoard(num) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return;
+	}
+
+	msg="게시물에 공감하십니까 ?";
+	if(! confirm(msg))
+		return;
+	
+	var query="num="+num;
+
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/board/insertLikeBoard.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				countLikeBoard(num);
+			} else if(state=="false") {
+				alert("좋아요는 한번만 가능합니다. !!!");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
 </script>
 
 </head>	
@@ -68,10 +118,17 @@ function updateBoard(num) {
 	                     </tr>
 	                     <tr>
 	                         <td colspan="2" style="min-height: 30px; text-align:center;" >
-	                         		<button class="btn">
+	                         		
+	                         		
+	                         		
+	                         		<button class="btn" onclick="sendLikeBoard('${dto.bbs_Num}')">
 	                         		<span class="glyphicon glyphicon-star"></span><br>
-	                         		0<br>
-	                              	추천
+	                         		<c:if test="${empty countLikeBoard} ">
+	                         			<span id="countLikeBoard">0</span>
+	                         		</c:if>
+	                         		
+	                         		<span id="countLikeBoard">${countLikeBoard}</span>
+	                       				0
 	                         		</button>
 	                         </td>
 	                     </tr>

@@ -3,6 +3,7 @@ package com.health;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -276,5 +277,68 @@ public class boardDAO {
 		}
 		return result;
 	}
+	
+	// 게시물의 공감 추가
+		public int insertLikeBoard(int num, String userId) {
+			int result=0;
+			PreparedStatement pstmt = null;
+			String sql;
+			
+			sql="INSERT INTO health1_Like(bbs_num, mem_Id) VALUES (?, ?)";
+			try {
+				pstmt = conn.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				pstmt.setString(2, userId);
+				result = pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			} finally {
+				if(pstmt!=null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+					}
+				}
+			}		
+			return result;
+		}
+		
+		// 게시물의 공감 개수
+		public int countLikeBoard(int num) {
+			int result=0;
+			PreparedStatement pstmt=null;
+			ResultSet rs=null;
+			String sql;
+			
+			try {
+				sql="SELECT NVL(COUNT(*), 0) FROM health1_Like WHERE bbs_num=?";
+				pstmt=conn.prepareStatement(sql);
+				pstmt.setInt(1, num);
+				
+				rs=pstmt.executeQuery();
+				if(rs.next())
+					result=rs.getInt(1);
+				
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			} finally {
+				if(rs!=null) {
+					try {
+						rs.close();
+					} catch (SQLException e) {
+					}
+				}
+					
+				if(pstmt!=null) {
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+					}
+				}
+			}
+			
+			return result;
+		}
 
 }

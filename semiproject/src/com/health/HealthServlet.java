@@ -2,6 +2,7 @@ package com.health;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -17,6 +18,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.util.FileManager;
 import com.util.MyServlet;
 import com.util.MyUtil;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/health/*")
 public class HealthServlet extends MyServlet {
@@ -82,7 +85,13 @@ public class HealthServlet extends MyServlet {
 			replyForm(req, resp);
 		} else if (uri.indexOf("reply_ok.do") != -1) {
 			replySubmit(req, resp);
-		}
+		} else if(uri.indexOf("countLikeBoard.do")!=-1) {
+			// 게시물 공감 개수
+			countLikeBoard(req, resp);
+		} else if(uri.indexOf("insertLikeBoard.do")!=-1) {
+			// 게시물 공감 저장
+			insertLikeBoard(req, resp);
+		} 
 	}
 	
 	// board
@@ -109,6 +118,45 @@ public class HealthServlet extends MyServlet {
 			req.setAttribute("mode", "reply");
 			
 			forward(req, resp, "/WEB-INF/views/health/board/created.jsp");
+		}
+		
+		private void countLikeBoard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			// 게시물 공감 개수
+			boardDAO dao = new boardDAO();
+			int num = Integer.parseInt(req.getParameter("num"));
+			
+			int countLikeBoard=dao.countLikeBoard(num);
+			JSONObject job=new JSONObject();
+			job.put("countLikeBoard", countLikeBoard);
+			
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out=resp.getWriter();
+			out.print(job.toString());
+		}
+		
+		private void insertLikeBoard(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+			// 게시물 공감 저장
+			HttpSession session=req.getSession();
+			SessionInfo info=(SessionInfo)session.getAttribute("member");
+			boardDAO dao = new boardDAO();
+			
+			String state="false";
+			if(info==null) {
+				state="loginFail";
+			} else {
+				int num = Integer.parseInt(req.getParameter("num"));
+
+				int result=dao.insertLikeBoard(num, info.getMem_Id());
+				if(result==1)
+					state="true";
+			}
+			
+			JSONObject job=new JSONObject();
+			job.put("state", state);
+			
+			resp.setContentType("text/html;charset=utf-8");
+			PrintWriter out=resp.getWriter();
+			out.print(job.toString());
 		}
 		
 		protected void replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

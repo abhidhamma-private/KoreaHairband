@@ -30,15 +30,40 @@ function article(num) {
 
 
 		<div class="container" style="width: 900px; margin: 0 auto; padding:0; position:relative;">
-		 <!-- <div style="width:100%; height:100px;">
-			<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
+			 <div style="width:100%; height:100px;">
+				<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
+					<table>
+					<tr>
+		                        <td class="text-center" width="20%" style="float:left;" bordercolor="blue">		
+										<img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
+								</td>
+								
+		                        <td width="80%" colspan="5">
+			                        
+			                        <ol class="breadcrumb" style=" padding:0;">
+			                          <li>인기글</li>
+									  <li>좋아요</li>
+									  <li>조회수 ${dto.hitcount}</li>
+									</ol>
+									
+									<div>
+										<%-- <span onclick="javascript:article('${dto.bbs_num}');">${dto.subject}</span><br>
+										<span onclick="javascript:article('${dto.bbs_num}');">${dto.content}</span> --%>
+									</div>
+		                       	</td>
+		             </tr>
+		             </table>
+				</div>
 				
-			</div>
-			
-			<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
-			
-			</div>
-		</div> -->
+				<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
+					<ul class="list-group">
+						<li class="list-group-item"><span class="glyphicon glyphicon-search">조회수순</span></li>
+						<li class="list-group-item"></li>
+						<li class="list-group-item"></li>
+						<li class="list-group-item"></li>
+					</ul>
+				</div>
+			 </div>
 		
 	
 	
