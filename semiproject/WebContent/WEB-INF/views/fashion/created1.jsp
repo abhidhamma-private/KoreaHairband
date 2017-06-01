@@ -113,7 +113,7 @@ function sendOk() {
 					<!-- 히든으로 넘겨주는값들 ==>multipartRequest객체로받아야함-->
 					<input type="hidden" name="bbs_num" value="${dto1.bbs_num}">
 					<input type="hidden" name="page" value="${page}">
-				
+				 
 					</c:if>
 
 				  </td>

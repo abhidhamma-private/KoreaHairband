@@ -13,8 +13,70 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript"
-	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<script type="text/javascript">
+function deleteList() {
+	var f=document.listForm;
+	var cnt=0;
+	
+	if(f.messages==undefined) {
+		return;		
+	}
+	
+	if(f.messages.length!=undefined) {// 체크박스가 둘 이상인 경우
+		for(var i=0; i<f.messages.length; i++) {
+			if(f.messages[i].checked)
+				cnt++;
+		}
+	} else {
+		// 체크박스가 하나인 경우
+		if(f.messages.checked)
+			cnt++;
+	}
+	
+	if(cnt==0) {
+		alert("선택한 항목이 없습니다.");
+		return;
+	}
+	
+	if(confirm("선택 항목을 삭제 하시겠습니까 ?")) {
+		f.action="<%=cp%>/message/m_deleteList.do";
+		f.submit();
+	}
+}
+
+function check() {
+	var f=document.listForm;
+	
+	if(f.messages==undefined)
+		return;
+	
+	if(f.messages.length!=undefined) { // 체크박스가 둘 이상인 경우
+		for(var i=0; i<f.messages.length; i++) {
+			if(f.chkAll.checked)
+				f.messages[i].checked=true;
+			else
+				f.messages[i].checked=false;
+		}
+	} else { // 체크박스가 하나인 경우
+		if(f.chkAll.checked)
+			f.messages.checked=true;
+		else
+			f.messages.checked=false;
+	}
+}
+
+function deleteMessage() {
+	var f=document.listForm;
+	if(confirm("쪽지를 삭제 하시겠습니까 ?")) {
+		f.action = "<%=cp%>/message/m_delete.do";
+		f.submit();
+		<%-- var url="<%=cp%>/message/m_delete.do";
+		location.href=url --%>
+	}
+}
+
+</script>
 </head>
 <body>
 <div class="header">
@@ -63,16 +125,17 @@
 <c:forEach var="dto" items="${list}">
 <tr height="25" bgcolor="#ffffff" align="center">
 	<td>
-	    <input type="checkbox" name="haks" value="${dto.message_num }">
+	    <input type="checkbox" name="messages" value="${dto.message_num}">
 	</td>
 	
 	<td>${dto.mem_Id1}</td>
-	<td align="left" style="padding-left: 10px;">${dto.content}</td>
+	<td align="left" style="padding-left: 10px;"><a href="<%=cp %>/message/m_article.do?message_num=${dto.message_num}">${dto.content}</a></td>
 	<td>${dto.sendDate}</td>
 	
 
 	<td>
-			<input type="button" value="삭제" onclick="deleteScore()" class="btn">
+			<input type="button" value="삭제" onclick="deleteMessage()"class="btn">
+			<input type="hidden" name="message_num" value="${dto.message_num}">
 	</td>
 </tr>
 </c:forEach>

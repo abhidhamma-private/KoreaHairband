@@ -13,6 +13,8 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
+import jdk.nashorn.internal.runtime.regexp.joni.Regex;
+
 @WebServlet("/message/*")
 public class MessageServlet extends MyServlet{
 	private static final long serialVersionUID = 1L;
@@ -89,17 +91,55 @@ public class MessageServlet extends MyServlet{
 		
 		forward(req, resp, "/WEB-INF/views/message/m_list.jsp");
 
-	
 	}
 	protected void m_SendForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String mem_Id1 = req.getParameter("mem_Id1"); 
+		
+		req.setAttribute("mem_Id1", mem_Id1);
+		forward(req, resp, "/WEB-INF/views/message/m_created.jsp");
+		
 	}
 	protected void m_SendSubmint(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
 	}
 	protected void m_Article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		MessageDAO dao = new MessageDAO();
+		
+		int message_num = Integer.parseInt(req.getParameter("message_num"));
+		MessageDTO dto = dao.readMessage(message_num);
+		
+		if(dto==null){
+			resp.sendRedirect(cp+"/message/m_list.do");
+			return;
+		}
+		if(dto.getReadDate()==null)
+		dao.updateReadDate(message_num); //수신확인
+		
+		req.setAttribute("dto", dto);
+		
+		forward(req, resp, "/WEB-INF/views/message/m_article.jsp");
+
 	}
 	protected void m_Delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		MessageDAO dao = new MessageDAO();
+		int message_num = Integer.parseInt(req.getParameter("message_num"));
+		String cp = req.getContextPath();
+		dao.deleteMessage(message_num);
+		
+		resp.sendRedirect(cp+"/message/m_list.do");
+		
 	}
 	protected void m_DeleteList(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		MessageDAO dao = new MessageDAO();
+		String[] messages = req.getParameterValues("messages");
+		dao.deleteMessageList(messages);
+		
+		resp.sendRedirect(cp+"/message/m_list.do");
+		
+		
+		
 	}
 	
 	

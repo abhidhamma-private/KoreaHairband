@@ -205,7 +205,7 @@ public class MessageDAO {
 		return result;
 	}
 
-	public int deleteMessage(int message_num , String mem_Id){
+	public int deleteMessage(int message_num ){
 		int result=0;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
@@ -226,7 +226,7 @@ public class MessageDAO {
 		return result;
 	}
 
-	public int deleteMessageList(int[] messages ){ //체크박스로 메세지 많이 삭제!
+	public int deleteMessageList(String[] messages ){ //체크박스로 메세지 많이 삭제!
 		int result=0;
 		PreparedStatement pstmt = null;
 		String sql;
@@ -235,7 +235,7 @@ public class MessageDAO {
 			if(messages==null)
 				return result;
 			
-			sql = "DELETE FROM message WHERE messge_num IN (";
+			sql = "DELETE FROM message WHERE message_num IN (";
 			
 			for(int i=0; i<messages.length; i++)
 				sql+="?,";
@@ -246,7 +246,7 @@ public class MessageDAO {
 			pstmt = conn.prepareStatement(sql);
 			
 			for(int i=0; i<messages.length; i++)
-				pstmt.setInt(i+1, messages[i]);
+				pstmt.setInt(i+1, Integer.parseInt(messages[i]));
 		
 			
 			result = pstmt.executeUpdate();

@@ -26,6 +26,8 @@
 				</c:if>
 				<a href="<%=cp%>/member/mypage.do"><span class="glyphicon glyphicon-mypage"></span> 마이페이지</a>
 					<i></i>
+				<a href="<%=cp%>/message/m_list.do"><span class="glyphicon glyphicon-mypage"></span> 쪽지함</a>
+					<i></i>
 				<a href="<%=cp%>/member/logout.do"><span class="glyphicon glyphicon-log-out"></span> 로그아웃</a>
 			</c:if>
 		</div>
