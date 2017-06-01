@@ -61,6 +61,7 @@ function searchList() {
 				<th width="100" style="color: #787878;">작성자</th>
 				<th width="80" style="color: #787878;">작성일</th>
 				<th width="60" style="color: #787878;">조회수</th>
+			    <th width="60" style="color: #787878;">추천수</th>				
 			</tr>
 			<tr>
 				<td height="1" colspan="6" bgcolor="#cccccc"></td>
@@ -73,11 +74,12 @@ function searchList() {
 						style="display: inline-block; width: 50px; height: 18px; line-height: 18px; background: #ED4C00; color: #FFFFFF;">공지</span>
 					</td>
 					<td align="left" style="padding-left: 10px;"><a
-						href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }</a>
+						href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
 					</td>
 					<td align="center">${dto.mem_name }</td>
 					<td align="center">${dto.created }</td>
 					<td align="center">${dto.hitCount}</td>
+					<td align="center">${dto.like}</td>
 				</tr>
 			</c:forEach>
 
@@ -92,6 +94,7 @@ function searchList() {
 					<td align="center">${dto.mem_name }</td>
 					<td align="center">${dto.created }</td>
 					<td align="center">${dto.hitCount}</td>
+					<td align="center">${dto.like}</td>
 				</tr>
 			</c:forEach>
 

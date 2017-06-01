@@ -1,4 +1,4 @@
-package com.petinfo;
+package com.petTalk;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,8 +25,8 @@ import com.util.MyUtil;
 
 import net.sf.json.JSONObject;
 
-@WebServlet("/pet/petInfo/*")
-public class PetInfoServlet extends MyServlet {
+@WebServlet("/pet/petTalk/*")
+public class PetTalkServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 	private String pathname;
 	
@@ -88,7 +88,7 @@ public class PetInfoServlet extends MyServlet {
 		req.setCharacterEncoding("utf-8");
 		String cp = req.getContextPath();
 		
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		MyUtil util = new MyUtil();
 		
 		String page = req.getParameter("page");
@@ -124,19 +124,19 @@ public class PetInfoServlet extends MyServlet {
 		int start = (current_page-1)*rows+1;
 		int end= current_page*rows;
 		
-		List<PetinfoDTO> list = null;
+		List<PetTalkDTO> list = null;
 		if(searchValue.length()==0){
 			list = dao.listPetInfo(start, end);
 		}else{
 			list = dao.listPetInfo(start, end, searchKey, searchValue);
 		}
 		
-		List<PetinfoDTO> listNotice=null;
+		List<PetTalkDTO> listNotice=null;
 		//if(current_page==1){ -->공지글이 1페이지만 나오게 해줌
 		listNotice = dao.listPetInfoNotice();
-		Iterator<PetinfoDTO> itNotice=listNotice.iterator();
+		Iterator<PetTalkDTO> itNotice=listNotice.iterator();
 		while (itNotice.hasNext()) {
-			PetinfoDTO dto=itNotice.next();
+			PetTalkDTO dto=itNotice.next();
 			dto.setCreated(dto.getCreated().substring(0, 10));
 			//}
 		}
@@ -144,9 +144,9 @@ public class PetInfoServlet extends MyServlet {
 		long gap;
 		Date date = new Date();
 		int listNum, n=0;
-		Iterator<PetinfoDTO> it = list.iterator();
+		Iterator<PetTalkDTO> it = list.iterator();
 		while(it.hasNext()){
-			PetinfoDTO dto = it.next();
+			PetTalkDTO dto = it.next();
 			listNum = dataCount- (start+n-1);
 			dto.setListNum(listNum);
 			try{
@@ -206,7 +206,7 @@ public class PetInfoServlet extends MyServlet {
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		String cp = req.getContextPath();
 		if(info==null){
 			resp.sendRedirect(cp+"/member/login.do");
@@ -219,7 +219,7 @@ public class PetInfoServlet extends MyServlet {
 		    		new DefaultFileRenamePolicy()
 		    		);
 		
-		PetinfoDTO dto = new PetinfoDTO();
+		PetTalkDTO dto = new PetTalkDTO();
 		dto.setMem_id(info.getMem_Id());
 		/*dto.setNotice(Integer.parseInt(req.getParameter("notice")));*/
 		dto.setSubject(mreq.getParameter("subject"));
@@ -236,7 +236,7 @@ public class PetInfoServlet extends MyServlet {
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		MyUtil util = new MyUtil();
 		
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
@@ -252,15 +252,15 @@ public class PetInfoServlet extends MyServlet {
 		
 		dao.updateHitCount(bbs_num);
 		
-		PetinfoDTO dto = dao.readBoard(bbs_num);
+		PetTalkDTO dto = dao.readBoard(bbs_num);
 		if(dto==null){
 			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
 			return;
 		}
 		dto.setContent(util.htmlSymbols(dto.getContent()));
 		
-		PetinfoDTO preRead = dao.preReadBoard(bbs_num, searchKey, searchValue);
-		PetinfoDTO nextRead = dao.nextReadBoard(bbs_num, searchValue, searchKey);
+		PetTalkDTO preRead = dao.preReadBoard(bbs_num, searchKey, searchValue);
+		PetTalkDTO nextRead = dao.nextReadBoard(bbs_num, searchValue, searchKey);
 		
 		String query="page="+page;
 		if(searchValue.length()!=0) {
@@ -285,8 +285,8 @@ public class PetInfoServlet extends MyServlet {
 		
 		String page = req.getParameter("page");
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
-		PetInfoDAO dao = new PetInfoDAO();
-		PetinfoDTO dto = dao.readBoard(bbs_num);
+		PetTalkDAO dao = new PetTalkDAO();
+		PetTalkDTO dto = dao.readBoard(bbs_num);
 		
 		if(info==null){
 			resp.sendRedirect(cp+"/member/login.do");
@@ -306,7 +306,7 @@ public class PetInfoServlet extends MyServlet {
 
 	protected void updated_ok(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
 		
@@ -323,7 +323,7 @@ public class PetInfoServlet extends MyServlet {
 			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
 			return;
 		}
-		PetinfoDTO dto = new PetinfoDTO();
+		PetTalkDTO dto = new PetTalkDTO();
 		dto.setMem_id(info.getMem_Id());
 		/*dto.setNotice(Integer.parseInt(req.getParameter("notice")));*/
 		dto.setSubject(mreq.getParameter("subject"));
@@ -340,7 +340,7 @@ public class PetInfoServlet extends MyServlet {
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
 		HttpSession session = req.getSession();
 		SessionInfo info = (SessionInfo)session.getAttribute("member");
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		String cp = req.getContextPath();
 		
 		String page = req.getParameter("page");
@@ -351,7 +351,7 @@ public class PetInfoServlet extends MyServlet {
 	protected void pet_like(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();
 		SessionInfo info=(SessionInfo)session.getAttribute("member");
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		
 		String state="false";
 		if(info==null) {
@@ -372,7 +372,7 @@ public class PetInfoServlet extends MyServlet {
 		out.print(job.toString());
 	}
 	protected void pet_likecnt(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		PetInfoDAO dao = new PetInfoDAO();
+		PetTalkDAO dao = new PetTalkDAO();
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
 		
 		int countLike=dao.countLike(bbs_num);
@@ -387,7 +387,7 @@ public class PetInfoServlet extends MyServlet {
 		// 리플 저장(JSON)
 				HttpSession session=req.getSession();
 				SessionInfo info=(SessionInfo)session.getAttribute("member");
-				PetInfoDAO dao = new PetInfoDAO();
+				PetTalkDAO dao = new PetTalkDAO();
 				
 				String state="false";
 				if(info==null) {
@@ -413,7 +413,7 @@ public class PetInfoServlet extends MyServlet {
 	}
 	protected void pet_listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 리플 리스트(AJAX:TEXT)
-				PetInfoDAO dao = new PetInfoDAO();
+				PetTalkDAO dao = new PetTalkDAO();
 				MyUtil util = new MyUtil();
 				
 				int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
@@ -461,7 +461,7 @@ public class PetInfoServlet extends MyServlet {
 	protected void pet_deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	  HttpSession session=req.getSession();
       SessionInfo info=(SessionInfo)session.getAttribute("member");
-      PetInfoDAO dao = new PetInfoDAO();      
+      PetTalkDAO dao = new PetTalkDAO();      
       
       int reply_num = Integer.parseInt(req.getParameter("reply_num"));
       

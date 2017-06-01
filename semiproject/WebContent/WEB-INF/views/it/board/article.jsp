@@ -212,8 +212,7 @@ function deleteReply(reply_num, page) {
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center" style="padding-left: 5px;">
-			        		
-			        		<button type="button" class="btn btn-default btn-sm wbtn" style="background: white; border: 0px;" onclick="updateLike('${dto.bbs_num}')"><img style="display:block; margin-bottom:5px;" src="<%=cp%>/resource/img/like.png"><span style="display:block" id="countLike">${countLike}</span></button>
+			      <button type="button" class="btn btn-default btn-sm wbtn" style="background: white; border: 0px;" onclick="updateLike('${dto.bbs_num}')"><img style="display:block; margin-bottom:5px;" src="<%=cp%>/resource/img/like.png"><span style="display:block" id="countLike">${countLike}</span></button>
 			    </td>
 			</tr>
 			
