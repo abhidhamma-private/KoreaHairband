@@ -22,7 +22,7 @@ function article(num) {
 <body>
 
 <!-- header -->
-<div style="width: 900px; margin: 0px auto;">
+<div style="width: 900px; margin: 0px 600px 0px;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 <br><br>
@@ -35,16 +35,19 @@ function article(num) {
 					<table>
 					<tr>
 		                        <td class="text-center" width="20%" style="float:left;" bordercolor="blue">		
-										<img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
+										<img src="<%=cp%>/uploads/photo/${bdto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
 								</td>
 								
 		                        <td width="80%" colspan="5">
 			                        
-			                        <ol class="breadcrumb" style=" padding:0;">
-			                          <li>인기글</li>
-									  <li>좋아요</li>
-									  <li>조회수 ${dto.hitcount}</li>
-									</ol>
+			                        <ul class="list-group" style="padding:0;">
+										<li class="list-group-item" style="font-size:"><span class="glyphicon glyphicon-star"></span> <a href="javascript:article('${bdto.bbs_Num}');" style="text-decoration:none;color:black;">Best article (추천 : ${bdto.likeCount})</a></li>
+										<li class="list-group-item">제목 | ${bdto.subject}</li>
+										<li class="list-group-item">내용 | ${bdto.content}</li>
+										<li class="list-group-item">작성자 | ${bdto.mem_Name}</li>
+										<li class="list-group-item">조회수 | ${bdto.hitCount}</li>
+										<li class="list-group-item">작성일 | ${bdto.created}</li>	
+									</ul>
 									
 									<div>
 										<%-- <span onclick="javascript:article('${dto.bbs_num}');">${dto.subject}</span><br>
@@ -56,11 +59,13 @@ function article(num) {
 				</div>
 				
 				<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
-					<ul class="list-group">
-						<li class="list-group-item"><span class="glyphicon glyphicon-search">조회수순</span></li>
-						<li class="list-group-item"></li>
-						<li class="list-group-item"></li>
-						<li class="list-group-item"></li>
+					<ul class="list-group" style="padding:0;">
+						<li class="list-group-item"><span class="glyphicon glyphicon-search"></span> Hit article <span style="float:right">조회수</span></li>
+						
+						<c:forEach var="hdto" items="${hlist}">
+							<li class="list-group-item"><a href="javascript:article('${hdto.bbs_Num}');" style="text-decoration:none;color:black;">${hdto.ranked} | ${hdto.subject} </a><span style="float:right">${hdto.hitCount}</span></li>
+						</c:forEach>
+						
 					</ul>
 				</div>
 			 </div>
@@ -95,7 +100,7 @@ function article(num) {
 	                        <td class="text-center">${dto.mem_Name}</td>
 	                        <td class="text-center">${dto.created}</td>
 	                        <td class="text-center">${dto.hitCount }</td> 
-	                        <td class="text-center">0</td> 
+	                        <td class="text-center">${dto.likeCount}</td> 
 	                    </tr>
 	                    </c:forEach>
 	                    

@@ -22,7 +22,7 @@ function article(num) {
 <body>
 
 <!-- header -->
-<div style="width: 900px; margin: 0px auto;">
+<div style="width: 900px; margin: 0px 593px 0px;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 <br><br>
@@ -39,7 +39,7 @@ function article(num) {
 		
 	
 	
-        <div class="table-responsive" style="clear: both;">
+        <div class="table" style="clear: both;">
         	
 	            <table class="table table-hover" id="maintable" style="width: 900px; height: 600px; margin: 0 auto;">
 	                <thead>

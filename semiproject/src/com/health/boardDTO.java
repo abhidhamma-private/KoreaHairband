@@ -3,7 +3,10 @@ package com.health;
 public class boardDTO {
 	//글번호 매길때 쓰는것
 	private int listNum;
-	//필요한 테이블 파일업로드, 답변형테이블
+	//베스트글
+	private int likeCount;
+	//히트아티클
+	private int ranked;
 	
 	//health1
 	private int bbs_Num;
@@ -12,6 +15,7 @@ public class boardDTO {
 	private String created;
 	private int hitCount;
 	private int groupNum, orderNo, depth, parent;
+	
 	
 	//health1_file
 	private int file_num;
@@ -100,6 +104,18 @@ public class boardDTO {
 	}
 	public void setSavefilename(String savefilename) {
 		this.savefilename = savefilename;
+	}
+	public int getLikeCount() {
+		return likeCount;
+	}
+	public void setLikeCount(int likeCount) {
+		this.likeCount = likeCount;
+	}
+	public int getRanked() {
+		return ranked;
+	}
+	public void setRanked(int ranked) {
+		this.ranked = ranked;
 	}
 	
 }

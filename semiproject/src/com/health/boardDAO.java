@@ -118,11 +118,12 @@ public class boardDAO {
 		try {
 			sb.append("SELECT * FROM (");
 			sb.append("    SELECT ROWNUM rnum, tb.* FROM (");
-			sb.append("         SELECT BBS_Num, H.MEM_ID, M.MEM_NAME, ");
+			sb.append("         SELECT h.BBS_Num, H.MEM_ID, M.MEM_NAME, ");
 			sb.append("               subject,CONTENT, groupNum, orderNo, depth, hitCount, ");
-			sb.append("                TO_CHAR(created, 'YY/MM/DD') created ");
+			sb.append("                TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount ");
 			sb.append("               FROM health1 H ");
 			sb.append("               JOIN member M ON H.MEM_ID=M.MEM_ID ");
+			sb.append("               LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num ");
 			sb.append("               ORDER BY groupNum DESC, orderNo ASC ");
 			sb.append("    ) tb WHERE ROWNUM <= ? ");
 			sb.append(") WHERE rnum >= ? ");
@@ -145,6 +146,7 @@ public class boardDAO {
 				dto.setOrderNo(rs.getInt("orderNo"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
+				dto.setLikeCount(rs.getInt("likeCount"));
 				list.add(dto);
 			}
 			rs.close();
@@ -340,5 +342,110 @@ public class boardDAO {
 			
 			return result;
 		}
+		
+		public boardDTO bestArticle() {
+			boardDTO dto = new boardDTO();
+			String sql="";
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			
+			try {
+				sql = "  SELECT h.BBS_Num, H.MEM_ID, M.MEM_NAME, "
+						+ " subject,CONTENT, groupNum, orderNo, depth, hitCount, "
+						+ " TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount , h1f.SAVEFILENAME "
+						+ " FROM health1 H "
+						+ " JOIN member M ON H.MEM_ID=M.MEM_ID "
+						+ " JOIN HEALTH1_FILE h1f ON H1F.BBS_NUM=H.BBS_NUM "
+						+ " LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+						+ " ORDER BY likeCount DESC, CREATED DESC";
+				pstmt = conn.prepareStatement(sql);
+				rs = pstmt.executeQuery();
+				
+				if(rs.next()) {
+					dto.setBbs_Num(rs.getInt("Bbs_Num"));
+					dto.setMem_Id(rs.getString("Mem_Id"));
+					dto.setMem_Name(rs.getString("mem_name"));
+					dto.setSubject(rs.getString("subject"));
+					dto.setContent(rs.getString("content"));
+					dto.setGroupNum(rs.getInt("groupNum"));
+					dto.setDepth(rs.getInt("depth"));
+					dto.setOrderNo(rs.getInt("orderNo"));
+					dto.setHitCount(rs.getInt("hitCount"));
+					dto.setCreated(rs.getString("created"));
+					dto.setLikeCount(rs.getInt("likeCount"));
+					dto.setSavefilename(rs.getString("savefilename"));
+				}
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return dto;
+		}
+		
+		public List<boardDTO> hitArticle() {
+			List<boardDTO> list = new ArrayList<boardDTO>();
+			PreparedStatement pstmt = null;
+			ResultSet rs = null;
+			StringBuffer sb = new StringBuffer();
+			
+			try {
+				sb.append("    SELECT ROWNUM rnum, tb.* FROM (");
+				sb.append("         SELECT ROW_NUMBER() OVER(ORDER BY HITCOUNT DESC) ranked, BBS_Num, H.MEM_ID, M.MEM_NAME, ");
+				sb.append("               subject,CONTENT, groupNum, orderNo, depth, hitCount, ");
+				sb.append("                TO_CHAR(created, 'YY/MM/DD') created  ");
+				sb.append("               FROM health1 H ");
+				sb.append("               JOIN member M ON H.MEM_ID=M.MEM_ID ");
+				sb.append("               WHERE ORDERNO=0 ");
+				sb.append("               ORDER BY HITCOUNT DESC,groupNum DESC ");
+				sb.append("    ) tb WHERE ROWNUM <= 5 ");
+				
+				pstmt = conn.prepareStatement(sb.toString());
+				rs = pstmt.executeQuery();
+				while(rs.next()) {
+					boardDTO dto = new boardDTO();
+					dto.setBbs_Num(rs.getInt("Bbs_Num"));
+					dto.setRanked(rs.getInt("ranked"));
+					dto.setSubject(rs.getString("subject"));
+					dto.setHitCount(rs.getInt("hitcount"));
+					list.add(dto);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return list;
+			
+			
+		}
+		
+		// 게시물의 댓글 및 답글 추가
+		public int insertReply(ReplyDTO dto) {
+			int result=0;
+			PreparedStatement pstmt=null;
+			StringBuffer sb=new StringBuffer();
+			
+			try {
+				sb.append("INSERT INTO HEALTH1_REPLY(reply_Num, bbs_num, mem_Id, content) ");
+				sb.append(" VALUES (HEALTH1_REPLY_seq.NEXTVAL, ?, ?, ?)");
+				
+				pstmt=conn.prepareStatement(sb.toString());
+				pstmt.setInt(1, dto.getBbs_num());
+				pstmt.setString(2, dto.getMem_Id());
+				pstmt.setString(3, dto.getContent());
+				
+				result=pstmt.executeUpdate();
+				
+			} catch (Exception e) {
+				System.out.println(e.toString());
+			} finally {
+				if(pstmt!=null)
+					try {
+						pstmt.close();
+					} catch (SQLException e) {
+					}
+			}
+			
+			return result;
+		}
+		
 
 }

@@ -61,11 +61,10 @@ function updateNotice(num) {
 	                     </tr>
                          <tr style="border-bottom:none;">
                              <td colspan="2">
-                                 <c:if test=" ${'0' ne dto.savefilename}">
-                             
+                              
                                  <img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
                              
-                             	</c:if>
+                             
                              </td>
                          </tr>
 	                     <tr>

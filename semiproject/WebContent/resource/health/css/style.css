@@ -1,16 +1,15 @@
 @CHARSET "UTF-8";
 /* 전체적용 */
-* {
-padding:0;
-margin:0;
-}
+
 .btn{
 	background:#337AB7;
 	color:white;
 }
 
 
-
+.list-group-item {
+		padding:2.3px;
+}
 input[name=searchValue] {
 	border:3px solid #337AB7;
 	

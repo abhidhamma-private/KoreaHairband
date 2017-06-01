@@ -91,10 +91,58 @@ public class HealthServlet extends MyServlet {
 		} else if(uri.indexOf("insertLikeBoard.do")!=-1) {
 			// 게시물 공감 저장
 			insertLikeBoard(req, resp);
-		} 
+		} else if(uri.indexOf("insertReply.do")!=-1) {
+			// 댓글 추가
+			insertReply(req, resp);
+		} else if(uri.indexOf("listReply.do")!=-1) {
+			// 댓글 리스트
+			listReply(req, resp);
+		} else if(uri.indexOf("deleteReply.do")!=-1) {
+			// 댓글 삭제
+			deleteReply(req, resp);
+		}
 	}
 	
 	// board
+	protected void insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 저장(JSON)
+				HttpSession session=req.getSession();
+				SessionInfo info=(SessionInfo)session.getAttribute("member");
+				boardDAO dao = new boardDAO();
+				
+				String state="false";//불린같은 판단용
+				if(info==null) {
+					state="loginFail";
+				} else {
+					int num = Integer.parseInt(req.getParameter("num"));
+					ReplyDTO rdto = new ReplyDTO();
+					rdto.setBbs_num(num);
+					rdto.setMem_Id(info.getMem_Id());
+					rdto.setContent(req.getParameter("content"));
+
+					int result=dao.insertReply(rdto);
+					if(result==1)
+						state="true";
+				}
+				
+				JSONObject job=new JSONObject();
+				job.put("state", state);
+				
+				resp.setContentType("text/html;charset=utf-8");
+				PrintWriter out=resp.getWriter();
+				out.print(job.toString());
+				System.out.println(job.toString());
+	}
+	
+	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+	
+	protected void deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+	}
+	
+	
 		protected void replyForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 			// 답변폼
 			boardDAO dao = new boardDAO();
@@ -124,7 +172,6 @@ public class HealthServlet extends MyServlet {
 			// 게시물 공감 개수
 			boardDAO dao = new boardDAO();
 			int num = Integer.parseInt(req.getParameter("num"));
-			
 			int countLikeBoard=dao.countLikeBoard(num);
 			JSONObject job=new JSONObject();
 			job.put("countLikeBoard", countLikeBoard);
@@ -165,7 +212,6 @@ public class HealthServlet extends MyServlet {
 			String cp = req.getContextPath();
 			
 			String page = req.getParameter("page");
-			System.out.println("페이지없음?: "+page);
 			
 			String encType="utf-8";
 			int maxSize=5*1024*1024;
@@ -185,7 +231,6 @@ public class HealthServlet extends MyServlet {
 				dto.setOrderNo(Integer.parseInt(mreq.getParameter("orderNo")));
 				dto.setDepth(Integer.parseInt(mreq.getParameter("depth")));
 				dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
-				System.out.println("이게 어디서 오는거지?:"+dto.getGroupNum());
 				dto.setMem_Id(info.getMem_Id());
 				
 				
@@ -200,7 +245,6 @@ public class HealthServlet extends MyServlet {
 				// 저장
 				dto.setSavefilename(saveFilename);
 				int result= dao.insertBoard(dto, "reply");
-				System.out.println("성공?:"+result);
 				
 				
 			} else {
@@ -212,11 +256,9 @@ public class HealthServlet extends MyServlet {
 				dto.setOrderNo(Integer.parseInt(mreq.getParameter("orderNo")));
 				dto.setDepth(Integer.parseInt(mreq.getParameter("depth")));
 				dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
-				System.out.println("이게 어디서 오는거지?:"+dto.getGroupNum());
 				dto.setMem_Id(info.getMem_Id());
 				
 				int result= dao.insertBoard(dto, "reply");
-				System.out.println("사진없이성공?:"+result);
 			}
 			req.setAttribute("page", page);
 			
@@ -246,7 +288,9 @@ public class HealthServlet extends MyServlet {
 
 			List<boardDTO> list;
 			list = dao.listBoard(start, end);
-
+			
+			List<boardDTO> hlist;
+			hlist = dao.hitArticle();
 			int listNum, n = 0;
 			Iterator<boardDTO> it = list.iterator();
 			while (it.hasNext()) {
@@ -258,7 +302,12 @@ public class HealthServlet extends MyServlet {
 			String listUrl = cp + "/health/board.do";
 			String articleUrl = cp + "/health/articleB.do?page=" + current_page;
 			String paging = util.paging(current_page, total_page, listUrl);
-
+			
+			
+			boardDTO bdto = dao.bestArticle();
+			
+			req.setAttribute("bdto", bdto);
+			req.setAttribute("hlist", hlist);
 			req.setAttribute("list", list);
 			req.setAttribute("paging", paging);
 			req.setAttribute("dataCount", dataCount);
@@ -321,11 +370,13 @@ public class HealthServlet extends MyServlet {
 				resp.sendRedirect(cp + "/health/list.do?page=" + page);
 				return;
 			}
-
+			
+			int countLikeBoard = dao.countLikeBoard(num);
+			
 			req.setAttribute("dto", dto);
 			req.setAttribute("page", page);
 			req.setAttribute("num", num);
-
+			req.setAttribute("countLikeBoard", countLikeBoard);
 			String path = "/WEB-INF/views/health/board/article.jsp";
 			forward(req, resp, path);
 		}
@@ -451,6 +502,7 @@ public class HealthServlet extends MyServlet {
 		String articleUrl = cp + "/health/article.do?page=" + current_page;
 		String paging = util.paging(current_page, total_page, listUrl);
 
+		
 		req.setAttribute("list", list);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("articleUrl", articleUrl);
