@@ -535,6 +535,21 @@ public class BoardDAO {
 		String sql;
 
 		try {
+			//좋아요 삭제
+			sql = "DELETE FROM it2_like WHERE bbs_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbs_num);
+			result = pstmt.executeUpdate();
+			pstmt.close();
+			
+			//리플 삭제
+			sql = "DELETE FROM it2_reply WHERE bbs_num = ? ";
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setInt(1, bbs_num);
+			result = pstmt.executeUpdate();
+			pstmt.close();
+			
+			//게시글 삭제
 			sql = "DELETE FROM it2 WHERE bbs_num IN (SELECT bbs_num FROM it2 START WITH  bbs_num = ? CONNECT BY PRIOR bbs_num = parent)";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);

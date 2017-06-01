@@ -54,6 +54,8 @@ public class MemberServlet extends HttpServlet {
 			login_ok(req, resp);
 		} else if (uri.indexOf("mypage.do") != -1) {
 			mypage(req, resp);
+		} else if (uri.indexOf("infopage.do") != -1) {
+			infopage(req, resp);
 		} else if (uri.indexOf("logout.do") != -1) {
 			// 로그아웃 처리
 			logout(req, resp);
@@ -126,6 +128,19 @@ public class MemberServlet extends HttpServlet {
 		forward(req, resp, "/WEB-INF/views/member/mypage.jsp");
 	}
 
+	protected void infopage(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		
+		
+		// 파라메터값으로 회원정보 로드
+		String mem_Id = req.getParameter("mem_Id1");
+		System.out.println("아이디 : " + mem_Id);
+		MemberDAO dao = new MemberDAO();
+		MemberDTO dto = dao.readMember(mem_Id);
+		
+		req.setAttribute("dto", dto);
+		forward(req, resp, "/WEB-INF/views/member/infopage.jsp");
+	}
+	
 	protected void logout(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 로그아웃 처리
 		// 세션의 저장된 로그인 정보를 지운다.
