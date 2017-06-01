@@ -57,6 +57,7 @@
 			      <th width="100" style="color: #787878;">작성자</th>
 			      <th width="100" style="color: #787878;">작성일</th>
 			      <th width="60" style="color: #787878;">조회수</th>
+			      <th width="60" style="color: #787878;">추천수</th>
 			  </tr>
 			 
 			 <c:forEach var="dto" items="${list}">
@@ -68,11 +69,12 @@
 			               &nbsp;
 			           </c:forEach>
 			           <c:if test="${dto.depth!=0}">└&nbsp;</c:if>
-			           <a href="${articleUrl}&bbs_num=${dto.bbs_num}" title="${dto.content}">${dto.subject}</a>
+			           <a href="${articleUrl}&bbs_num=${dto.bbs_num}" title="${dto.content}">${dto.subject}<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
 			      </td>
 			      <td>${dto.mem_Name}</td>
 			      <td>${dto.created}</td>
 			      <td>${dto.hitCount}</td>
+			      <td>${dto.like}</td>
 			  </tr>
 			</c:forEach> 
 

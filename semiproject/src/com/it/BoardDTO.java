@@ -2,9 +2,8 @@ package com.it;
 
 public class BoardDTO {
 	private String mem_Id, mem_Name, category, subject, content, created;
-	private int listNum, bbs_num, hitCount, like;
+	private int listNum, bbs_num, hitCount, like, reply;
 	private int groupNum, depth, orderNo, parent;
-	
 	public String getMem_Id() {
 		return mem_Id;
 	}
@@ -65,6 +64,12 @@ public class BoardDTO {
 	public void setLike(int like) {
 		this.like = like;
 	}
+	public int getReply() {
+		return reply;
+	}
+	public void setReply(int reply) {
+		this.reply = reply;
+	}
 	public int getGroupNum() {
 		return groupNum;
 	}
@@ -89,6 +94,7 @@ public class BoardDTO {
 	public void setParent(int parent) {
 		this.parent = parent;
 	}
+	
 	
 	
 	

@@ -1,4 +1,4 @@
-package com.petinfo;
+package com.petTalk;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,18 +10,18 @@ import java.util.List;
 import com.util.DBConn;
 
 
-public class PetInfoDAO {
+public class PetTalkDAO {
 	private Connection conn = DBConn.getConnection();
 
 	// 데이터 삽입
-	public int insertBoard(PetinfoDTO dto) {
+	public int insertBoard(PetTalkDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			sb.append("INSERT INTO pet1(bbs_num, notice, category, mem_id, subject, content, hitCount) ");
-			sb.append(" VALUES(pet1_seq.NEXTVAL,?,?,?,?,?,?)");
+			sb.append("INSERT INTO pet2(bbs_num, notice, category, mem_id, subject, content, hitCount) ");
+			sb.append(" VALUES(pet2_seq.NEXTVAL,?,?,?,?,?,?)");
 
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, dto.getNotice());
@@ -54,7 +54,7 @@ public class PetInfoDAO {
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*),0) FROM pet1";
+			sql = "SELECT NVL(COUNT(*),0) FROM pet2";
 			pstmt = conn.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
@@ -88,7 +88,7 @@ public class PetInfoDAO {
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*),0) FROM pet1 p JOIN member m ON p.mem_id = m.mem_id";
+			sql = "SELECT NVL(COUNT(*),0) FROM pet2 p JOIN member m ON p.mem_id = m.mem_id";
 			if (searchKey.equals("mem_name")) {
 				sql += " WHERE INSTR(mem_name, ?) = 1";
 			} else if (searchKey.equals("created")) {
@@ -126,9 +126,8 @@ public class PetInfoDAO {
 	}
 
 	// 게시물 리스트 출력
-	List<PetinfoDTO> listPetInfo(int start, int end) {
-		List<PetinfoDTO> list = new ArrayList<PetinfoDTO>();
-		PetInfoDAO dao = new PetInfoDAO();
+	List<PetTalkDTO> listPetInfo(int start, int end) {
+		List<PetTalkDTO> list = new ArrayList<PetTalkDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
@@ -137,7 +136,7 @@ public class PetInfoDAO {
 			sb.append("	SELECT ROWNUM rnum, tb.* FROM( ");
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
 			sb.append("				created ");
-			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+			sb.append("		FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 			sb.append("		ORDER BY bbs_num DESC ");
 			sb.append("	)tb WHERE ROWNUM <= ? ");
 			sb.append(")WHERE rnum >= ?");
@@ -149,7 +148,7 @@ public class PetInfoDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				PetinfoDTO dto = new PetinfoDTO();
+				PetTalkDTO dto = new PetTalkDTO();
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));
@@ -157,8 +156,6 @@ public class PetInfoDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
-				dto.setLike(dao.countLike(dto.getBbs_num()));
-				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 
 				list.add(dto);
 			}
@@ -183,11 +180,10 @@ public class PetInfoDAO {
 	}
 
 	// 검색시에 게시물 리스트 출력
-	public List<PetinfoDTO> listPetInfo(int start, int end, String searchKey, String searchValue) {
-		List<PetinfoDTO> list = new ArrayList<>();
+	public List<PetTalkDTO> listPetInfo(int start, int end, String searchKey, String searchValue) {
+		List<PetTalkDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		PetInfoDAO dao = new PetInfoDAO();
 		StringBuffer sb = new StringBuffer();
 
 		try {
@@ -195,7 +191,7 @@ public class PetInfoDAO {
 			sb.append("	SELECT ROWNUM rnum, tb.* FROM( ");
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
 			sb.append("				created ");
-			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+			sb.append("		FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 			if (searchKey.equals("mem_name")) {
 				sb.append(" WHERE INSTR(mem_name, ?) = 1");
 			} else if (searchKey.equals("created")) {
@@ -216,7 +212,7 @@ public class PetInfoDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				PetinfoDTO dto = new PetinfoDTO();
+				PetTalkDTO dto = new PetTalkDTO();
 
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
@@ -225,8 +221,6 @@ public class PetInfoDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
-				dto.setLike(dao.countLike(dto.getBbs_num()));
-				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 
 				list.add(dto);
 			}
@@ -257,7 +251,7 @@ public class PetInfoDAO {
 		String sql;
 
 		try {
-			sql = "UPDATE pet1 SET hitCount = hitCount+1 WHERE bbs_num=?";
+			sql = "UPDATE pet2 SET hitCount = hitCount+1 WHERE bbs_num=?";
 
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
@@ -278,15 +272,15 @@ public class PetInfoDAO {
 	}
 
 	// 해당 게시물 보기
-	public PetinfoDTO readBoard(int bbs_num) {
-		PetinfoDTO dto = null;
+	public PetTalkDTO readBoard(int bbs_num) {
+		PetTalkDTO dto = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 		ResultSet rs = null;
 		try {
 			sb.append("SELECT bbs_num, p.mem_id, mem_name, content, category, subject, hitCount,	");
 			sb.append("		created ");
-			sb.append(" FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+			sb.append(" FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 			sb.append(" WHERE bbs_num=?");
 
 			pstmt = conn.prepareStatement(sb.toString());
@@ -294,7 +288,7 @@ public class PetInfoDAO {
 			rs = pstmt.executeQuery();
 
 			if (rs.next()) {
-				dto = new PetinfoDTO();
+				dto = new PetTalkDTO();
 
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
@@ -321,8 +315,8 @@ public class PetInfoDAO {
 	}
 
 	// 이전글
-	public PetinfoDTO preReadBoard(int bbs_num, String searchKey, String searchValue) {
-		PetinfoDTO dto = null;
+	public PetTalkDTO preReadBoard(int bbs_num, String searchKey, String searchValue) {
+		PetTalkDTO dto = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 		ResultSet rs = null;
@@ -330,7 +324,7 @@ public class PetInfoDAO {
 			if (searchValue != null && searchValue.length() != 0) {
 				sb.append("	SELECT ROWNUM, tb.* FROM( ");
 				sb.append("		SELECT bbs_num, subject, category ");
-				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append(" 	FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 				if (searchKey.equals("mem_name")) {
 					sb.append("		WHERE (INSTR(mem_name, ?)=1 ) ");
 				} else if (searchKey.equals("created")) {
@@ -349,7 +343,7 @@ public class PetInfoDAO {
 			} else {
 				sb.append("	SELECT ROWNUM, tb.* FROM( ");
 				sb.append("		SELECT bbs_num, subject, category ");
-				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append(" 	FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 				sb.append("		WHERE bbs_num > ?");
 				sb.append("		ORDER BY bbs_num ASC");
 				sb.append("	)tb WHERE ROWNUM = 1 ");
@@ -360,7 +354,7 @@ public class PetInfoDAO {
 
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				dto = new PetinfoDTO();
+				dto = new PetTalkDTO();
 
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setSubject(rs.getString("subject"));
@@ -380,8 +374,8 @@ public class PetInfoDAO {
 	}
 
 	// 다음글
-	public PetinfoDTO nextReadBoard(int bbs_num, String searchValue, String searchKey) {
-		PetinfoDTO dto = null;
+	public PetTalkDTO nextReadBoard(int bbs_num, String searchValue, String searchKey) {
+		PetTalkDTO dto = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
 		ResultSet rs = null;
@@ -389,7 +383,7 @@ public class PetInfoDAO {
 			if (searchValue != null && searchValue.length() != 0) {
 				sb.append("	SELECT ROWNUM, tb.* FROM( ");
 				sb.append("		SELECT bbs_num, subject, category ");
-				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append(" 	FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 				if (searchKey.equals("mem_name")) {
 					sb.append("		WHERE (INSTR(mem_name, ?)=1 ) ");
 				} else if (searchKey.equals("created")) {
@@ -408,7 +402,7 @@ public class PetInfoDAO {
 			} else {
 				sb.append("	SELECT ROWNUM, tb.* FROM( ");
 				sb.append("		SELECT bbs_num, subject, category ");
-				sb.append(" 	FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+				sb.append(" 	FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 				sb.append("		WHERE bbs_num < ?");
 				sb.append("		ORDER BY bbs_num DESC");
 				sb.append("	)tb WHERE ROWNUM = 1 ");
@@ -419,7 +413,7 @@ public class PetInfoDAO {
 
 			rs = pstmt.executeQuery();
 			if (rs.next()) {
-				dto = new PetinfoDTO();
+				dto = new PetTalkDTO();
 
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setSubject(rs.getString("subject"));
@@ -439,13 +433,13 @@ public class PetInfoDAO {
 	}
 
 	// 게시글 수정
-	public int updateBoard(PetinfoDTO dto, String mem_id) {
+	public int updateBoard(PetTalkDTO dto, String mem_id) {
 		int result = 0;
 		PreparedStatement pstmt = null;
 		String sql;
 
 		try {
-			sql = "UPDATE pet1 SET subject=?, content=?, category=? WHERE bbs_num=? AND mem_id =?";
+			sql = "UPDATE pet2 SET subject=?, content=?, category=? WHERE bbs_num=? AND mem_id =?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, dto.getSubject());
 			pstmt.setString(2, dto.getContent());
@@ -476,12 +470,12 @@ public class PetInfoDAO {
 
 		try {
 			if (mem_id.equals("admin")) {
-				sql = "DELETE FROM pet1 WHERE bbs_num=?";
+				sql = "DELETE FROM pet2 WHERE bbs_num=?";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, bbs_num);
 				result = pstmt.executeUpdate();
 			} else {
-				sql = "DELETE FROM pet1 WHERE bbs_num=? AND mem_id=? ";
+				sql = "DELETE FROM pet2 WHERE bbs_num=? AND mem_id=? ";
 				pstmt = conn.prepareStatement(sql);
 				pstmt.setInt(1, bbs_num);
 				pstmt.setString(2, mem_id);
@@ -503,15 +497,15 @@ public class PetInfoDAO {
 
 	// 공지사항에 체크된것만 리스트 출력
 
-	public List<PetinfoDTO> listPetInfoNotice() {
-		List<PetinfoDTO> listNotice = new ArrayList<PetinfoDTO>();
+	public List<PetTalkDTO> listPetInfoNotice() {
+		List<PetTalkDTO> listNotice = new ArrayList<PetTalkDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
 			sb.append("				TO_CHAR(created, 'YYYY-MM-DD')created ");
-			sb.append("		FROM pet1 p JOIN member m ON p.mem_id = m.mem_id ");
+			sb.append("		FROM pet2 p JOIN member m ON p.mem_id = m.mem_id ");
 			sb.append("		WHERE notice=1 ");
 			sb.append("		ORDER BY bbs_num DESC ");
 
@@ -520,7 +514,7 @@ public class PetInfoDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				PetinfoDTO dto = new PetinfoDTO();
+				PetTalkDTO dto = new PetTalkDTO();
 				dto.setBbs_num(rs.getInt("bbs_num"));
 				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));
@@ -558,7 +552,7 @@ public class PetInfoDAO {
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM pet1_like WHERE bbs_num=?";
+			sql = "SELECT NVL(COUNT(*), 0) FROM pet2_like WHERE bbs_num=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
 
@@ -590,7 +584,7 @@ public class PetInfoDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 
-		sql = "INSERT INTO pet1_like(bbs_num, mem_Id) VALUES (?, ?)";
+		sql = "INSERT INTO pet2_like(bbs_num, mem_Id) VALUES (?, ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
@@ -617,8 +611,8 @@ public class PetInfoDAO {
 		StringBuffer sb = new StringBuffer();
 
 		try {
-			sb.append("INSERT INTO pet1_reply(reply_num, bbs_num, mem_Id, content) ");
-			sb.append(" VALUES (pet1_reply_seq.NEXTVAL, ?, ?, ?)");
+			sb.append("INSERT INTO pet2_reply(reply_num, bbs_num, mem_Id, content) ");
+			sb.append(" VALUES (pet2_reply_seq.NEXTVAL, ?, ?, ?)");
 
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, dto.getBbs_num());
@@ -648,7 +642,7 @@ public class PetInfoDAO {
 		String sql;
 
 		try {
-			sql = "SELECT NVL(COUNT(*), 0) FROM pet1_reply WHERE bbs_num=? ";
+			sql = "SELECT NVL(COUNT(*), 0) FROM pet2_reply WHERE bbs_num=? ";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
 
@@ -691,8 +685,8 @@ public class PetInfoDAO {
 			sb.append("		SELECT tbreply.reply_num, bbs_num, mem_Id, mem_Name, content, created");
 			sb.append("		FROM ( ");
 			sb.append("			SELECT reply_num, r.bbs_num, r.mem_Id, mem_Name, r.content, r.created ");
-			sb.append("			FROM pet1_reply r  ");
-			sb.append("			JOIN pet1 b ON r.bbs_num = b.bbs_num  ");
+			sb.append("			FROM pet2_reply r  ");
+			sb.append("			JOIN pet2 b ON r.bbs_num = b.bbs_num  ");
 			sb.append("			JOIN member  m ON r.mem_Id = m.mem_Id  ");
 			sb.append("			WHERE r.bbs_num= ? ");
 			sb.append("		) tbreply ");
@@ -746,7 +740,7 @@ public class PetInfoDAO {
 		PreparedStatement pstmt = null;
 		String sql;
 
-		sql = "DELETE FROM pet1_reply ";
+		sql = "DELETE FROM pet2_reply ";
 		sql += "  WHERE reply_num = ? ";
 		if (!mem_Id.equals("admin"))
 			sql += " AND mem_Id = ?";

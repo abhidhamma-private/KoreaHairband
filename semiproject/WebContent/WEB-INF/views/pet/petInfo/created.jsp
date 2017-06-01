@@ -92,9 +92,14 @@ function sendOk(){
 			      <td width="100" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
 			       <select class="selectField" id="category" name="category" >
-                 	 <option value="dog">강아지</option>
-                 	 <option value="cat">고양이</option>
-                 	 <option value="hamster">햄스터</option>
+                 	 <option value="강아지">강아지</option>
+                 	 <option value="고양이">고양이</option>
+                 	 <option value="햄스터">햄스터</option>
+                 	 <option value="물고기">물고기</option>
+                 	 <option value="기타">기타</option>
+                 	 <c:if test="${sessionScope.member.mem_Id=='admin'}">
+                 	 <option value="공지">공지</option>
+                 	 </c:if>
           		  </select>
 			      </td>
 			  </tr>

@@ -1,6 +1,7 @@
 package com.it;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Iterator;
@@ -15,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
+
+import net.sf.json.JSONObject;
 
 @WebServlet("/it/*")
 public class ItServlet extends MyServlet {
@@ -56,6 +59,15 @@ public class ItServlet extends MyServlet {
 			board_delete(req, resp);
 		} else if (uri.indexOf("board_like.do") != -1) {
 			board_like(req, resp);
+		} else if (uri.indexOf("board_likecnt.do") != -1) {
+			board_likecnt(req, resp);
+		} else if(uri.indexOf("board_insertReply.do")!=-1) {
+			board_insertReply(req, resp);
+		} else if(uri.indexOf("board_listReply.do")!=-1) {
+			board_listReply(req, resp);
+		} else if(uri.indexOf("board_deleteReply.do")!=-1) {
+			board_deleteReply(req, resp);
+			
 		/*} else if (uri.indexOf("news_list.do") != -1) {
 			news_list(req, resp);
 		} else if (uri.indexOf("news_created.do") != -1) {
@@ -149,7 +161,7 @@ public class ItServlet extends MyServlet {
 			listUrl += "?" + query;
 			articleUrl += "&" + query;
 		}
-
+		
 		String paging = util.paging(current_page, total_page, listUrl);
 
 		// 포워딩할 JSP로 넘길 속성
@@ -222,9 +234,8 @@ public class ItServlet extends MyServlet {
 			return;
 		}
 
-		dto.setLike(dao.countLike(bbs_num));
+		int countLike = dao.countLike(bbs_num);
 		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
-
 		// 이전글 다음글
 		BoardDTO preReadDto = dao.preReadBoard(dto.getGroupNum(), dto.getOrderNo(), searchKey, searchValue);
 		BoardDTO nextReadDto = dao.nextReadBoard(dto.getGroupNum(), dto.getOrderNo(), searchKey, searchValue);
@@ -240,6 +251,7 @@ public class ItServlet extends MyServlet {
 		req.setAttribute("query", query);
 		req.setAttribute("preReadDto", preReadDto);
 		req.setAttribute("nextReadDto", nextReadDto);
+		req.setAttribute("countLike", countLike);
 
 		// 포워딩
 		String path = "/WEB-INF/views/it/board/article.jsp";
@@ -380,22 +392,142 @@ public class ItServlet extends MyServlet {
 		resp.sendRedirect(cp + "/it/board.do?page=" + page);
 	}
 	
-	private void board_like(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		// 게시물 좋아요
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
-		String cp = req.getContextPath();
+	private void board_likecnt(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		BoardDAO dao = new BoardDAO();
-		BoardDTO dto = new BoardDTO();
+		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
+		
+		int countLike=dao.countLike(bbs_num);
+		JSONObject job=new JSONObject();
+		job.put("countLike", countLike);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+	private void board_like(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		BoardDAO dao = new BoardDAO();
+		
+		String state="false";
+		if(info==null) {
+			state="loginFail";
+		} else {
+			int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
+
+			int result=dao.updateLike(bbs_num, info.getMem_Id());
+			if(result==1)
+				state="true";
+		}
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+	
+	private void board_listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 리스트(AJAX:TEXT)
+		BoardDAO dao = new BoardDAO();
+		MyUtil util = new MyUtil();
 		
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
-		int page = Integer.parseInt(req.getParameter("page"));
-		String mem_Id = info.getMem_Id();
-		
-		int result = dao.updateLike(bbs_num, mem_Id);
-		if(result > 0){
-			resp.sendRedirect(cp + "/it/board_article.do?bbs_num="+bbs_num+"&page=" + page);
+		String pageNo = req.getParameter("pageNo");
+		int current_page = 1;
+		if (pageNo != null)
+			current_page = Integer.parseInt(pageNo);
+
+		int numPerPage = 5;
+		int total_page = 0;
+		int replyCount = 0;
+
+		replyCount = dao.dataCountReply(bbs_num);
+		total_page = util.pageCount(numPerPage, replyCount);
+		if (current_page > total_page)
+			current_page = total_page;
+
+		int start = (current_page - 1) * numPerPage + 1;
+		int end = current_page * numPerPage;
+
+		// 리스트에 출력할 데이터
+		List<BoardReplyDTO> listReply = dao.listReply(bbs_num, start, end);
+
+		// 엔터를 <br>
+		Iterator<BoardReplyDTO> it = listReply.iterator();
+		while (it.hasNext()) {
+			BoardReplyDTO dto = it.next();
+			dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		}
+
+		// 페이징처리(인수2개 짜리 js로 처리)
+		String paging = util.paging(current_page, total_page);
+
+		req.setAttribute("listReply", listReply);
+		req.setAttribute("pageNo", current_page);
+		req.setAttribute("replyCount", replyCount);
+		req.setAttribute("total_page", total_page);
+		req.setAttribute("paging", paging);
+		
+
+		// 포워딩
+		String path = "/WEB-INF/views/it/board/listReply.jsp";
+		forward(req, resp, path);
 	}
+
+	private void board_insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 리플 저장(JSON)
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		BoardDAO dao = new BoardDAO();
+		
+		String state="false";
+		if(info==null) {
+			state="loginFail";
+		} else {
+			int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
+			BoardReplyDTO rdto = new BoardReplyDTO();
+			rdto.setBbs_num(bbs_num);
+			rdto.setMem_Id(info.getMem_Id());
+			rdto.setContent(req.getParameter("content"));
+
+			int result=dao.insertReply(rdto);
+			if(result==1)
+				state="true";
+		}
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+	
+	protected void board_deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	      HttpSession session=req.getSession();
+	      SessionInfo info=(SessionInfo)session.getAttribute("member");
+	      BoardDAO dao = new BoardDAO();      
+	      
+	      int reply_num = Integer.parseInt(req.getParameter("reply_num"));
+	      
+	      String state="false";
+	      if(info==null) {
+	         state="loginFail";
+	      } else {
+	         int result=dao.deleteReply(reply_num, info.getMem_Id());
+	         if(result==1) {
+	            state="true";
+	         }
+	      }      
+	      
+	      JSONObject job=new JSONObject();
+	      job.put("state", state);
+	      
+	      resp.setContentType("text/html;charset=utf-8");
+	      PrintWriter out=resp.getWriter();
+	      out.print(job.toString());
+	   
+	   }
 }

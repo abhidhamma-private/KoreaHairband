@@ -33,19 +33,46 @@ function deleteBoard() {
     alert("게시물을 삭제할 수  없습니다.");
 </c:if>
 }
-function likeBoard() {
-<c:if test="${sessionScope.member.mem_Id==dto.mem_Id}">
-    alert("자신의 게시물에는 좋아요를 할 수 없습니다.");
-</c:if>
-<c:if test="${sessionScope.member.mem_Id!=dto.mem_Id}">
-    var bbs_num = "${dto.bbs_num}";
-    var page = "${page}";
-    var query = "bbs_num="+bbs_num+"&page="+page;
-    var url = "<%=cp%>/it/board_like.do?" + query;
-    
-    location.href=url;
-</c:if>
+
+function countLike(bbs_num) {
+	var url="<%=cp%>/it/board_likecnt.do";
+	$.post(url, {bbs_num:bbs_num}, function(data){
+		var count=data.countLike;
+		
+		$("#countLike").html(count);
+	}, "json");
 }
+
+function updateLike(bbs_num) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return;
+	}
+
+	var query="bbs_num="+bbs_num;
+
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/it/board_like.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				countLike(bbs_num);
+			} else if(state=="false") {
+				alert("좋아요는 한번만 가능합니다.");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
+
 function updateBoard() {
 <c:if test="${sessionScope.member.mem_Id==dto.mem_Id}">
     var bbs_num = "${dto.bbs_num}";
@@ -59,6 +86,89 @@ function updateBoard() {
 <c:if test="${sessionScope.member.mem_Id!=dto.mem_Id}">
    alert("게시물을 수정할 수  없습니다.");
 </c:if>
+}
+
+//댓글
+function login() {
+	location.href="<%=cp%>/member/login.do";
+}
+
+//댓글 리스트
+$(function(){
+	listPage(1);
+});
+
+function listPage(page) {
+	var url="<%=cp%>/it/board_listReply.do";
+	var bbs_num="${dto.bbs_num}";
+	$.post(url, {bbs_num:bbs_num, pageNo:page}, function(data){
+		$("#listReply").html(data);
+	});
+}
+
+//댓글 추가
+function sendReply() {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return false;
+	}
+
+	var bbs_num="${dto.bbs_num}"; // 해당 게시물 번호
+	var content=$.trim($("#content").val());
+	if(! content ) {
+		alert("내용을 입력하세요 !!! ");
+		$("#content").focus();
+		return false;
+	}
+	
+	var query="bbs_num="+bbs_num;
+	query+="&content="+content;
+	// query+="&answer=0";
+	
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/it/board_insertReply.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			$("#content").val("");
+			
+			var state=data.state;
+			if(state=="true") {
+				listPage(1);
+			} else if(state=="false") {
+				alert("댓글을 등록하지 못했습니다. !!!");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
+
+//댓글 삭제
+function deleteReply(reply_num, page) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return false;
+	}
+	
+	if(confirm("게시물을 삭제하시겠습니까 ? ")) {	
+		var url="<%=cp%>/it/board_deleteReply.do";
+		$.post(url, {reply_num:reply_num}, function(data){
+		        var state=data.state;
+
+				if(state=="loginFail") {
+					login();
+				} else {
+					listPage(page);
+				}
+		}, "json");
+	}
 }
 </script>
 </head>
@@ -91,6 +201,7 @@ function updateBoard() {
 			    <td width="50%" align="right" style="padding-right: 5px;">
 			        ${dto.created} | 조회 ${dto.hitCount}
 			    </td>
+			    
 			</tr>
 			
 			<tr>
@@ -101,8 +212,7 @@ function updateBoard() {
 			
 			<tr height="35" style="border-bottom: 1px solid #cccccc;">
 			    <td colspan="2" align="center" style="padding-left: 5px;">
-			       <a href="javascript:likeBoard()"><img src="<%=cp%>/resource/img/like.png"></a><br>
-			        		${dto.like}개<br><br>
+			      <button type="button" class="btn btn-default btn-sm wbtn" style="background: white; border: 0px;" onclick="updateLike('${dto.bbs_num}')"><img style="display:block; margin-bottom:5px;" src="<%=cp%>/resource/img/like.png"><span style="display:block" id="countLike">${countLike}</span></button>
 			    </td>
 			</tr>
 			
@@ -143,7 +253,22 @@ function updateBoard() {
 			</tr>
 			</table>
         </div>
-
+		<div class="bbs-reply">
+	           <div class="bbs-reply-write">
+	               <div style="clear: both;">
+	           	       <div style="float: left;"><span style="font-weight: bold;">Comment</span><span> - 댓글 작성</span></div>
+	           	       <div style="float: right; text-align: right;"></div>
+	               </div>
+	               <div style="clear: both; padding-top: 10px;">
+	                   <textarea id="content" class="form-control" rows="5" style="width: 900px"></textarea>
+	               </div>
+	               <div style="text-align: right; padding-top: 10px;">
+	                   <button type="button" class="btn btn-primary btn-sm" onclick="sendReply();"> 댓글등록 <span class="glyphicon glyphicon-ok"></span></button>
+	               </div>           
+	           </div>
+	       
+	           <div id="listReply"></div>
+	       </div>
     </div>
 </div>
 
