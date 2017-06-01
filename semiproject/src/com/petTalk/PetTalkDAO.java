@@ -126,10 +126,11 @@ public class PetTalkDAO {
 	}
 
 	// 게시물 리스트 출력
-	List<PetTalkDTO> listPetInfo(int start, int end) {
+	List<PetTalkDTO> listpetTalk(int start, int end) {
 		List<PetTalkDTO> list = new ArrayList<PetTalkDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		PetTalkDAO dao = new PetTalkDAO();
 		StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("SELECT * FROM (");
@@ -156,7 +157,8 @@ public class PetTalkDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
-
+				dto.setLike(dao.countLike(dto.getBbs_num()));
+				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 				list.add(dto);
 			}
 
@@ -180,11 +182,12 @@ public class PetTalkDAO {
 	}
 
 	// 검색시에 게시물 리스트 출력
-	public List<PetTalkDTO> listPetInfo(int start, int end, String searchKey, String searchValue) {
+	public List<PetTalkDTO> listpetTalk(int start, int end, String searchKey, String searchValue) {
 		List<PetTalkDTO> list = new ArrayList<>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
+		PetTalkDAO dao = new PetTalkDAO();
 
 		try {
 			sb.append("SELECT * FROM (");
@@ -221,6 +224,8 @@ public class PetTalkDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
+				dto.setLike(dao.countLike(dto.getBbs_num()));
+				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 
 				list.add(dto);
 			}
@@ -497,7 +502,7 @@ public class PetTalkDAO {
 
 	// 공지사항에 체크된것만 리스트 출력
 
-	public List<PetTalkDTO> listPetInfoNotice() {
+	public List<PetTalkDTO> listpetTalkNotice() {
 		List<PetTalkDTO> listNotice = new ArrayList<PetTalkDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;

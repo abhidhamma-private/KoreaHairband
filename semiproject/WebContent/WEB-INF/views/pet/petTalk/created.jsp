@@ -45,23 +45,10 @@ function sendOk(){
 <div class="header">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
-
-
-
-
 <div class="f_container">
-
-<table style="width: 780px; margin: 30px auto 0px; border-spacing: 0px;">
-<tr height="45">
-	<td align="left" class="title">
-		<h3>자유게시판</h3>
-	</td>
-</tr>
-</table>
-  
         <div>
 			<form name="infoCreateForm" id="boardForm" method="post" enctype="multipart/form-data">
-			  <table style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+			  <table style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
 			
 			  <tr align="left" height="40"> 
@@ -117,7 +104,7 @@ function sendOk(){
 			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
 			  </table>
 			
-			  <table style="width:780px; margin: 0px auto; border-spacing: 0px;">
+			  <table style="width:900px; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
 			        <button type="button" id="save" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>

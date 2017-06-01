@@ -176,17 +176,9 @@ function deleteReply(reply_num, page) {
 
 	<div class="f_container">
 
-		<table
-			style="width: 780px; margin: 30px auto 0px; border-spacing: 0px;">
-			<tr height="45">
-				<td align="left" class="title">
-					<h3>반려동물 정보공유</h3>
-				</td>
-			</tr>
-		</table>
 		<div>
 			<table
-				style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+				style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 				<tr>
 					<td colspan="3" height="1" bgcolor="#cccccc"></td>
 				</tr>
@@ -269,7 +261,7 @@ function deleteReply(reply_num, page) {
 	</div>
 
 	<div class="bbs-reply"
-		style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+		style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 		<div class="bbs-reply-write" style="padding-left: 30px">
 			<div style="clear: both;">
 				<div style="float: left;">

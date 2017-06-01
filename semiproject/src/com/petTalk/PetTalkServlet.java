@@ -126,14 +126,14 @@ public class PetTalkServlet extends MyServlet {
 		
 		List<PetTalkDTO> list = null;
 		if(searchValue.length()==0){
-			list = dao.listPetInfo(start, end);
+			list = dao.listpetTalk(start, end);
 		}else{
-			list = dao.listPetInfo(start, end, searchKey, searchValue);
+			list = dao.listpetTalk(start, end, searchKey, searchValue);
 		}
 		
 		List<PetTalkDTO> listNotice=null;
 		//if(current_page==1){ -->공지글이 1페이지만 나오게 해줌
-		listNotice = dao.listPetInfoNotice();
+		listNotice = dao.listpetTalkNotice();
 		Iterator<PetTalkDTO> itNotice=listNotice.iterator();
 		while (itNotice.hasNext()) {
 			PetTalkDTO dto=itNotice.next();
@@ -168,8 +168,8 @@ public class PetTalkServlet extends MyServlet {
 			query="searchKey="+searchKey+"&searchValue="+searchValue;
 		}
 		
-		String listUrl = cp+"/pet/petInfo/list.do";
-		String articleUrl = cp+"/pet/petInfo/article.do?page="+current_page;
+		String listUrl = cp+"/pet/petTalk/list.do";
+		String articleUrl = cp+"/pet/petTalk/article.do?page="+current_page;
 		if(query.length()!=0){
 			listUrl += "?"+query;
 			articleUrl += "&"+query;
@@ -185,7 +185,7 @@ public class PetTalkServlet extends MyServlet {
 		req.setAttribute("paging", paging);
 		
 		
-		forward(req, resp, "/WEB-INF/views/pet/petInfo/list.jsp");
+		forward(req, resp, "/WEB-INF/views/pet/petTalk/list.jsp");
 	}
 
 	protected void createdForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -198,7 +198,7 @@ public class PetTalkServlet extends MyServlet {
 			return;
 		}
 		req.setAttribute("mode", "created");
-		String path="/WEB-INF/views/pet/petInfo/created.jsp";
+		String path="/WEB-INF/views/pet/petTalk/created.jsp";
 		forward(req, resp, path);
 	}
 
@@ -231,7 +231,7 @@ public class PetTalkServlet extends MyServlet {
 		
 		dao.insertBoard(dto);
 		
-		resp.sendRedirect(cp+"/pet/petInfo/list.do");
+		resp.sendRedirect(cp+"/pet/petTalk/list.do");
 	}
 
 	protected void article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -240,6 +240,7 @@ public class PetTalkServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 		
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
+		int countLike = dao.countLike(bbs_num);
 		String page=req.getParameter("page");
 		String searchKey=req.getParameter("searchKey");
 		String searchValue=req.getParameter("searchValue");
@@ -254,7 +255,7 @@ public class PetTalkServlet extends MyServlet {
 		
 		PetTalkDTO dto = dao.readBoard(bbs_num);
 		if(dto==null){
-			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
+			resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 			return;
 		}
 		dto.setContent(util.htmlSymbols(dto.getContent()));
@@ -273,8 +274,9 @@ public class PetTalkServlet extends MyServlet {
 		req.setAttribute("query", query);
 		req.setAttribute("preRead", preRead);
 		req.setAttribute("nextRead", nextRead);
+		req.setAttribute("countLike", countLike);
 		
-		forward(req, resp, "/WEB-INF/views/pet/petInfo/article.jsp");
+		forward(req, resp, "/WEB-INF/views/pet/petTalk/article.jsp");
 	}
 
 	protected void update(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -294,14 +296,14 @@ public class PetTalkServlet extends MyServlet {
 		}
 		
 		if(!dto.getMem_id().equals(info.getMem_Id())){
-			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
+			resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 			return;
 		}
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
 		req.setAttribute("mode", "update");
 		
-		forward(req, resp, "/WEB-INF/views/pet/petInfo/created.jsp");
+		forward(req, resp, "/WEB-INF/views/pet/petTalk/created.jsp");
 	}
 
 	protected void updated_ok(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -320,7 +322,7 @@ public class PetTalkServlet extends MyServlet {
 		String page = mreq.getParameter("page");
 		
 		if(req.getMethod().equals("GET")){
-			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
+			resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 			return;
 		}
 		PetTalkDTO dto = new PetTalkDTO();
@@ -333,7 +335,7 @@ public class PetTalkServlet extends MyServlet {
 		dao.updateBoard(dto, info.getMem_Id());
 		
 		
-		resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
+		resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 	}	
 
 	protected void delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -346,7 +348,7 @@ public class PetTalkServlet extends MyServlet {
 		String page = req.getParameter("page");
 		dao.deleteBoard(bbs_num, info.getMem_Id());
 		
-		resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
+		resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 	}
 	protected void pet_like(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		HttpSession session=req.getSession();

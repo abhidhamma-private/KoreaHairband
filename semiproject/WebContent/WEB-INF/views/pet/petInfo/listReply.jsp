@@ -6,7 +6,7 @@
 	String cp = request.getContextPath();
 %>
 
-<div style="clear: both; padding-top: 20px; width: 780px;">
+<div style="clear: both; padding-top: 20px; width: 900px;">
 	<div style="float: left;">
 		<span style="color: #3EA9CD; font-weight: bold;">댓글
 			${replyCount}개</span> <span>[댓글 목록, ${pageNo}/${total_page} 페이지]</span>

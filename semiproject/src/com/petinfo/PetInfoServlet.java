@@ -184,7 +184,6 @@ public class PetInfoServlet extends MyServlet {
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("paging", paging);
 		
-		
 		forward(req, resp, "/WEB-INF/views/pet/petInfo/list.jsp");
 	}
 
@@ -240,6 +239,7 @@ public class PetInfoServlet extends MyServlet {
 		MyUtil util = new MyUtil();
 		
 		int bbs_num = Integer.parseInt(req.getParameter("bbs_num"));
+		int countLike = dao.countLike(bbs_num);
 		String page=req.getParameter("page");
 		String searchKey=req.getParameter("searchKey");
 		String searchValue=req.getParameter("searchValue");
@@ -273,6 +273,7 @@ public class PetInfoServlet extends MyServlet {
 		req.setAttribute("query", query);
 		req.setAttribute("preRead", preRead);
 		req.setAttribute("nextRead", nextRead);
+		req.setAttribute("countLike", countLike);
 		
 		forward(req, resp, "/WEB-INF/views/pet/petInfo/article.jsp");
 	}

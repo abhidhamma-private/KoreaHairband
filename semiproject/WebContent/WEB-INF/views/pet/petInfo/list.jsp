@@ -35,23 +35,14 @@ function searchList() {
 	<div class="f_container">
 
 		<table
-			style="width: 780px; margin: 30px auto 0px; border-spacing: 0px;">
-			<tr height="45">
-				<td align="left" class="title">
-					<h3>반려동물 정보공유</h3>
-				</td>
-			</tr>
-		</table>
-
-		<table
-			style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+			style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 			<tr height="35">
 				<td align="left" width="50%">${dataCount}개
 					(${page}/${total_page}페이지)</td>
 			</tr>
 		</table>
 
-		<table style="width: 780px; margin: 0px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
 			<tr>
 				<td height="1" colspan="6" bgcolor="#cccccc"></td>
 			</tr>
@@ -73,8 +64,10 @@ function searchList() {
 					<td><span
 						style="display: inline-block; width: 50px; height: 18px; line-height: 18px; background: #ED4C00; color: #FFFFFF;">공지</span>
 					</td>
-					<td align="left" style="padding-left: 10px;"><a
-						href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
+					<td align="left" style="padding-left: 10px;">
+						<a href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject }
+						<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if>
+						</a>
 					</td>
 					<td align="center">${dto.mem_name }</td>
 					<td align="center">${dto.created }</td>
@@ -88,7 +81,7 @@ function searchList() {
 					<td align="center">${dto.listNum }</td>
 					<td align="left" style="padding-left: 10px;"><a
 						href="${articleUrl}&bbs_num=${dto.bbs_num}">[${dto.category}]${dto.subject}</a>
-						<c:if test="${dto.gap<1}">
+							<c:if test="${dto.gap<1}">
 							<img src="<%=cp%>/resource/img/new.gif">
 						</c:if></td>
 					<td align="center">${dto.mem_name }</td>
@@ -104,13 +97,13 @@ function searchList() {
 
 		</table>
 
-		<table style="width: 780px; margin: 0px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
 			<tr height="35">
 				<td align="center">${paging}</td>
 			</tr>
 		</table>
 
-		<table style="width: 780px; margin: 10px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
 
 				<td align="right" width="100">

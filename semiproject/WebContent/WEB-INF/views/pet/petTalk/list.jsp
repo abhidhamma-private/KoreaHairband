@@ -35,23 +35,14 @@ function searchList() {
 	<div class="f_container">
 
 		<table
-			style="width: 780px; margin: 30px auto 0px; border-spacing: 0px;">
-			<tr height="45">
-				<td align="left" class="title">
-					<h3>자유게시판</h3>
-				</td>
-			</tr>
-		</table>
-
-		<table
-			style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+			style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 			<tr height="35">
 				<td align="left" width="50%">${dataCount}개
 					(${page}/${total_page}페이지)</td>
 			</tr>
 		</table>
 
-		<table style="width: 780px; margin: 0px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
 			<tr>
 				<td height="1" colspan="6" bgcolor="#cccccc"></td>
 			</tr>
@@ -61,6 +52,7 @@ function searchList() {
 				<th width="100" style="color: #787878;">작성자</th>
 				<th width="80" style="color: #787878;">작성일</th>
 				<th width="60" style="color: #787878;">조회수</th>
+				<th width="60" style="color: #787878;">추천수</th>	
 			</tr>
 			<tr>
 				<td height="1" colspan="6" bgcolor="#cccccc"></td>
@@ -78,6 +70,7 @@ function searchList() {
 					<td align="center">${dto.mem_name }</td>
 					<td align="center">${dto.created }</td>
 					<td align="center">${dto.hitCount}</td>
+					<td align="center">${dto.like}</td>
 				</tr>
 			</c:forEach>
 
@@ -92,6 +85,7 @@ function searchList() {
 					<td align="center">${dto.mem_name }</td>
 					<td align="center">${dto.created }</td>
 					<td align="center">${dto.hitCount}</td>
+					<td align="center">${dto.like}</td>
 				</tr>
 			</c:forEach>
 
@@ -101,13 +95,13 @@ function searchList() {
 
 		</table>
 
-		<table style="width: 780px; margin: 0px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
 			<tr height="35">
 				<td align="center">${paging}</td>
 			</tr>
 		</table>
 
-		<table style="width: 780px; margin: 10px auto; border-spacing: 0px;">
+		<table style="width: 900px; margin: 10px auto; border-spacing: 0px;">
 			<tr height="40">
 
 				<td align="right" width="100">

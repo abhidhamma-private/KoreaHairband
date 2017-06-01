@@ -282,6 +282,7 @@ public class PetInfoDAO {
 		PetinfoDTO dto = null;
 		PreparedStatement pstmt = null;
 		StringBuffer sb = new StringBuffer();
+		PetInfoDAO dao = new PetInfoDAO();
 		ResultSet rs = null;
 		try {
 			sb.append("SELECT bbs_num, p.mem_id, mem_name, content, category, subject, hitCount,	");
@@ -304,6 +305,8 @@ public class PetInfoDAO {
 				dto.setCreated(rs.getString("created"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCategory(rs.getString("category"));
+				dto.setLike(dao.countLike(dto.getBbs_num()));
+				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 
 			}
 

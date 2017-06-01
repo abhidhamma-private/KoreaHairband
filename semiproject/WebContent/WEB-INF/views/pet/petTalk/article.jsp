@@ -17,6 +17,45 @@
 	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 
+function countLike(bbs_num) {
+	var url="<%=cp%>/pet/petInfo/pet_likecnt.do";
+	$.post(url, {bbs_num:bbs_num}, function(data){
+		var count=data.countLike;
+		
+		$("#countLike").html(count);
+	}, "json");
+}
+
+function updateLike(bbs_num) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return;
+	}
+
+	var query="bbs_num="+bbs_num;
+
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/pet/petInfo/pet_like.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				countLike(bbs_num);
+			} else if(state=="false") {
+				alert("좋아요는 한번만 가능합니다.");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
+
 function updateBoard(){
 	<c:if test="${sessionScope.member.mem_Id==dto.mem_id}">
 			var bbs_num = "${dto.bbs_num}";
@@ -131,23 +170,10 @@ function deleteReply(reply_num, page) {
 	<div class="header">
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
-
-
-
-
 	<div class="f_container">
-
-		<table
-			style="width: 780px; margin: 30px auto 0px; border-spacing: 0px;">
-			<tr height="45">
-				<td align="left" class="title">
-					<h3>자유게시판</h3>
-				</td>
-			</tr>
-		</table>
 		<div>
 			<table
-				style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
+				style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
 				<tr>
 					<td colspan="3" height="1" bgcolor="#cccccc"></td>
 				</tr>
@@ -167,6 +193,18 @@ function deleteReply(reply_num, page) {
 				<tr height="25">
 					<td align="left" style="padding-left: 5px;">이름 :
 						${dto.mem_name}</td>
+				</tr>
+				<tr height="35" style="border-bottom: 1px solid #cccccc;">
+					<td colspan="2" align="center" style="padding-left: 5px;">
+
+						<button type="button" class="btn btn-default btn-sm wbtn"
+							style="background: white; border: 0px;"
+							onclick="updateLike('${dto.bbs_num}')">
+							<img style="display: block; margin-bottom: 5px;"
+								src="<%=cp%>/resource/img/like.png"><span
+								style="display: block" id="countLike">${countLike}</span>
+						</button>
+					</td>
 				</tr>
 				<tr>
 					<td colspan="3" align="left" style="padding: 10px 5px;"
@@ -219,12 +257,13 @@ function deleteReply(reply_num, page) {
 		</div>
 	</div>
 
-	<div class="bbs-reply" style="width: 780px; margin: 20px auto 0px; border-spacing: 0px;">
-		<div class="bbs-reply-write" style="padding-left:30px">
+	<div class="bbs-reply"
+		style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
+		<div class="bbs-reply-write" style="padding-left: 30px">
 			<div style="clear: both;">
 				<div style="float: left;">
-					<span style="font-weight: bold;">댓글쓰기</span>
-					<span>- 타인을 비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
+					<span style="font-weight: bold;">댓글쓰기</span> <span>- 타인을
+						비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
 				</div>
 				<div style="float: right; text-align: right;"></div>
 			</div>
@@ -238,7 +277,7 @@ function deleteReply(reply_num, page) {
 					댓글등록 <span class="glyphicon glyphicon-ok"></span>
 				</button>
 			</div>
-		</div>	
+		</div>
 
 		<div id="listReply"></div>
 	</div>

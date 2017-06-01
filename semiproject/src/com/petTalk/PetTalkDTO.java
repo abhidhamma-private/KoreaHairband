@@ -4,7 +4,7 @@ public class PetTalkDTO {
 	private int bbs_num, listNum, notice;
 	private String category, mem_name, mem_id;
 	private String subject, content, created;
-	private int hitCount;
+	private int hitCount, reply, like;
 	private long gap;
 
 	public long getGap() {
@@ -95,4 +95,20 @@ public class PetTalkDTO {
 		this.hitCount = hitCount;
 	}
 
+	public int getReply() {
+		return reply;
+	}
+
+	public void setReply(int reply) {
+		this.reply = reply;
+	}
+
+	public int getLike() {
+		return like;
+	}
+
+	public void setLike(int like) {
+		this.like = like;
+	}
+	
 }
