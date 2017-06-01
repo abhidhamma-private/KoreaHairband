@@ -5,7 +5,24 @@ public class Fashion1DTO {
 	private String mem_Id , mem_Name , category , subject , content, created ;
 	private int hitCount;
 	private int reply_num;
+	private long gap;
+	private boolean checkImg;
+	  
 	
+	
+	
+	public boolean isCheckImg() {
+		return checkImg;
+	}
+	public void setCheckImg(boolean checkImg) {
+		this.checkImg = checkImg;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
 	public int getBbs_num() {
 		return bbs_num;
 	}
