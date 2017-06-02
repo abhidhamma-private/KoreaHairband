@@ -213,7 +213,7 @@ function sendReply() {
 	                	</tr>
 	                </tfoot>
 	            </table>
-	            <div class="bbs-reply" style="width:900px; margin:0px auto;">
+	            <!-- <div class="bbs-reply" style="width:900px; margin:0px auto;">
 	           <div class="bbs-reply-write">
 	               <div style="clear: both;">
 	           	       <div style="float: left;"><span style="font-weight: bold;">댓글쓰기</span><span> 댓글을 쓰시오 당장 당장!</span></div>
@@ -228,7 +228,7 @@ function sendReply() {
 	           </div>
 	       
 	           <div id="listReply"></div>
-	       		</div><br>
+	       		</div> --><br>
 	       </div>
 	   </div>
 	   

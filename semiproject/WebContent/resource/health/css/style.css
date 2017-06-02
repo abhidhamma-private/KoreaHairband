@@ -1,4 +1,7 @@
 @CHARSET "UTF-8";
+/* 메인 */
+
+
 /* 전체적용 */
 
 .btn{
@@ -7,9 +10,7 @@
 }
 
 
-.list-group-item {
-		padding:2.3px;
-}
+
 input[name=searchValue] {
 	border:3px solid #337AB7;
 	
@@ -27,7 +28,6 @@ select > option {
 	line-height: 30px;
 }
 /* main.jsp */
-li.dropdown:hover ul{ display: block; };
 
 .body-title > h3 {
 background:#337AB7;
@@ -51,9 +51,9 @@ thead{
 	height: 34px;
 	
 }
-a > span {
+/* a > span {
 	width: 8px;
 	height: 20px;
 	margin-right:5px;
 	padding-top:2px;
-}
+} */

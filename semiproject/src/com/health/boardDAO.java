@@ -32,7 +32,6 @@ public class boardDAO {
 			dto.setBbs_Num(seq);
 
 			if (mode.equals("created")) {
-				System.out.println("created들어온다.");
 				dto.setGroupNum(seq);
 				dto.setOrderNo(0);
 				dto.setDepth(0);
@@ -186,7 +185,7 @@ public class boardDAO {
 				dto.setDepth(rs.getInt("depth"));
 				dto.setParent(rs.getInt("parent"));
 
-				System.out.println("그룹넘:"+dto.getGroupNum()+"오더노:"+dto.getOrderNo()+"뎁스:"+dto.getDepth()+"패어런트:"+dto.getParent());
+				
 			}
 
 		} catch (Exception e) {

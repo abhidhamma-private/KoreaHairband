@@ -1,12 +1,19 @@
 package com.health;
 
 public class boardDTO {
+	private String url;
 	//글번호 매길때 쓰는것
 	private int listNum;
 	//베스트글
 	private int likeCount;
 	//히트아티클
 	private int ranked;
+	//글쓴사람수
+	private int memsarticle;
+	//리플수
+	private int memsrepl;
+	//포인트
+	private int point;
 	
 	//health1
 	private int bbs_Num;
@@ -116,6 +123,30 @@ public class boardDTO {
 	}
 	public void setRanked(int ranked) {
 		this.ranked = ranked;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public int getMemsarticle() {
+		return memsarticle;
+	}
+	public int getMemsrepl() {
+		return memsrepl;
+	}
+	public void setMemsarticle(int memsarticle) {
+		this.memsarticle = memsarticle;
+	}
+	public void setMemsrepl(int memsrepl) {
+		this.memsrepl = memsrepl;
+	}
+	public int getPoint() {
+		return point;
+	}
+	public void setPoint(int point) {
+		this.point = point;
 	}
 	
 }

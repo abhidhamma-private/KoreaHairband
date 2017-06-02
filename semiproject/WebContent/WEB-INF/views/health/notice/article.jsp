@@ -31,7 +31,56 @@ function updateNotice(num) {
 
 
 }
+//좋아요
 
+//게시물 좋아요 개수
+function countLikeBoard(num) {
+	var url="<%=cp%>/health/countLikeBoardN.do";
+	$.post(url, {num:num}, function(data){
+		var count=data.countLikeBoard;
+		
+		$("#countLikeBoard").html(count);
+	}, "json");
+}
+
+//게시물 좋아요 추가
+function login() {
+	location.href="<%=cp%>/member/login.do";
+}
+
+function sendLikeBoard(num) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return;
+	}
+
+	msg="게시물에 공감하십니까 ?";
+	if(! confirm(msg))
+		return;
+	
+	var query="num="+num;
+
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/health/insertLikeBoardN.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				countLikeBoard(num);
+			} else if(state=="false") {
+				alert("좋아요는 한번만 가능합니다. !!!");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
 </script>
 
 </head>	
@@ -74,9 +123,14 @@ function updateNotice(num) {
 	                     </tr>
 	                     <tr>
 	                         <td colspan="2" style="min-height: 30px; text-align:center;" >
-	                         		<button class="btn">
+	                         		<button class="btn" onclick="sendLikeBoard('${dto.bbs_num}')">
 	                         		<span class="glyphicon glyphicon-star"></span><br>
-	                              	추천
+	                         		<c:if test="${empty countLikeBoard} ">
+	                         			<span id="countLikeBoard">0</span>
+	                         		</c:if>
+	                         		
+	                         		<span id="countLikeBoard">${countLikeBoard}</span>
+	                       				
 	                         		</button>
 	                         </td>
 	                     </tr>
@@ -87,9 +141,7 @@ function updateNotice(num) {
 	                		        <button type="button" class="btn" onclick="updateNotice(${dto.bbs_num});">수정</button>
 	                		        <button type="button" class="btn" onclick="deleteNotice(${dto.bbs_num});">삭제</button>
 	                		        <br><br>
-	                		    <pre>댓글1</pre>
-	                		    <pre>댓글2</pre>
-	                		    <pre>댓글3</pre>
+	                		    
 	                		</td>
 	                		<td align="right">
 	                		    <button type="button" class="btn"

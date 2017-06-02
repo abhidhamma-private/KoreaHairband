@@ -13,6 +13,56 @@ function article(num) {
 	location.href=url;
 }
 
+//좋아요
+
+//게시물 좋아요 개수
+function countLikeBoard(num) {
+	var url="<%=cp%>/health/countLikeBoardN.do";
+	$.post(url, {num:num}, function(data){
+		var count="좋아요 " + data.countLikeBoard;
+		
+		$("#countLikeBoard"+num).html(count);
+	}, "json");
+}
+
+//게시물 좋아요 추가
+function login() {
+	location.href="<%=cp%>/member/login.do";
+}
+
+function sendLikeBoard(num) {
+	var uid="${sessionScope.member.mem_Id}";
+	if(! uid) {
+		login();
+		return;
+	}
+
+	msg="게시물에 공감하십니까 ?";
+	if(! confirm(msg))
+		return;
+	
+	var query="num="+num;
+
+	$.ajax({
+		type:"post"
+		,url:"<%=cp%>/health/insertLikeBoardN.do"
+		,data:query
+		,dataType:"json"
+		,success:function(data) {
+			var state=data.state;
+			if(state=="true") {
+				countLikeBoard(num);
+			} else if(state=="false") {
+				alert("좋아요는 한번만 가능합니다. !!!");
+			} else if(state=="loginFail") {
+				login();
+			}
+		}
+		,error:function(e) {
+			console.log(e.responseText);
+		}
+	});
+}
 </script>
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
@@ -22,7 +72,7 @@ function article(num) {
 <body>
 
 <!-- header -->
-<div style="width: 900px; margin: 0px 593px 0px;">
+<div style="width: 900px; margin: 0px auto;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 <br><br>
@@ -60,7 +110,11 @@ function article(num) {
 		                        <td width="80%" colspan="5">
 			                        <ol class="breadcrumb" style="float:right;">
 									  <li><a href="#">날짜 ${dto.created}</a></li>
-									  <li><a href="#">좋아요</a></li>
+									  <li>
+									  
+									  <a id="countLikeBoard${dto.bbs_num}" href="javascript:sendLikeBoard('${dto.bbs_num}')">좋아요 ${dto.likeCount} </a>
+									  
+									  </li>
 									  <li class="active">조회수 ${dto.hitcount}</li>
 									</ol>
 									
@@ -81,7 +135,7 @@ function article(num) {
 			
 			<div style="clear: both; width:900px;">
 	        		<div style="float: left; width: 20%; min-width: 85px;">
-	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/board.do';">전체목록</button>
+	        		    <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/health/notice.do';">전체목록</button>
 	        		</div>
 	        		
 	        		<div style="float: right; width: 20%; min-width: 85px; text-align: right;">
@@ -96,21 +150,6 @@ function article(num) {
 					
 					
 			</div>
-	        
-	        
-	        
-	        <div style="width: 60%; text-align: center; margin: 0 auto;">
-	        		     <form name="searchForm" method="post" class="form-inline">
-							  <select class="form-control input-sm" name="searchKey">
-							      <option value="subject">제목</option>
-							      <option value="userName">작성자</option>
-							      <option value="content">내용</option>
-							      <option value="created">등록일</option>
-							  </select>
-							  <input type="text" class="form-control input-sm input-search" name="searchValue">
-							  <button type="button" class="btn" onclick="searchList();"><span class="glyphicon glyphicon-search"></span> 검색</button>
-	        		     </form>
-	        		</div>
 	   		 </div><br>
 	   		
 <!-- footer -->

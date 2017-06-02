@@ -17,12 +17,23 @@ function article(num) {
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+
+<style type="text/css">
+.list-group{
+border-radius:0;
+}
+.list-group-item {
+border-top-right-radius:0;
+border-top-left-radius:0;
+}
+</style>
+
 </head>
 
 <body>
 
 <!-- header -->
-<div style="width: 900px; margin: 0px 600px 0px;">
+<div style="width: 900px; margin: 0px auto;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
 </div>
 <br><br>

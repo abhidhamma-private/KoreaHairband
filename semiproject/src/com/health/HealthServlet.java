@@ -44,7 +44,7 @@ public class HealthServlet extends MyServlet {
 
 		// 이미지저장경로
 		String root = session.getServletContext().getRealPath("/");
-		pathname = root + "uploads" + File.separator + "photo";
+		pathname = root + "uploads" + File.separator + "semi";
 		File f = new File(pathname);
 		if (!f.exists())
 			f.mkdirs();
@@ -64,6 +64,12 @@ public class HealthServlet extends MyServlet {
 			updateSubmit(req, resp);
 		} else if (uri.indexOf("delete.do") != -1) {
 			delete(req, resp);
+		} else if(uri.indexOf("countLikeBoardN.do")!=-1) {
+			// 게시물 공감 개수
+			countLikeBoardN(req, resp);
+		} else if(uri.indexOf("insertLikeBoardN.do")!=-1) {
+			// 게시물 공감 저장
+			insertLikeBoardN(req, resp);
 		}
 
 		// board
@@ -131,7 +137,7 @@ public class HealthServlet extends MyServlet {
 				resp.setContentType("text/html;charset=utf-8");
 				PrintWriter out=resp.getWriter();
 				out.print(job.toString());
-				System.out.println(job.toString());
+				
 	}
 	
 	protected void listReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -555,7 +561,10 @@ public class HealthServlet extends MyServlet {
 			resp.sendRedirect(cp + "/health/list.do?page=" + page);
 			return;
 		}
-
+		dao.updatehitCount(num);
+		
+		int countLikeBoard = dao.countLikeBoard(num);
+		req.setAttribute("countLikeBoard", countLikeBoard);
 		req.setAttribute("dto", dto);
 		req.setAttribute("page", page);
 
@@ -656,6 +665,44 @@ public class HealthServlet extends MyServlet {
 		dao.deleteNotice(num);
 
 		resp.sendRedirect(cp + "/health/notice.do?page=" + page);
+	}
+	
+	private void countLikeBoardN(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 공감 개수
+		noticeDAO dao = new noticeDAO();
+		int num = Integer.parseInt(req.getParameter("num"));
+		int countLikeBoard=dao.countLikeBoard(num);
+		JSONObject job=new JSONObject();
+		job.put("countLikeBoard", countLikeBoard);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
+	}
+	
+	private void insertLikeBoardN(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 게시물 공감 저장
+		HttpSession session=req.getSession();
+		SessionInfo info=(SessionInfo)session.getAttribute("member");
+		noticeDAO dao = new noticeDAO();
+		
+		String state="false";
+		if(info==null) {
+			state="loginFail";
+		} else {
+			int num = Integer.parseInt(req.getParameter("num"));
+
+			int result=dao.insertLikeBoard(num, info.getMem_Id());
+			if(result==1)
+				state="true";
+		}
+		
+		JSONObject job=new JSONObject();
+		job.put("state", state);
+		
+		resp.setContentType("text/html;charset=utf-8");
+		PrintWriter out=resp.getWriter();
+		out.print(job.toString());
 	}
 	
 	

@@ -3,6 +3,7 @@ package com.health;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -63,8 +64,9 @@ public class noticeDAO {
 		try {
 			sql = "		SELECT * FROM (" + " 	SELECT ROWNUM rnum, tb.* FROM("
 					+ " 		SELECT H2.mem_id, F2.bbs_num, savefilename, subject, content "
-					+ " 		,TO_CHAR(created, 'yy/mm/dd hh24:mi:ss') created, hitcount "
+					+ " 		,TO_CHAR(created, 'yy/mm/dd hh24:mi:ss') created, hitcount, NVL(likeCount, 0) likeCount "
 					+ " 		FROM health2 H2 JOIN health2_file F2 ON H2.BBS_NUM = F2.BBS_NUM "
+					+"          LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health2_Like GROUP BY BBS_NUM) lc ON h2.bbs_num = lc.bbs_num "
 					+ " 		ORDER BY bbs_num DESC " + "		) tb WHERE ROWNUM<= ?" + ") WHERE rnum >=?";
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, end);
@@ -80,6 +82,8 @@ public class noticeDAO {
 				dto.setContent(rs.getString("content"));
 				dto.setCreated(rs.getString("created"));
 				dto.setHitcount(rs.getInt("hitcount"));
+				dto.setLikeCount(rs.getShort("likeCount"));
+				
 
 				list.add(dto);
 			}
@@ -201,5 +205,70 @@ public class noticeDAO {
 		}
 		return result;
 	}
+	
+	// 게시물의 공감 추가
+			public int insertLikeBoard(int num, String userId) {
+				int result=0;
+				PreparedStatement pstmt = null;
+				String sql;
+				
+				sql="INSERT INTO health2_Like(bbs_num, mem_Id) VALUES (?, ?)";
+				try {
+					pstmt = conn.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					pstmt.setString(2, userId);
+					result = pstmt.executeUpdate();
+					
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				} finally {
+					if(pstmt!=null) {
+						try {
+							pstmt.close();
+						} catch (SQLException e) {
+						}
+					}
+				}		
+				return result;
+			}
+			
+			// 게시물의 공감 개수
+			public int countLikeBoard(int num) {
+				int result=0;
+				PreparedStatement pstmt=null;
+				ResultSet rs=null;
+				String sql;
+				
+				try {
+					sql="SELECT NVL(COUNT(*), 0) FROM health2_Like WHERE bbs_num=?";
+					pstmt=conn.prepareStatement(sql);
+					pstmt.setInt(1, num);
+					
+					rs=pstmt.executeQuery();
+					if(rs.next())
+						result=rs.getInt(1);
+					
+				} catch (Exception e) {
+					System.out.println(e.toString());
+				} finally {
+					if(rs!=null) {
+						try {
+							rs.close();
+						} catch (SQLException e) {
+						}
+					}
+						
+					if(pstmt!=null) {
+						try {
+							pstmt.close();
+						} catch (SQLException e) {
+						}
+					}
+				}
+				
+				return result;
+			}
+	
+	
 
 }
