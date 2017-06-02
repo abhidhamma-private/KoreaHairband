@@ -20,7 +20,7 @@ public class NoticeDAO {
 		try {
 			sb.append("INSERT INTO notice( ");
 			sb.append("	not_num, notice, mem_id, subject, content, hitcount) ");
-			sb.append("	VALUES(noice_seq.NEXTVAL, ?, ?, ?, ?, ?)");
+			sb.append("	VALUES(notice_seq.NEXTVAL, ?, ?, ?, ?, ?)");
 			
 			pstmt=conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, dto.getNotice());
@@ -30,7 +30,6 @@ public class NoticeDAO {
 			pstmt.setInt(5, dto.getHitCount());
 			
 			result = pstmt.executeUpdate();
-			pstmt.close();
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -241,11 +240,11 @@ public class NoticeDAO {
 		
 		try {
 			sb.append("   SELECT not_num, n.mem_id, mem_name");
-			sb.append("            ,subject  hitCount");
-			sb.append("            ,TO_CHAR(created, 'YYYY-MM-DD') created");
-			sb.append("         FROM notice  n JOIN member m ON n.mem_id=m.mem_id");
+			sb.append("            ,subject , hitCount ");
+			sb.append("            ,created ");
+			sb.append("         FROM notice n JOIN member m ON n.mem_id=m.mem_id");
 			sb.append("         WHERE notice=1 ");
-			sb.append("	      ORDER BY num DESC");
+			sb.append("	      ORDER BY not_num DESC");
 
 			pstmt=conn.prepareStatement(sb.toString());
 			
@@ -282,7 +281,7 @@ public class NoticeDAO {
 	}
 	
 	//게시글 읽기
-	public NoticeDTO readNotice(int num) {
+	public NoticeDTO readNotice(int not_num) {
 		NoticeDTO dto = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
@@ -293,17 +292,18 @@ public class NoticeDAO {
 		
 		try {
 			pstmt = conn.prepareStatement(sql);
-			pstmt.setInt(1, num);
+			pstmt.setInt(1, not_num);
 			
 			rs = pstmt.executeQuery();
 			
 			if( rs.next()) {
 				dto = new NoticeDTO();
-				dto.setNot_num(rs.getInt("not_num"));;
+				dto.setNot_num(rs.getInt("not_num"));
 				dto.setNotice(rs.getInt("notice"));
 				dto.setMem_id(rs.getString("mem_id"));
 				dto.setMem_name(rs.getString("mem_name"));
 				dto.setSubject(rs.getString("subject"));
+				dto.setContent(rs.getString("content"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
 			}
@@ -328,7 +328,7 @@ public class NoticeDAO {
 	}
 	
     // 이전글
-    public NoticeDTO preReadNotice(int num, String searchKey, String searchValue) {
+    public NoticeDTO preReadNotice(int not_num, String searchKey, String searchValue) {
     	NoticeDTO dto=null;
 
         PreparedStatement pstmt=null;
@@ -346,28 +346,28 @@ public class NoticeDAO {
                 	sb.append("     WHERE (INSTR(" + searchKey + ", ?) >= 1)  ");
                 }
                 sb.append("         AND (not_num > ? ) ");
-                sb.append("         ORDER BY num ASC ");
+                sb.append("         ORDER BY not_num ASC ");
                 sb.append("      ) tb WHERE ROWNUM=1 ");
 
                 pstmt=conn.prepareStatement(sb.toString());
                 pstmt.setString(1, searchValue);
-                pstmt.setInt(2, num);
+                pstmt.setInt(2, not_num);
 			} else {
                 sb.append("SELECT ROWNUM, tb.* FROM ( ");
                 sb.append("     SELECT not_num, subject FROM notice n JOIN member m ON n.mem_id=m.mem_id ");                
                 sb.append("     WHERE not_num > ? ");
-                sb.append("         ORDER BY num ASC ");
+                sb.append("         ORDER BY not_num ASC ");
                 sb.append("      ) tb WHERE ROWNUM=1 ");
 
                 pstmt=conn.prepareStatement(sb.toString());
-                pstmt.setInt(1, num);
+                pstmt.setInt(1, not_num);
 			}
 
             rs=pstmt.executeQuery();
 
             if(rs.next()) {
                 dto=new NoticeDTO();
-                dto.setNot_num(rs.getInt("num"));
+                dto.setNot_num(rs.getInt("not_num"));
                 dto.setSubject(rs.getString("subject"));
             }
             rs.close();
@@ -398,7 +398,7 @@ public class NoticeDAO {
                 	sb.append("     WHERE (INSTR(" + searchKey + ", ?) >= 1)  ");
                 }
                 sb.append("         AND (not_num < ? ) ");
-                sb.append("         ORDER BY num DESC ");
+                sb.append("         ORDER BY not_num DESC ");
                 sb.append("      ) tb WHERE ROWNUM=1 ");
 
                 pstmt=conn.prepareStatement(sb.toString());
@@ -408,7 +408,7 @@ public class NoticeDAO {
                 sb.append("SELECT ROWNUM, tb.* FROM ( ");
                 sb.append("     SELECT not_num, subject FROM notice n JOIN member m ON n.mem_id=m.mem_id ");
                 sb.append("     WHERE not_num < ? ");
-                sb.append("         ORDER BY num DESC ");
+                sb.append("         ORDER BY not_num DESC ");
                 sb.append("      ) tb WHERE ROWNUM=1 ");
 
                 pstmt=conn.prepareStatement(sb.toString());

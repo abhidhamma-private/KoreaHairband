@@ -18,7 +18,7 @@
 <script type="text/javascript">
 
 function countLike(bbs_num) {
-	var url="<%=cp%>/pet/petInfo/pet_likecnt.do";
+	var url="<%=cp%>/pet/petTalk/pet_likecnt.do";
 	$.post(url, {bbs_num:bbs_num}, function(data){
 		var count=data.countLike;
 		
@@ -37,7 +37,7 @@ function updateLike(bbs_num) {
 
 	$.ajax({
 		type:"post"
-		,url:"<%=cp%>/pet/petInfo/pet_like.do"
+		,url:"<%=cp%>/pet/petTalk/pet_like.do"
 		,data:query
 		,dataType:"json"
 		,success:function(data) {
@@ -164,6 +164,9 @@ function deleteReply(reply_num, page) {
 }
 
 </script>
+<style type="text/css">
+.td_cont img{max-width:900px}
+</style>
 </head>
 <body>
 
@@ -194,9 +197,14 @@ function deleteReply(reply_num, page) {
 					<td align="left" style="padding-left: 5px;">이름 :
 						${dto.mem_name}</td>
 				</tr>
+
+				<tr>
+					  <td class="td_cont" colspan="3" align="left" style="padding: 10px 5px;" valign="top" height="200">
+          					 ${dto.content }
+            		  </td>
+				</tr>
 				<tr height="35" style="border-bottom: 1px solid #cccccc;">
 					<td colspan="2" align="center" style="padding-left: 5px;">
-
 						<button type="button" class="btn btn-default btn-sm wbtn"
 							style="background: white; border: 0px;"
 							onclick="updateLike('${dto.bbs_num}')">
@@ -206,11 +214,6 @@ function deleteReply(reply_num, page) {
 						</button>
 					</td>
 				</tr>
-				<tr>
-					<td colspan="3" align="left" style="padding: 10px 5px;"
-						valign="top" height="200">${dto.content }</td>
-				</tr>
-
 				<tr>
 					<td colspan="3" height="1" bgcolor="#cccccc"></td>
 				</tr>
@@ -237,16 +240,12 @@ function deleteReply(reply_num, page) {
 					</td>
 				</tr>
 				<tr>
-					<td>
-						<%-- <button type="button" class="btn"
-							onclick="javascript:location.href='<%=cp%>/pet/petTalk/reply.do?bbs_num=${dto.bbs_num}&page=${page}';">답변</button> --%>
-						<c:if test="${sessionScope.member.mem_Id==dto.mem_id}">
+					<td><c:if test="${sessionScope.member.mem_Id==dto.mem_id}">
 							<button type="button" class="btn" onclick="updateBoard();">수정</button>
 						</c:if> <c:if
 							test="${sessionScope.member.mem_Id==dto.mem_id || sessionScope.member.mem_Id=='admin'}">
 							<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
-						</c:if>
-					</td>
+						</c:if></td>
 					<td align="right">
 						<button type="button" class="btn btn-default btn-sm wbtn"
 							onclick="javascript:location.href='<%=cp%>/pet/petTalk/list.do?${query}';">

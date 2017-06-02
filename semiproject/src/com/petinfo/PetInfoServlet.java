@@ -50,7 +50,7 @@ public class PetInfoServlet extends MyServlet {
 		
 		
 		String root=session.getServletContext().getRealPath("/");
-		pathname=root+File.separator+"uploads"+File.separator+"fashion";
+		pathname=root+File.separator+"uploads"+File.separator+"semi";
 		File f=new File(pathname);
 		if(! f.exists()) { // 폴더가 존재하지 않으면
 			f.mkdirs();
@@ -143,7 +143,7 @@ public class PetInfoServlet extends MyServlet {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		long gap;
 		Date date = new Date();
-		int listNum, n=0;
+		int listNum, n=0;	
 		Iterator<PetinfoDTO> it = list.iterator();
 		while(it.hasNext()){
 			PetinfoDTO dto = it.next();

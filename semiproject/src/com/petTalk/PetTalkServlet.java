@@ -50,7 +50,7 @@ public class PetTalkServlet extends MyServlet {
 		
 		
 		String root=session.getServletContext().getRealPath("/");
-		pathname=root+File.separator+"uploads"+File.separator+"fashion";
+		pathname=root+File.separator+"uploads"+File.separator+"semi";
 		File f=new File(pathname);
 		if(! f.exists()) { // 폴더가 존재하지 않으면
 			f.mkdirs();

@@ -1,8 +1,9 @@
 package com.notice;
 
 public class NoticeDTO {
-	private int not_num, notice, hitCount ;
+	private int not_num, notice, hitCount, listNum;
 	private String mem_id, mem_name, subject, content, created;
+	private long gap;
 	public int getNot_num() {
 		return not_num;
 	}
@@ -50,6 +51,18 @@ public class NoticeDTO {
 	}
 	public void setCreated(String created) {
 		this.created = created;
+	}
+	public int getListNum() {
+		return listNum;
+	}
+	public void setListNum(int listNum) {
+		this.listNum = listNum;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
 	}
 	
 }
