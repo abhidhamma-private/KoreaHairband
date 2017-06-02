@@ -506,6 +506,7 @@ public class PetTalkDAO {
 		List<PetTalkDTO> listNotice = new ArrayList<PetTalkDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		PetTalkDAO dao = new PetTalkDAO();
 		StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
@@ -527,6 +528,8 @@ public class PetTalkDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
+				dto.setLike(dao.countLike(dto.getBbs_num()));
+				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
 
 				listNotice.add(dto);
 			}

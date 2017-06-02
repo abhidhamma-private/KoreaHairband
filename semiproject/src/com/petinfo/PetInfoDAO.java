@@ -510,6 +510,7 @@ public class PetInfoDAO {
 		List<PetinfoDTO> listNotice = new ArrayList<PetinfoDTO>();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		PetInfoDAO dao = new PetInfoDAO();
 		StringBuffer sb = new StringBuffer();
 		try {
 			sb.append("		SELECT bbs_num, p.mem_id, mem_name, category, subject, hitCount,	");
@@ -531,6 +532,9 @@ public class PetInfoDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setCreated(rs.getString("created"));
+				dto.setLike(dao.countLike(dto.getBbs_num()));
+				dto.setReply(dao.dataCountReply(dto.getBbs_num()));
+
 
 				listNotice.add(dto);
 			}
@@ -613,7 +617,7 @@ public class PetInfoDAO {
 		return result;
 	}
 
-	// 게시물의 댓글 및 답글 추가
+	// 게시물의 댓글  추가
 	public int insertReply(PetReplyDTO dto) {
 		int result = 0;
 		PreparedStatement pstmt = null;

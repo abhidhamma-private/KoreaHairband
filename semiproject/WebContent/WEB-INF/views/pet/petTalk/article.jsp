@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자유게시판 (${dto.subject })</title>
+<title>동물자유게시판 - ${dto.subject}</title>
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
@@ -162,124 +162,194 @@ function deleteReply(reply_num, page) {
 		}, "json");
 	}
 }
+/* 레이어를 닫아준다. */
+function closeLayer( obj ) {
+	$(obj).parent().hide();
+}
+
+$(function(){
+	/* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
+	$('.popupSelect').click(function(e)
+	{
+		var mem_Id = $(this).attr("data-id"); //값을 받아오는 태그
+		
+		$("#popupID").html(mem_Id);
+		<%-- $("#popupInfo").attr("href", "<%=cp%>/member/infopage.do") --%>
+
+		var sWidth = window.innerWidth;
+		var sHeight = window.innerHeight;
+
+		var oWidth = $('.popupLayer').width();
+		var oHeight = $('.popupLayer').height();
+
+		// 레이어가 나타날 위치를 셋팅한다.
+		var divLeft = e.clientX - 470;
+		var divTop = e.clientY;
+
+		// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+		if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+		if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+		// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+		if( divLeft < 0 ) divLeft = 0;
+		if( divTop < 0 ) divTop = 0;
+
+		$('.popupLayer').css({
+			"top": divTop,
+			"left": divLeft,
+			"position": "absolute"
+		}).show();
+	});
+
+});
+
+function moveinfo(){
+    var f=document.popup;  //폼 name
+    var mem_Id = $('#popupID').html();
+    f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
+    f.action="<%=cp%>/member/infopage.do";  //이동할 페이지
+    f.method="post";  //POST방식
+    f.submit();
+}
+
+function movemsg(){
+    var f=document.popup;  //폼 name
+    var mem_Id = $('#popupID').html();
+    var returnpage = "/pet/petTalk/list.do";
+    f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은  
+    f.returnpage.value = returnpage;  //POST방식으로 넘기고 싶은  
+    f.action="<%=cp%>/message/m_created.do?page="+${page};  //이동할 페이지
+    f.method="post";  //POST방식
+    f.submit();
+}
 
 </script>
 <style type="text/css">
 .td_cont img{max-width:900px}
+
+.popupSelect {
+	cursor: pointer;
+}
+
+.popupLayer {
+	cursor: pointer;
+	position: absolute;
+	display: none;
+	background-color: #ffffff;
+	border: solid 2px #d0d0d0;
+	width: 100px;
+	height: 100px;
+	padding: 10px;
+}
 </style>
 </head>
 <body>
 
-	<div class="header">
-		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
-	</div>
-	<div class="f_container">
-		<div>
-			<table
-				style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
-				<tr>
-					<td colspan="3" height="1" bgcolor="#cccccc"></td>
-				</tr>
-
-				<tr height="50">
-					<td width="55%" align="left" style="padding-left: 5px;">
-						[${dto.category}]${dto.subject}</td>
-					<td width="30%" align="right" style="padding-right: 5px;">
-						${dto.created} <i></i>조회수 : ${dto.hitCount}
-					</td>
-
-				</tr>
-				<tr>
-					<td colspan="3" height="1" bgcolor="#cccccc"></td>
-				</tr>
-
-				<tr height="25">
-					<td align="left" style="padding-left: 5px;">이름 :
-						${dto.mem_name}</td>
-				</tr>
-
-				<tr>
-					  <td class="td_cont" colspan="3" align="left" style="padding: 10px 5px;" valign="top" height="200">
-          					 ${dto.content }
-            		  </td>
-				</tr>
-				<tr height="35" style="border-bottom: 1px solid #cccccc;">
-					<td colspan="2" align="center" style="padding-left: 5px;">
-						<button type="button" class="btn btn-default btn-sm wbtn"
-							style="background: white; border: 0px;"
-							onclick="updateLike('${dto.bbs_num}')">
-							<img style="display: block; margin-bottom: 5px;"
-								src="<%=cp%>/resource/img/like.png"><span
-								style="display: block" id="countLike">${countLike}</span>
-						</button>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" height="1" bgcolor="#cccccc"></td>
-				</tr>
-
-				<tr height="35" style="border-bottom: 1px solid #cccccc;">
-					<td colspan="2" align="left" style="padding-left: 5px;">이전글 :
-						<c:if test="${not empty preRead }">
-							<a
-								href="<%=cp%>/pet/petTalk/article.do?${query}&bbs_num=${preRead.bbs_num}">${preRead.subject}</a>
-						</c:if>
-
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3" height="1" bgcolor="#cccccc"></td>
-				</tr>
-				<tr height="35" style="border-bottom: 1px solid #cccccc;">
-					<td colspan="2" align="left" style="padding-left: 5px;">다음글 :
-						<c:if test="${not empty nextRead }">
-							<a
-								href="<%=cp%>/pet/petTalk/article.do?${query}&bbs_num=${nextRead.bbs_num}">${nextRead.subject}</a>
-						</c:if>
-
-					</td>
-				</tr>
-				<tr>
-					<td><c:if test="${sessionScope.member.mem_Id==dto.mem_id}">
-							<button type="button" class="btn" onclick="updateBoard();">수정</button>
-						</c:if> <c:if
-							test="${sessionScope.member.mem_Id==dto.mem_id || sessionScope.member.mem_Id=='admin'}">
-							<button type="button" class="btn" onclick="deleteBoard();">삭제</button>
-						</c:if></td>
-					<td align="right">
-						<button type="button" class="btn btn-default btn-sm wbtn"
-							onclick="javascript:location.href='<%=cp%>/pet/petTalk/list.do?${query}';">
-							전체목록</button>
-					</td>
-				</tr>
+<div class="header">
+    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
+</div>
+	
+<div class="container">
+    <div class="body-container" style="width: 900px;">
+        <div class="body-title">
+        </div>
+        
+        <form name="popup" method="post">
+		<div class="popupLayer">
+			<span id="popupID">ID가 나타날곳</span><br>
+			<hr>
+			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
+			<a href="javascript:void(0);" onclick="movemsg();"  id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
+			<span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+		</div>
+		<input type="hidden" name="mem_Id1" value="">
+		<input type="hidden" name="returnpage" value="">
+		</form>
+        
+        <div>
+			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			<tr height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="center">
+				    ${dto.subject}
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td width="50%" align="left" style="padding-left: 5px;">
+			       이름 : <a class="popupSelect" data-id="${dto.mem_id}">${dto.mem_name}</a>
+			    </td>
+			    <td width="50%" align="right" style="padding-right: 5px;">
+			        ${dto.created} | 조회 ${dto.hitCount}
+			    </td>
+			    
+			</tr>
+			
+			<tr>
+			  <td class="td_cont" colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			      ${dto.content}
+			   </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="center" style="padding-left: 5px;">
+			      <button type="button" class="btn btn-default btn-sm wbtn" style="background: white; border: 0px;" onclick="updateLike('${dto.bbs_num}')"><img style="display:block; margin-bottom:5px;" src="<%=cp%>/resource/img/like.png"><span style="display:block" id="countLike">${countLike}</span></button>
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			       이전글 :
+			         <c:if test="${not empty preRead}">
+			              <a href="<%=cp%>/pet/petTalk/article.do?${query}&bbs_num=${preRead.bbs_num}">${preRead.subject}</a>
+			        </c:if>
+			    </td>
+			</tr>
+			
+			<tr height="35" style="border-bottom: 1px solid #cccccc;">
+			    <td colspan="2" align="left" style="padding-left: 5px;">
+			    다음글 :
+			         <c:if test="${not empty nextRead}">
+			              <a href="<%=cp%>/pet/petTalk/article.do?${query}&bbs_num=${nextRead.bbs_num}">${nextRead.subject}</a>
+			        </c:if>
+			    </td>
+			</tr>
 			</table>
-		</div>
-	</div>
-
-	<div class="bbs-reply"
-		style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
-		<div class="bbs-reply-write" style="padding-left: 30px">
-			<div style="clear: both;">
-				<div style="float: left;">
-					<span style="font-weight: bold;">댓글쓰기</span> <span>- 타인을
-						비방하거나 개인정보를 유출하는 글의 게시를 삼가 주세요.</span>
-				</div>
-				<div style="float: right; text-align: right;"></div>
-			</div>
-			<div style="clear: both; padding-top: 10px;">
-				<textarea id="content" class="form-control" rows="3"
-					style="resize: none; width: 700px;"></textarea>
-			</div>
-			<div style="text-align: right; padding-top: 10px;">
-				<button type="button" class="btn btn-primary btn-sm"
-					onclick="sendReply();">
-					댓글등록 <span class="glyphicon glyphicon-ok"></span>
-				</button>
-			</div>
-		</div>
-
-		<div id="listReply"></div>
-	</div>
+			
+			<table style="width: 100%; margin: 0px auto 20px; border-spacing: 0px;">
+			<tr height="45">
+			    <td width="300" align="left">
+			       <c:if test="${sessionScope.member.mem_Id==dto.mem_id}">				    
+			          <button type="button" class="btn" onclick="updateBoard();">수정</button>
+			       </c:if>
+			       <c:if test="${sessionScope.member.mem_Id==dto.mem_id || sessionScope.member.mem_Id=='admin'}">				    
+			          <button type="button" class="btn" onclick="deleteBoard();">삭제</button>
+			       </c:if>
+			    </td>
+			
+			    <td align="right">
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/pet/petTalk/list.do?${query}';">리스트</button>
+			    </td>
+			</tr>
+			</table>
+        </div>
+		<div class="bbs-reply">
+	           <div class="bbs-reply-write">
+	               <div style="clear: both;">
+	           	       <div style="float: left;"><span style="font-weight: bold;">Comment</span><span> - 댓글 작성</span></div>
+	           	       <div style="float: right; text-align: right;"></div>
+	               </div>
+	               <div style="clear: both; padding-top: 10px;">
+	                   <textarea id="content" class="form-control" rows="5" style="width: 900px"></textarea>
+	               </div>
+	               <div style="text-align: right; padding-top: 10px;">
+	                   <button type="button" class="btn btn-primary btn-sm" onclick="sendReply();"> 댓글등록 <span class="glyphicon glyphicon-ok"></span></button>
+	               </div>           
+	           </div>
+	       
+	           <div id="listReply"></div>
+	       </div>
+    </div>
+</div>
 
 	<div class="footer">
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
