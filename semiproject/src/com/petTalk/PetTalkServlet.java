@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.member.MemberDAO;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -230,7 +231,9 @@ public class PetTalkServlet extends MyServlet {
 		dto.setContent(mreq.getParameter("content"));
 		
 		dao.insertBoard(dto);
-		
+		//글 작성시 10포인트 제공
+		MemberDAO mdao = new MemberDAO();
+		mdao.updatePoint(info.getMem_Id(), 10);
 		resp.sendRedirect(cp+"/pet/petTalk/list.do");
 	}
 
@@ -404,6 +407,9 @@ public class PetTalkServlet extends MyServlet {
 					int result=dao.insertReply(rdto);
 					if(result==1)
 						state="true";
+					//리플은 포인트 2점만 제공
+					MemberDAO mdao = new MemberDAO();
+					mdao.updatePoint(info.getMem_Id(), 2);
 				}
 				
 				JSONObject job=new JSONObject();
