@@ -214,4 +214,33 @@ public class MemberDAO {
 		}
 		return result;
 	}
+	
+	public int updatePoint(String mem_Id, int point) {
+		int result=0;
+		PreparedStatement pstmt=null;
+		String sql;
+		
+		try {
+			sql = " UPDATE member SET point = point + ? WHERE mem_Id = ? ";
+			
+			pstmt=conn.prepareStatement(sql);
+			
+			pstmt.setInt(1, point);
+			pstmt.setString(2, mem_Id);
+			
+			
+			result = pstmt.executeUpdate();
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if(pstmt!=null){
+				try {
+					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}
+		}
+		return result;
+	}
 }

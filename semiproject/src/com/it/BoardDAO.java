@@ -623,7 +623,7 @@ public class BoardDAO {
 		try {
 			sb.append("INSERT INTO it2_reply(reply_num, bbs_num, mem_Id, content) ");
 			sb.append(" VALUES (it2_reply_seq.NEXTVAL, ?, ?, ?)");
-
+			
 			pstmt = conn.prepareStatement(sb.toString());
 			pstmt.setInt(1, dto.getBbs_num());
 			pstmt.setString(2, dto.getMem_Id());

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.member.MemberDAO;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -237,7 +238,7 @@ public class ItServlet extends MyServlet{
 
 		NewsDAO dao = new NewsDAO();
 		NewsDTO dto = new NewsDTO();
-
+		
 		String encType="utf-8";
 		int maxFilesize=10*1024*1024;//10MB
 		
@@ -248,7 +249,11 @@ public class ItServlet extends MyServlet{
 		
 		// mem_Id는 세션에 저장된 정보
 		dto.setMem_Id(info.getMem_Id());
-
+		
+		// 포인트 추가(게시판은 10 / 댓글은 5)
+		MemberDAO mdao = new MemberDAO();
+		mdao.updatePoint(info.getMem_Id(), 10);
+		
 		// 파라미터
 		if(info.getMem_Id().equals("admin") && mreq.getParameter("notice")!=null){
 				dto.setCategory("공지");
@@ -414,6 +419,7 @@ public class ItServlet extends MyServlet{
 		String page = mreq.getParameter("page");
 
 		NewsDTO dto = new NewsDTO();
+		
 		dto.setMem_Id(info.getMem_Id());
 
 		dto.setSubject(mreq.getParameter("subject"));
@@ -424,7 +430,11 @@ public class ItServlet extends MyServlet{
 		dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
 
 		dao.insertNews(dto, "reply");
-
+		
+		// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+		MemberDAO mdao = new MemberDAO();
+		mdao.updatePoint(info.getMem_Id(), 5);
+		
 		resp.sendRedirect(cp + "/it/news.do?page=" + page);
 	}
 
@@ -549,8 +559,12 @@ public class ItServlet extends MyServlet{
 			rdto.setContent(req.getParameter("content"));
 
 			int result=dao.insertReply(rdto);
-			if(result==1)
+			if(result==1){
 				state="true";
+				// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+				MemberDAO mdao = new MemberDAO();
+				mdao.updatePoint(info.getMem_Id(), 2);
+			}
 		}
 		
 		JSONObject job=new JSONObject();
@@ -732,6 +746,9 @@ public class ItServlet extends MyServlet{
 		dto.setContent(mreq.getParameter("content"));
 
 		dao.insertBoard(dto, "created");
+		// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+		MemberDAO mdao = new MemberDAO();
+		mdao.updatePoint(info.getMem_Id(), 10);
 
 		resp.sendRedirect(cp + "/it/board.do");
 	}
@@ -897,6 +914,9 @@ public class ItServlet extends MyServlet{
 		dto.setParent(Integer.parseInt(mreq.getParameter("parent")));
 
 		dao.insertBoard(dto, "reply");
+		// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+		MemberDAO mdao = new MemberDAO();
+		mdao.updatePoint(info.getMem_Id(), 5);
 
 		resp.sendRedirect(cp + "/it/board.do?page=" + page);
 	}
@@ -1022,8 +1042,12 @@ public class ItServlet extends MyServlet{
 			rdto.setContent(req.getParameter("content"));
 
 			int result=dao.insertReply(rdto);
-			if(result==1)
+			if(result==1){
 				state="true";
+				// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+				MemberDAO mdao = new MemberDAO();
+				mdao.updatePoint(info.getMem_Id(), 2);
+			}
 		}
 		
 		JSONObject job=new JSONObject();
