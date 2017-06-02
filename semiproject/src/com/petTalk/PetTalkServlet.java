@@ -258,7 +258,7 @@ public class PetTalkServlet extends MyServlet {
 			resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 			return;
 		}
-		dto.setContent(util.htmlSymbols(dto.getContent()));
+		//dto.setContent(util.htmlSymbols(dto.getContent()));
 		
 		PetTalkDTO preRead = dao.preReadBoard(bbs_num, searchKey, searchValue);
 		PetTalkDTO nextRead = dao.nextReadBoard(bbs_num, searchValue, searchKey);

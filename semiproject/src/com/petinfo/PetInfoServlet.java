@@ -257,7 +257,7 @@ public class PetInfoServlet extends MyServlet {
 			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
 			return;
 		}
-		dto.setContent(util.htmlSymbols(dto.getContent()));
+		//dto.setContent(util.htmlSymbols(dto.getContent()));
 		
 		PetinfoDTO preRead = dao.preReadBoard(bbs_num, searchKey, searchValue);
 		PetinfoDTO nextRead = dao.nextReadBoard(bbs_num, searchValue, searchKey);
