@@ -9,7 +9,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>자유게시판 작성중...</title>
+<title>반려동물 정보공유 작성중...</title>
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
@@ -21,7 +21,7 @@
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 function sendOk(){
-	var f = document.infoCreateForm;
+	var f = document.talkCreateForm;
 	
 	var str = f.subject.value;
     if(!str) {
@@ -45,88 +45,85 @@ function sendOk(){
 <div class="header">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
-<div class="f_container">
+	
+<div class="container">
+    <div class="body-container" style="width: 900px;">
+        <div class="body-title">
+        </div>
+        
         <div>
-			<form name="infoCreateForm" id="boardForm" method="post" enctype="multipart/form-data">
-			  <table style="width: 900px; margin: 20px auto 0px; border-spacing: 0px;">
-			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
-			
-			  <tr align="left" height="40"> 
-			      <td width="100" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
+			<form name="talkCreateForm" id="boardForm" method="post" enctype="multipart/form-data">
+			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
+			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 			      <td style="padding-left:10px;"> 
-			          <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
+			        <input type="text" name="subject" maxlength="100" class="boxTF" style="width: 95%;" value="${dto.subject}">
 			      </td>
 			  </tr>
 			  <c:if test="${sessionScope.member.mem_Id=='admin'}">
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
-			      <td width="100" style="text-align: center;">공지여부</td>
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">공지여부</td>
 			      <td style="padding-left:10px;"> 
 			        <input type="checkbox" name="notice" value="1" ${dto.notice==1 ? "checked='checked' ":"" } > 공지
 			      </td>
 			  </tr>
 			  </c:if>
-			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
-
-			  <tr align="left" height="40"> 
-			      <td width="100" style="text-align: center;">작성자</td>
+	     	  <c:if test="${mode=='created'}">
+			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
-			       	${sessionScope.member.mem_Name}
-			      </td>
-			  </tr> 
-			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
-			  
-			    <tr align="left" height="40"> 
-			      <td width="100" style="text-align: center;">카테고리</td>
-			      <td style="padding-left:10px;"> 
-			       <select class="selectField" id="category" name="category" >
-                 	 <option value="일기">일기</option>
-                 	 <option value="질문">질문</option>
-                 	 <option value="분양">분양</option>
-                 	 <option value="중고거래">중고거래</option>
-                 	 <option value="기타">기타</option>
-                 	 <c:if test="${sessionScope.member.mem_Id=='admin'}">
-                 	 <option value="공지">공지</option>
-                 	 </c:if>
-          		  </select>
+			          <select name="category" class="selectField">
+			                  <option value="잡담">잡담</option>
+			                  <option value="질문">질문</option>
+			                  <option value="중고거래">중고거래</option>
+			                  <option value="무료나눔">무료나눔</option>
+			          </select>
 			      </td>
 			  </tr>
-			  
-			    <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
-			  
-	
-			  <tr align="left"> 
-			      <td width="100" style="text-align: center; padding-top:5px;" valign="top">설&nbsp;&nbsp;&nbsp;&nbsp;명</td>
-			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			          <textarea id="content" name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
+		      </c:if>
+			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
+			      <td style="padding-left:10px;"> 
+			          ${sessionScope.member.mem_Name}
 			      </td>
 			  </tr>
 			
-			  <tr><td colspan="2" height="1" bgcolor="#cccccc"></td></tr>
+			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
+			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
+			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
+			        <textarea id="content" name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
+			      </td>
+			  </tr>
 			  </table>
 			
-			  <table style="width:900px; margin: 0px auto; border-spacing: 0px;">
+			  <table style="width: 100%; margin: 0px auto; border-spacing: 0px;">
 			     <tr height="45"> 
 			      <td align="center" >
 			        <button type="button" id="save" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>
 			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/pet/petTalk/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
-
-					<c:if test="${mode=='update'}">
-					<!-- 히든으로 넘겨주는값들 ==>multipartRequest객체로받아야함-->
-					<input type="hidden" name="bbs_num" value="${dto.bbs_num}">
-					<input type="hidden" name="page" value="${page}">
-					<%-- <input type="hidden" name="imageFilename" value="${dto.imageFilename}"> --%>
-					</c:if>
-
-				  </td>
+			        
+			         <c:if test="${mode=='update'}">
+			         	 <input type="hidden" name="bbs_num" value="${dto.bbs_num}">
+			        	 <input type="hidden" name="page" value="${page}">
+			        </c:if>
+			        			        
+			        <c:if test="${mode=='reply'}">
+			        	<input type="hidden" name="groupNum" value="${dto.groupNum}">
+			        	<input type="hidden" name="orderNo" value="${dto.orderNo}">
+			        	<input type="hidden" name="depth" value="${dto.depth}">
+			        	<input type="hidden" name="parent" value="${dto.bbs_num}">
+			        	<input type="hidden" name="page" value="${page}">
+			        </c:if>
+			        
+			      </td>
 			    </tr>
 			  </table>
 			</form>
         </div>
 
-
+    </div>
 </div>
-
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
@@ -175,6 +172,8 @@ nhn.husky.EZCreator.createInIFrame({
      
     }
 }  */
+
+
 $("#save").click(function(){ 
 	oEditors.getById["content"].exec("UPDATE_CONTENTS_FIELD", [""]); 
 	$("#boardForm").submit(); 
@@ -183,13 +182,12 @@ $("#save").click(function(){
 
 // textArea에 이미지 첨부
 function pasteHTML(filepath){
-	var sHTML = '<img src="<%=cp%>/uploads/semi/'+filepath+'">';
+    var sHTML = '<img src="<%=cp%>/uploads/semi/'+filepath+'">';
     oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
 }
  
 </script>
-
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-ui.min.js"></script>
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery.ui.datepicker-ko.js"></script>
 </body>
-</html>	
+</html>

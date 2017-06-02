@@ -98,18 +98,6 @@ public class NoticeServlet extends MyServlet {
 		else
 			list = dao.listNotice(start, end);
 
-		// 공지글로 표시
-		List<NoticeDTO> listNotice = null;
-		// 1페이지에만 공지사항 출력
-		if (current_page == 1) {
-			listNotice = dao.listNotice();
-			Iterator<NoticeDTO> itNotice = listNotice.iterator();
-
-			while (itNotice.hasNext()) {
-				NoticeDTO dto = itNotice.next();
-				dto.setCreated(dto.getCreated().substring(0, 10));
-			}
-		}
 		/*
 		 * listNotice = dao.listNotice(); Iterator<NoticeDTO> itNotice =
 		 * listNotice.iterator();
@@ -160,7 +148,6 @@ public class NoticeServlet extends MyServlet {
 		String paging = util.paging(current_page, total_page, listUrl);
 
 		req.setAttribute("list", list);
-		req.setAttribute("listNotice", listNotice);
 		req.setAttribute("articleUrl", articleUrl);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("page", current_page);

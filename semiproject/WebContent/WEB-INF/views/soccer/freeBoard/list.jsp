@@ -41,9 +41,11 @@
         
         <div>
 			<table style="width: 870px; margin: 20px auto 0px; border-spacing: 0px;">
+			   <tr> <td align="right"> 게시물 총  ${dataCount }개 </td> </tr>
 			   <tr height="35">
 			      <td colspan="2" align="right">
-			      		${dataCount }개(현재 : ${page }페이지 / 전체 : ${total_page }페이지)
+			      		(현재 : ${page }페이지 / 전체 : ${total_page }페이지)
+			      	  <!--  
 					  <select id="rows" name="rows" class="selectField" onchange="selectList();">
 					  	  <option value="3"> 3개씩 보기 </option>
 						  <option value="5"> 5개씩 보기 </option>
@@ -51,6 +53,7 @@
 						  <option value="10"> 10개씩 보기 </option>
 						  <option value="15"> 15개씩 보기 </option>
 					  </select>
+					  -->
 				  </td>
 			   </tr>
 			</table>
@@ -64,24 +67,58 @@
 			      <th width="80" style="color: #787878;">작성일</th>
 			      <th width="60" style="color: #787878;">조회수</th>
 			  </tr>
+			  
+			  <c:forEach var="dto" items="${listNotice }">
+				  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
+				      <td>
+				           <span style="display: inline-block; width: 38px; height:18px; line-height:18px; background: #ED4C00; color: #FFFFFF;">공지</span>
+				      </td>
+				  	  <td>
+				  	  	  <c:if test="${dto.saveFilename != null}">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	  	  </c:if>
+				  	  	  
+				  	  	  <c:if test="${dto.saveFilename == null}">
+				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  </c:if>
+				  	  </td>
+				      <td align="left" style="padding-left: 10px;">
+				      	   <a href="${articleUrl }&bbs_num=${dto.bbs_num }">${dto.subject }</a>
+				      	   
+				      	   <c:if test="${dto.gap < 1 }">
+				      			<img src="<%= cp %>/resource/img/new.gif">
+				      	   </c:if>
+				      </td>
+				      <td>${dto.mem_Name }</td>
+				      <td>${dto.created }</td>
+				      <td>${dto.hitCount }</td>
+				  </tr>
+			  </c:forEach>
+			  <tr> <td height="1" colspan="6" bgcolor="#cccccc"></td> </tr>
 			 
 			  <c:forEach var="dto" items="${list }">
-			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
-			      <td> ${dto.listNum } </td>
-			  	  <td> <img src="<%=cp%>/uploads/files/${dto.saveFilename}" width="77" height="77" border="0"> </td>
-			      <td align="left" style="padding-left: 10px;">
-			      	   <c:forEach var="n" begin="1" end="${dto.depth }">
-			      	       &nbsp;
-			      	   </c:forEach>
-			      	   
-			      	   <c:if test="${dto.depth != 0 }"> ┖&nbsp; </c:if>
-			      
-			           <a href="${articleUrl }&bbs_num=${dto.bbs_num }">${dto.subject }</a>
-			      </td>
-			      <td>${dto.mem_Name }</td>
-			      <td>${dto.created }</td>
-			      <td>${dto.hitCount }</td>
-			  </tr>
+				  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
+				      <td> ${dto.listNum } </td>
+				  	  <td>
+				  	  	 <c:if test="${dto.saveFilename != null}">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	  	  </c:if>
+				  	  	  
+				  	  	  <c:if test="${dto.saveFilename == null}">
+				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  </c:if>
+				  	  </td>
+				      <td align="left" style="padding-left: 10px;">
+				      	   <a href="${articleUrl }&bbs_num=${dto.bbs_num }">${dto.subject }</a>
+				      	   
+				      	   <c:if test="${dto.gap < 1 }">
+				      			<img src="<%= cp %>/resource/img/new.gif">
+				      	   </c:if>
+				      </td>
+				      <td>${dto.mem_Name }</td>
+				      <td width="100">${dto.created }</td>
+				      <td>${dto.hitCount }</td>
+				  </tr>
 			  </c:forEach>
 			</table>
 			 

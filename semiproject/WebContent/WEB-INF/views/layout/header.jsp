@@ -39,38 +39,38 @@
 		<div class="header-menu">
 			<ul>
 				<li><a href='<%=cp%>/main.do'>홈</a></li>
-				<li class='active sub'><a href='<%=cp%>/soccer/board.do'>스포츠</a>
+				<li class='active sub'><a href='#'>축구</a>
 					<ul>
 						<li><a href='<%=cp%>/soccer/board.do'>자유게시판</a></li>
 						<li><a href='<%=cp%>/soccer/photo.do'>포토갤러리</a></li>
 					</ul></li>
 
-				<li class='active sub'><a href='<%=cp%>/health/board.do'>건강</a>
+				<li class='active sub'><a href='#'>건강</a>
 					<ul>
 						<li><a href='<%=cp%>/health/board.do'>자유게시판</a></li>
 						<li><a href='<%=cp%>/health/notice.do'>정보게시판</a></li>
 					</ul></li>
-				<li class='active sub'><a href='<%=cp%>/fashion/list2.do'>패션</a>
+				<li class='active sub'><a href='#'>패션</a>
 					<ul>
 						<li><a href='<%=cp%>/fashion/list2.do'>자유게시판</a></li>
 						<li><a href='<%=cp%>/fashion/list1.do'>중고거래</a></li>
 					</ul></li>
-				<li class='active sub'><a href='<%=cp%>/food/board.do'>푸드</a>
+				<li class='active sub'><a href='#'>푸드</a>
 					<ul>
 						<li><a href='<%=cp%>/food/board.do'>레시피요청</a></li>
 						<li><a href='<%=cp%>/food/photo.do'>레시피공유</a></li>
 					</ul></li>
-				<li class='active sub'><a href='<%=cp%>/pet/petTalk.do'>반려동물</a>
+				<li class='active sub'><a href='#'>반려동물</a>
 					<ul>
 						<li><a href='<%=cp%>/pet/petInfo/list.do'>정보공유</a></li>
 						<li><a href='<%=cp%>/pet/petTalk/list.do'>자유게시판</a></li>
 					</ul></li>
-				<li class='active sub'><a href='<%=cp%>/it/board.do'>IT</a>
+				<li class='active sub'><a href='#'>IT</a>
 					<ul>
 						<li><a href='<%=cp%>/it/news.do'>뉴스/신제품</a></li>
 						<li><a href='<%=cp%>/it/board.do'>자유게시판</a></li>
 					</ul></li>
-				<li class='active sub'><a href='<%=cp%>/notice/list.do'>고객센터</a>
+				<li class='active sub'><a href='#'>고객센터</a>
 					<ul>
 						<li><a href='<%=cp%>/notice/list.do'>공지사항</a></li>
 						<li><a href='<%=cp%>/ask/list.do'>자주묻는질문</a></li>

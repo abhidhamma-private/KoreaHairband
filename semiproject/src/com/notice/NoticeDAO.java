@@ -231,55 +231,6 @@ public class NoticeDAO {
 		return list;
 	}
 	
-	//공지글 리스트
-	public List<NoticeDTO> listNotice() {
-		List<NoticeDTO> list=new ArrayList<NoticeDTO>();
-		PreparedStatement pstmt=null;
-		ResultSet rs=null;
-		StringBuffer sb=new StringBuffer();
-		
-		try {
-			sb.append("   SELECT not_num, n.mem_id, mem_name");
-			sb.append("            ,subject , hitCount ");
-			sb.append("            ,created ");
-			sb.append("         FROM notice n JOIN member m ON n.mem_id=m.mem_id");
-			sb.append("         WHERE notice=1 ");
-			sb.append("	      ORDER BY not_num DESC");
-
-			pstmt=conn.prepareStatement(sb.toString());
-			
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				NoticeDTO dto=new NoticeDTO();
-				
-				dto.setNot_num(rs.getInt("not_num"));;
-				dto.setMem_id(rs.getString("mem_id"));
-				dto.setMem_name(rs.getString("mem_name"));
-				dto.setSubject(rs.getString("subject"));
-				dto.setHitCount(rs.getInt("hitCount"));
-				dto.setCreated(rs.getString("created"));
-				
-				list.add(dto);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if(pstmt!=null){
-				try {
-					pstmt.close();
-				} catch (Exception e2) {
-				}
-			}if(rs!=null){
-				try {
-					rs.close();
-				} catch (Exception e2) {
-				}
-			}
-		}
-		return list;
-	}
-	
 	//게시글 읽기
 	public NoticeDTO readNotice(int not_num) {
 		NoticeDTO dto = null;

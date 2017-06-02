@@ -257,7 +257,7 @@ public class PetInfoServlet extends MyServlet {
 			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
 			return;
 		}
-		dto.setContent(util.htmlSymbols(dto.getContent()));
+		//dto.setContent(util.htmlSymbols(dto.getContent()));
 		
 		PetinfoDTO preRead = dao.preReadBoard(bbs_num, searchKey, searchValue);
 		PetinfoDTO nextRead = dao.nextReadBoard(bbs_num, searchValue, searchKey);
@@ -320,10 +320,10 @@ public class PetInfoServlet extends MyServlet {
 		
 		String page = mreq.getParameter("page");
 		
-		if(req.getMethod().equals("GET")){
+		/*if(req.getMethod().equals("GET")){
 			resp.sendRedirect(cp+"/pet/petInfo/list.do?page="+page);
 			return;
-		}
+		}*/
 		PetinfoDTO dto = new PetinfoDTO();
 		dto.setMem_id(info.getMem_Id());
 		/*dto.setNotice(Integer.parseInt(req.getParameter("notice")));*/
