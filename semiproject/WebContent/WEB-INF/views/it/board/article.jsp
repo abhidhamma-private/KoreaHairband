@@ -106,6 +106,7 @@ function listPage(page) {
 	});
 }
 
+
 //댓글 추가
 function sendReply() {
 	var uid="${sessionScope.member.mem_Id}";
