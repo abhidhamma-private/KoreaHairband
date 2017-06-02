@@ -13,7 +13,7 @@ public class SCBoardDTO
 	// soccer1_file Field
 	private int file_num;
 	private String saveFilename, originalFilename;
-	private long fileSize;
+	private long fileSize, gap;
 	
 	
 	
@@ -136,5 +136,11 @@ public class SCBoardDTO
 	}
 	public void setOriginalFilename(String originalFilename) {
 		this.originalFilename = originalFilename;
+	}
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
 	}
 }

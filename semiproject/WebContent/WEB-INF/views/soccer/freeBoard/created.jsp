@@ -59,14 +59,14 @@
 	</div>
 
 	<div>
-	    <div style="width: 1000px;margin: 0px auto;" align="center">
-	        <div style="margin: 30px auto; width: 1000px;">
+	    <div style="width: 870px; margin: 0px auto;" align="center">
+	        <div style="margin: 30px auto; width: 870px;">
 	            <h3> 자유게시판(답변가능) 글 작성 </h3>
 	        </div>
 	        
 	        <div>
 				<form name="boardForm" method="post" enctype="multipart/form-data">
-				  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 1px; border-collapse: collapse;">
+				  <table style="width: 100%; margin: 20px auto 0px; border: 1px solid #cccccc; border-spacing: 1px; border-collapse: collapse;">
 				  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 				      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
 				      <td style="padding-left:10px;"> 
@@ -80,6 +80,18 @@
 				          ${sessionScope.member.mem_Name }
 				      </td>
 				  </tr>
+				  
+				  <c:if test="${sessionScope.member.mem_Id == 'admin' }">
+					  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
+					      <td width="100" bgcolor="#eeeeee" style="text-align: center;"> 공지 </td>
+					      <td style="padding-left:10px;"> 
+					          <select id="notice" name="notice" class="selectField">
+							  	  <option value="0"> 공지사항 설정 해제 </option>
+								  <option value="1"> 공지사항 설정 </option>
+							  </select>
+					      </td>
+					  </tr>
+				  </c:if>
 				
 				  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 				      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
@@ -104,7 +116,8 @@
 				        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/soccer/board.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 				      
 				      	<c:if test="${mode == 'update' }">
-				      		<input type="hidden" name="boardNum" value="${dto.bbs_num }">
+				      		<input type="hidden" name="bbs_num" value="${dto.bbs_num }">
+
 				      		<input type="hidden" name="page" value="${page }">
 				      		<input type="hidden" name="searchKey" value="${searchKey }">
 				      		<input type="hidden" name="searchValue" value="${searchValue }">
