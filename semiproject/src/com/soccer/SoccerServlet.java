@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.member.MemberDAO;
+import com.member.MemberDTO;
 import com.member.SessionInfo;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -334,6 +336,10 @@ public class SoccerServlet extends MyServlet
 		
 		dao.insertSCBoard(dto, "created");
 		
+		MemberDAO mdao = new MemberDAO();
+		MemberDTO mdto = mdao.readMember(info.getMem_Id());
+		mdto.setPoint(100);
+		
 		resp.sendRedirect(cp + "/soccer/board.do");
 	}
 	
@@ -625,6 +631,11 @@ public class SoccerServlet extends MyServlet
 			if(result == 1)
 				state = "true";
 		}
+		
+		/*
+		MemberDAO mdao = new MemberDAO();
+		MemberDTO mdto = mdao.readMember(info.getMem_Id());
+		*/
 		
 		JSONObject job = new JSONObject();
 		job.put("state", state);

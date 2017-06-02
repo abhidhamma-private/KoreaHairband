@@ -213,7 +213,7 @@
 			
 						<tr>
 						   <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-						      	<img src="<%=cp%>/uploads/files/${dto.saveFilename}" width="377" height="377" align="middle"><br>
+						      	<img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="377" height="377" align="middle"><br>
 						      	${dto.content }<br>
 						   </td>
 						</tr>

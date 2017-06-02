@@ -86,7 +86,7 @@
 			
 			<tr>
 			  <td class="td_cont" colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
-			      	<img src="<%=cp%>/uploads/files/${dto.imageFilename}" width="377" height="377"><br>
+			      	<img src="<%=cp%>/uploads/semi/${dto.imageFilename}" width="377" height="377"><br>
 			      	${dto.content }<br>
 			   </td>
 			</tr>
