@@ -19,39 +19,44 @@
 <script type="text/javascript"
 	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <style>
-#jb-container {
-	width: 940px;
+#profile-container {
+	width: 900px;
 	margin: 0px auto;
-	padding: 20px;
-	border: 1px solid #bcbcbc;
+	padding: 0px;
+	border: 0px;
 }
 
-#jb-header {
-	padding: 20px;
-	margin-bottom: 20px;
-	border: 1px solid #bcbcbc;
+#profile-header {
+	padding: 0px 10px 0px 10px;
+	text-align: center;
+	margin-bottom: 5px;
+	border: 0px;
 }
 
-#jb-content {
-	width: 580px;
-	padding: 20px;
-	margin-bottom: 20px;
-	float: left;
-	border: 1px solid #bcbcbc;
-}
-
-#jb-sidebar {
-	width: 260px;
-	padding: 20px;
+#profile-info {
+	width: 600px;
+	height: 320px;
+	padding: 0px 10px 10px 10px;
 	margin-bottom: 20px;
 	float: right;
-	border: 1px solid #bcbcbc;
+	border: 0px;
 }
 
-#jb-footer {
+#profile-photo {
+	width: 250px;
+	height: 320px;
+	padding: 0px 10px 10px 10px;
+	margin-bottom: 20px;
+	float: left;
+	border: 0px;
+}
+
+#profile-footer {
 	clear: both;
-	padding: 20px;
-	border: 1px solid #bcbcbc;
+	margin: auto;
+	text-align: center;
+	padding: 0px 10px 10px 10px;
+	border: 0;
 }
 </style>
 
@@ -60,19 +65,40 @@
 	<div class="header">
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
-	<div class="container" style="text-align: center;">
-		<h3>회원정보</h3>
-		<hr>
-		ID : ${dto.mem_Id}<br> 이름 : ${dto.mem_Name}<br> 프로필사진 : <br>
-		<c:if test="${dto.mem_img!=null}">
-			<img src="<%=cp%>/uploads/photo/${dto.mem_img}"
-				style="max-width: 150px; height: auto; resize: both;">
-		</c:if>
-		<br> 포인트 : ${dto.point}<br> 생일 : ${dto.birth}<br> 이메일 :
-		${dto.email}<br> 가입일 : ${dto.created_Date}<br>
 
-		<hr>
-		<br>
+	<div id="profile-container">
+		<div id="profile-header">
+			<h1>InfoPage</h1>
+		</div>
+		<div id="profile-photo">
+			<h2>Photo</h2>
+			<c:if test="${dto.mem_img!=null||dto.mem_img=='null'}}">
+				<img src="<%=cp%>/uploads/photo/${dto.mem_img}"
+					style="max-width: 250px; height: auto; resize: both;">
+			</c:if>
+			<c:if test="${dto.mem_img==null||dto.mem_img=='null'}">
+				<img src="<%=cp%>/resource/img/noimg.png"
+					style="max-width: 250px; height: auto; resize: both;">
+			</c:if>
+		</div>
+		<div id="profile-info">
+			<h2>Info</h2>
+			ID : ${dto.mem_Id}<br>
+			이름 : ${dto.mem_Name}<br>
+			포인트 : ${dto.point}<br>
+			생일 : ${dto.birth}<br>
+			이메일 : ${dto.email}<br>
+			가입일 : ${dto.created_Date}<br>
+			최근정보수정일 : ${dto.modify_Date}<br>
+			회원상태 :
+			<c:if test="${dto.enabled==1}">정상</c:if>
+			<c:if test="${dto.enabled==0}">활동정지</c:if>
+		</div>
+		<div id="profile-footer">
+			<a href="<%=cp%>/member/pwd.do?update"><span class="glyphicon glyphicon-update"></span> 정보수정</a>
+			<i></i>
+			<a href="<%=cp%>/member/pwd.do"><span class="glyphicon glyphicon-delete"></span> 회원탈퇴</a> <br>
+		</div>
 	</div>
 	<div class="footer">
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

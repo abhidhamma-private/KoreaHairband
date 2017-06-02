@@ -5,7 +5,7 @@
 	request.setCharacterEncoding("utf-8");
 	String cp = request.getContextPath();
 %>
-<div class="container">
+<div class="container" style="width: 900px">
 	<div id="page-header">
 		<div class="header-brand">
 			<a href="<%=cp%>/main.do"><img src="<%=cp%>/resource/img/toplogo.png"></a>
@@ -34,7 +34,7 @@
 	</div>
 </div>
 
-<div class="container">
+<div>
 	<div id="page-header-navi">
 		<div class="header-menu">
 			<ul>

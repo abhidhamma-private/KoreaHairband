@@ -1,7 +1,10 @@
 @CHARSET "UTF-8";
 
+* {
+  font-family: "Malgun Gothic", "맑은 고딕", NanumGothic, 나눔고딕, 돋움, sans-serif;
+}
+
 body {
-  font-family: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;
   background: #ffffff;
 }
 

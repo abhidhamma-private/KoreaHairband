@@ -53,9 +53,7 @@ border-radius:0;
 text-align: center;
 }
 
-h3 {
-border-bottom: 3px solid #337AB7;
-}
+
 
 .list-group-item {
 border-radius:0px;
@@ -83,8 +81,8 @@ line-height:10px;
 <!-- header -->
 <div style="width: 900px; margin: 0 auto;">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"/>
+	<jsp:include page="/WEB-INF/views/layout/slider.jsp"/>
 </div>
-
 <!-- main -->
 <div style="width: 900px; height: 330px; margin: 0 auto;">
 		<div id="left">
@@ -191,13 +189,7 @@ line-height:10px;
 
 
 
-<div style="width: 900px; height: 600px; margin: 0 auto;">
-	
-	
-	
-	<jsp:include page="/WEB-INF/views/layout/slider.jsp"/>
-	
-	<div style="border-top:3px solid #337AB7;">
+<div style="width: 900px; height: 330px; margin: 0 auto;">
 		<div id="right">
 			<!-- 전체인기글 -->
 			

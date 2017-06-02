@@ -1,10 +1,10 @@
 @CHARSET "UTF-8";
 
 body {
-  position: relative;
-  height: 44px;
-  background: #337AB7;
-  width: 900px;
-  height: 100px;
-  margin: auto;
+	position: relative;
+	height: 44px;
+	background: #337AB7;
+	width: 900px;
+	height: 100px;
+	margin: auto;
 }

@@ -28,6 +28,7 @@
 
 #profile-header {
 	padding: 0px 10px 0px 10px;
+	text-align: center;
 	margin-bottom: 5px;
 	border: 0px;
 }
@@ -52,8 +53,10 @@
 
 #profile-footer {
 	clear: both;
+	margin: auto;
+	text-align: center;
 	padding: 0px 10px 10px 10px;
-	border: 1px solid #bcbcbc;
+	border: 0;
 }
 </style>
 
@@ -65,7 +68,7 @@
 
 	<div id="profile-container">
 		<div id="profile-header">
-			<h1>마이페이지</h1>
+			<h1>MyPage</h1>
 		</div>
 		<div id="profile-photo">
 			<h2>Photo</h2>
@@ -80,24 +83,25 @@
 		</div>
 		<div id="profile-info">
 			<h2>Info</h2>
-			ID : ${dto.mem_Id}<br> 이름 : ${dto.mem_Name}<br>
-			<br> 포인트 : ${dto.point}<br> 생일 : ${dto.birth}<br> 이메일
-			: ${dto.email}<br> 연락처 : ${dto.tel}<br> 우편번호 : ${dto.zip}<br>
-			주소 : ${dto.addr1} ${dto.addr2 }<br> 가입일 : ${dto.created_Date}<br>
-			최근정보수정일 : ${dto.modify_Date}<br> 회원상태 :
+			ID : ${dto.mem_Id}<br>
+			이름 : ${dto.mem_Name}<br>
+			포인트 : ${dto.point}<br>
+			생일 : ${dto.birth}<br>
+			이메일 : ${dto.email}<br>
+			연락처 : ${dto.tel}<br>
+			우편번호 : ${dto.zip}<br>
+			주소 : ${dto.addr1} ${dto.addr2 }<br>
+			가입일 : ${dto.created_Date}<br>
+			최근정보수정일 : ${dto.modify_Date}<br>
+			회원상태 :
 			<c:if test="${dto.enabled==1}">정상</c:if>
 			<c:if test="${dto.enabled==0}">활동정지</c:if>
 		</div>
 		<div id="profile-footer">
-			<p>Copyright</p>
+			<a href="<%=cp%>/member/pwd.do?update"><span class="glyphicon glyphicon-update"></span> 정보수정</a>
+			<i></i>
+			<a href="<%=cp%>/member/pwd.do"><span class="glyphicon glyphicon-delete"></span> 회원탈퇴</a> <br>
 		</div>
-	</div>
-	<div class="container" style="text-align: center;">
-
-		<a href="<%=cp%>/member/pwd.do?update"><span
-			class="glyphicon glyphicon-update"></span> 정보수정</a> <i></i> <a
-			href="<%=cp%>/member/pwd.do"><span
-			class="glyphicon glyphicon-delete"></span> 회원탈퇴</a> <br>
 	</div>
 	<div class="footer">
 		<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
