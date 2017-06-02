@@ -1,9 +1,12 @@
 package com.it;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -14,6 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.member.SessionInfo;
+import com.oreilly.servlet.MultipartRequest;
+import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
@@ -23,6 +28,9 @@ import net.sf.json.JSONObject;
 public class ItServlet extends MyServlet {
 	private static final long serialVersionUID = 1L;
 
+	private SessionInfo info;
+	private String pathname;
+	
 	@Override
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
@@ -32,15 +40,23 @@ public class ItServlet extends MyServlet {
 		String cp = req.getContextPath();
 
 		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
+		info = (SessionInfo) session.getAttribute("member");
 		if (info == null) { // 로그인되지 않은 경우
 			resp.sendRedirect(cp + "/member/login.do");
 			return;
 		}
 
+		// 파일을 저장할 경로(pathname)
+		String root=session.getServletContext().getRealPath("/");
+		pathname=root+File.separator+"uploads"+File.separator+"semi";
+		File f=new File(pathname);
+		if(! f.exists()) {
+			f.mkdirs();
+		}
+		
 		// uri에 따른 작업
 		if (uri.indexOf("board.do") != -1) {
-			board(req, resp);
+			board_list(req, resp);
 		} else if (uri.indexOf("board_created.do") != -1) {
 			board_createdForm(req, resp);
 		} else if (uri.indexOf("board_created_ok.do") != -1) {
@@ -89,7 +105,7 @@ public class ItServlet extends MyServlet {
 		}
 	}
 
-	private void board(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	private void board_list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 리스트
 		String cp = req.getContextPath();
 		BoardDAO dao = new BoardDAO();
@@ -136,17 +152,36 @@ public class ItServlet extends MyServlet {
 			list = dao.listBoard(start, end);
 		else
 			list = dao.listBoard(start, end, searchKey, searchValue);
-
-		// 리스트 글번호 만들기
-		int listNum, n = 0;
+		// 공지글 가져오기
+		List<BoardDTO> listNotice=null;
+		//if(current_page==1){ -->공지글이 1페이지만 나오게 해줌
+		listNotice = dao.listNotice();
+		Iterator<BoardDTO> itNotice=listNotice.iterator();
+		while (itNotice.hasNext()) {
+			BoardDTO dto=itNotice.next();
+			dto.setCreated(dto.getCreated().substring(0, 10));
+		}
+		// new,리스트번호
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		long gap;
+		Date date = new Date();
+		int listNum, n=0;
 		Iterator<BoardDTO> it = list.iterator();
-		while (it.hasNext()) {
+		while(it.hasNext()){
 			BoardDTO dto = it.next();
-			listNum = dataCount - (start + n - 1);
+			listNum = dataCount- (start+n-1);
 			dto.setListNum(listNum);
+			try{
+				Date sDate = format.parse(dto.getCreated());
+				gap=(date.getTime()-sDate.getTime())/(60*60*1000); //60*60*1000 -> 1시간    .getTime -> 밀리세컨드
+				dto.setCreated(dto.getCreated().substring(0,10));
+				dto.setGap(gap);
+			}catch (Exception e) {
+				e.printStackTrace();
+			}
 			n++;
 		}
-
+		
 		String query = "";
 		if (searchValue.length() != 0) {
 			// 검색인 경우 검색값 인코딩
@@ -166,6 +201,7 @@ public class ItServlet extends MyServlet {
 
 		// 포워딩할 JSP로 넘길 속성
 		req.setAttribute("list", list);
+		req.setAttribute("listNotice", listNotice);
 		req.setAttribute("page", current_page);
 		req.setAttribute("dataCount", dataCount);
 		req.setAttribute("total_page", total_page);
@@ -186,21 +222,31 @@ public class ItServlet extends MyServlet {
 
 	private void board_createdSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 게시물 저장
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
 		String cp = req.getContextPath();
 
 		BoardDAO dao = new BoardDAO();
 		BoardDTO dto = new BoardDTO();
 
+		String encType="utf-8";
+		int maxFilesize=10*1024*1024;//10MB
+		
+		MultipartRequest mreq=new MultipartRequest(
+	    		req, pathname, maxFilesize, encType,
+	    		new DefaultFileRenamePolicy()
+	    		);
+		
 		// mem_Id는 세션에 저장된 정보
 		dto.setMem_Id(info.getMem_Id());
 
 		// 파라미터
-		dto.setCategory(req.getParameter("category"));
-		dto.setSubject(req.getParameter("subject"));
-		dto.setContent(req.getParameter("content"));
+		if(info.getMem_Id().equals("admin") && mreq.getParameter("notice")!=null){
+				dto.setCategory("공지");
+				dto.setNotice(Integer.parseInt(mreq.getParameter("notice")));
+		}else{
+			dto.setCategory(mreq.getParameter("category"));
+		}
+		dto.setSubject(mreq.getParameter("subject"));
+		dto.setContent(mreq.getParameter("content"));
 
 		dao.insertBoard(dto, "created");
 
@@ -235,7 +281,7 @@ public class ItServlet extends MyServlet {
 		}
 
 		int countLike = dao.countLike(bbs_num);
-		dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
+		//dto.setContent(dto.getContent().replaceAll("\n", "<br>"));
 		// 이전글 다음글
 		BoardDTO preReadDto = dao.preReadBoard(dto.getGroupNum(), dto.getOrderNo(), searchKey, searchValue);
 		BoardDTO nextReadDto = dao.nextReadBoard(dto.getGroupNum(), dto.getOrderNo(), searchKey, searchValue);
@@ -260,9 +306,6 @@ public class ItServlet extends MyServlet {
 
 	private void board_updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 폼
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
 		String cp = req.getContextPath();
 		BoardDAO dao = new BoardDAO();
 
@@ -291,23 +334,28 @@ public class ItServlet extends MyServlet {
 
 	private void board_updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 수정 완료
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
 		String cp = req.getContextPath();
 		BoardDAO dao = new BoardDAO();
 
-		String page = req.getParameter("page");
 
-		if (req.getMethod().equalsIgnoreCase("GET")) {
+		String encType="utf-8";
+		int maxFilesize=10*1024*1024;//10MB
+		
+	    MultipartRequest mreq=new MultipartRequest(
+	    		req, pathname, maxFilesize, encType,
+	    		new DefaultFileRenamePolicy()
+	    		);
+		
+	    String page = mreq.getParameter("page");
+		/*if (req.getMethod().equalsIgnoreCase("GET")) {
 			resp.sendRedirect(cp + "/it/board.do?page=" + page);
 			return;
-		}
+		}*/
 
 		BoardDTO dto = new BoardDTO();
-		dto.setBbs_num(Integer.parseInt(req.getParameter("bbs_num")));
-		dto.setSubject(req.getParameter("subject"));
-		dto.setContent(req.getParameter("content"));
+		dto.setBbs_num(Integer.parseInt(mreq.getParameter("bbs_num")));
+		dto.setSubject(mreq.getParameter("subject"));
+		dto.setContent(mreq.getParameter("content"));
 
 		dao.updateBoard(dto, info.getMem_Id());
 
@@ -338,9 +386,6 @@ public class ItServlet extends MyServlet {
 
 	private void board_replySubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 답변완료
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
 		String cp = req.getContextPath();
 		BoardDAO dao = new BoardDAO();
 
@@ -367,9 +412,6 @@ public class ItServlet extends MyServlet {
 
 	private void board_delete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 삭제
-		HttpSession session = req.getSession();
-		SessionInfo info = (SessionInfo) session.getAttribute("member");
-
 		String cp = req.getContextPath();
 		BoardDAO dao = new BoardDAO();
 
@@ -405,8 +447,6 @@ public class ItServlet extends MyServlet {
 		out.print(job.toString());
 	}
 	private void board_like(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		HttpSession session=req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		BoardDAO dao = new BoardDAO();
 		
 		String state="false";
@@ -478,8 +518,6 @@ public class ItServlet extends MyServlet {
 
 	private void board_insertReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 리플 저장(JSON)
-		HttpSession session=req.getSession();
-		SessionInfo info=(SessionInfo)session.getAttribute("member");
 		BoardDAO dao = new BoardDAO();
 		
 		String state="false";
@@ -506,8 +544,6 @@ public class ItServlet extends MyServlet {
 	}
 	
 	protected void board_deleteReply(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	      HttpSession session=req.getSession();
-	      SessionInfo info=(SessionInfo)session.getAttribute("member");
 	      BoardDAO dao = new BoardDAO();      
 	      
 	      int reply_num = Integer.parseInt(req.getParameter("reply_num"));

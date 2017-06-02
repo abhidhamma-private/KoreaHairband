@@ -152,7 +152,31 @@
 			      <th width="60" style="color: #787878;">조회수</th>
 			      <th width="60" style="color: #787878;">추천수</th>
 			  </tr>
+			  
 			 
+			 <c:forEach var="dto" items="${listNotice}">
+				<tr align="center" bgcolor="#ffffff" height="35"
+					style="border-bottom: 1px solid #cccccc;">
+				  <td><span style="display: inline-block; width: 50px; height: 18px; line-height: 18px; background: #ED4C00; color: #FFFFFF;">공지</span></td>
+			      <td>${dto.category}</td>
+			      <td align="left" style="padding-left: 10px;">
+			           <c:forEach var="n" begin="1" end="${dto.depth}">
+			               &nbsp;
+			           </c:forEach>
+			           <c:if test="${dto.depth!=0}">└&nbsp;</c:if>
+			           <a href="${articleUrl}&bbs_num=${dto.bbs_num}" >${dto.subject}<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
+			           <c:if test="${dto.gap<1}">
+							<img src="<%=cp%>/resource/img/new.gif">
+					   </c:if>
+			      </td>
+			      <td><a class="popupSelect" data-id="${dto.mem_Id}">${dto.mem_Name}</a></td>
+			      
+			      <td>${dto.created}</td>
+			      <td>${dto.hitCount}</td>
+			      <td>${dto.like}</td>
+				</tr>
+			</c:forEach>
+			
 			 <c:forEach var="dto" items="${list}">
 			  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;"> 
 			      <td>${dto.listNum}</td>
@@ -162,10 +186,10 @@
 			               &nbsp;
 			           </c:forEach>
 			           <c:if test="${dto.depth!=0}">└&nbsp;</c:if>
-			           <a href="${articleUrl}&bbs_num=${dto.bbs_num}" title="${dto.content}">${dto.subject}<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
-			           <%-- <c:if test="${dto.gap<1}">
+			           <a href="${articleUrl}&bbs_num=${dto.bbs_num}">${dto.subject}<c:if test="${dto.reply!=0}">[${dto.reply}]</c:if></a>
+			           <c:if test="${dto.gap<1}">
 							<img src="<%=cp%>/resource/img/new.gif">
-					   </c:if> --%>
+					   </c:if>
 			      </td>
 			      <td><a class="popupSelect" data-id="${dto.mem_Id}">${dto.mem_Name}</a></td>
 			      

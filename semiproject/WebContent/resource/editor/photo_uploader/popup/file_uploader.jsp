@@ -7,7 +7,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%
 
-String path = "C:/web/work/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/semiproject/uploads/fashion"; // 이미지가 저장될 주소
+String path = "C:/web/work/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps/semiproject/uploads/semi"; // 이미지가 저장될 주소
 String filename = "";
 
 if(request.getContentLength() > 10*1024*1024 ){

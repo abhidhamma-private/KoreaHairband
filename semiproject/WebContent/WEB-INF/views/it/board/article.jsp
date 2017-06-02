@@ -171,6 +171,10 @@ function deleteReply(reply_num, page) {
 	}
 }
 </script>
+<style type="text/css">
+.td_cont img{max-width:900px}
+
+</style>
 </head>
 <body>
 
@@ -205,7 +209,7 @@ function deleteReply(reply_num, page) {
 			</tr>
 			
 			<tr>
-			  <td colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			  <td class="td_cont" colspan="2" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			      ${dto.content}
 			   </td>
 			</tr>

@@ -2,8 +2,10 @@ package com.it;
 
 public class BoardDTO {
 	private String mem_Id, mem_Name, category, subject, content, created;
-	private int listNum, bbs_num, hitCount, like, reply;
+	private int notice, listNum, bbs_num, hitCount, like, reply;
 	private int groupNum, depth, orderNo, parent;
+	private long gap;
+	
 	public String getMem_Id() {
 		return mem_Id;
 	}
@@ -39,6 +41,12 @@ public class BoardDTO {
 	}
 	public void setCreated(String created) {
 		this.created = created;
+	}
+	public int getNotice() {
+		return notice;
+	}
+	public void setNotice(int notice) {
+		this.notice = notice;
 	}
 	public int getListNum() {
 		return listNum;
@@ -94,8 +102,11 @@ public class BoardDTO {
 	public void setParent(int parent) {
 		this.parent = parent;
 	}
-	
-	
-	
+	public long getGap() {
+		return gap;
+	}
+	public void setGap(long gap) {
+		this.gap = gap;
+	}
 	
 }
