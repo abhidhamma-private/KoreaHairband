@@ -78,8 +78,15 @@
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
 			          <select name="category" class="selectField">
-			                  <option value="뉴스">뉴스</option>
-			                  <option value="신제품">신제품</option>
+			                  <option value="가전">가전</option>
+			                  <option value="TV">TV</option>
+			                  <option value="디카">디카</option>
+			                  <option value="컴퓨터">컴퓨터</option>
+			                  <option value="노트북">노트북</option>
+			                  <option value="태블릿">태블릿</option>
+			                  <option value="모바일">모바일</option>
+			                  <option value="자동차">자동차</option>
+			                  <option value="공구">공구</option>
 			          </select>
 			      </td>
 			  </tr>
