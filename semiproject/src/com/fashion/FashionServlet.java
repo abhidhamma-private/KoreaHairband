@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.member.MemberDAO;
 import com.member.SessionInfo;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
@@ -280,7 +281,9 @@ public class FashionServlet extends MyServlet{
 		    	dto1.setNotice(Integer.parseInt(mreq.getParameter("notice")));
 		  */
 		dao1.insertBoard(dto1);
-		
+		// 포인트 추가(게시판은 10 / 답글은 5 / 댓글은 2)
+				MemberDAO mdao = new MemberDAO();
+				mdao.updatePoint(info.getMem_Id(), 10);
 		
 		resp.sendRedirect(cp+"/fashion/list1.do");
 	}
@@ -537,6 +540,8 @@ public class FashionServlet extends MyServlet{
 			int result=dao.insertReply(rdto);
 			if(result==1)
 				state="true";
+			MemberDAO mdao = new MemberDAO();
+			mdao.updatePoint(info.getMem_Id(), 2);
 		}
 		
 		JSONObject job=new JSONObject();
