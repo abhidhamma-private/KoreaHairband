@@ -80,10 +80,10 @@ function sendOk() {
 			      <td width="100" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
 			       <select name="catagory" class="selectField">
-                 	 <option value="sell"${dto1.category=="sell"? "selected='selected'":""}>팝니다</option>
-                 	 <option value="buy" ${dto1.category=="buy"? "selected='selected'":""}>삽니다</option>
+                 	 <option value="팝니다"${dto1.category=="팝니다"? "selected='selected'":""}>팝니다</option>
+                 	 <option value="삽니다" ${dto1.category=="삽니다"? "selected='selected'":""}>삽니다</option>
                  	<c:if test="${mode=='update'}">
-                 	 <option value="complete" ${dto1.category=="complete"? "selected='selected'":""}>판매완료</option>
+                 	 <option value="판매완료" ${dto1.category=="판매완료"? "selected='selected'":""}>판매완료</option>
                  	</c:if>
           		  </select>
 			      </td>

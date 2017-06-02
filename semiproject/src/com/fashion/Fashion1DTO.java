@@ -3,14 +3,18 @@ package com.fashion;
 public class Fashion1DTO {
 	private int bbs_num , listNum , notice;
 	private String mem_Id , mem_Name , category , subject , content, created ;
-	private int hitCount;
+	private int hitCount ,reply;
 	private int reply_num;
 	private long gap;
 	private boolean checkImg;
 	  
 	
-	
-	
+	public int getReply() {
+		return reply;
+	}
+	public void setReply(int reply) {
+		this.reply = reply;
+	}
 	public boolean isCheckImg() {
 		return checkImg;
 	}

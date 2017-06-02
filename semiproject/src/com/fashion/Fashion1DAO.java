@@ -78,7 +78,7 @@ public class Fashion1DAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		StringBuffer sb = new StringBuffer();
-		
+		F1replyDAO dao = new F1replyDAO();
 		try{
 			sb.append("SELECT * FROM (");
 			sb.append("    SELECT ROWNUM rnum, tb.* FROM (");
@@ -110,7 +110,8 @@ public class Fashion1DAO {
 				dto1.setHitCount(rs.getInt("hitCount"));
 				dto1.setCreated(rs.getString("created"));
 				dto1.setContent(rs.getString("content"));
-				
+				dto1.setReply(dao.dataCountReply(dto1.getBbs_num()));
+
 				list.add(dto1);
 			}
 			

@@ -13,6 +13,7 @@ import com.member.SessionInfo;
 import com.util.MyServlet;
 import com.util.MyUtil;
 
+import javafx.scene.control.Alert;
 import jdk.nashorn.internal.runtime.regexp.joni.Regex;
 
 @WebServlet("/message/*")
@@ -99,8 +100,16 @@ public class MessageServlet extends MyServlet{
 
 	}
 	protected void m_SendForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
 		String mem_Id1 = req.getParameter("mem_Id1"); 
 		String returnpage = req.getParameter("returnpage"); 
+		System.out.println(cp);
+		
+		if(mem_Id1.equals(info.getMem_Id())){
+			resp.sendRedirect(cp+returnpage);
+			return;
+		}
+		
 		
 		req.setAttribute("mem_Id1", mem_Id1);
 		req.setAttribute("returnpage", returnpage);

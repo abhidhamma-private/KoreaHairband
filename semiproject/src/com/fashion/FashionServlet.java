@@ -275,10 +275,10 @@ public class FashionServlet extends MyServlet{
 		dto1.setSubject(mreq.getParameter("subject"));
 		dto1.setContent(mreq.getParameter("content"));
 	
-		
+		/*
 		if(mreq.getParameter("notice")!=null)//공지인경우
 		    	dto1.setNotice(Integer.parseInt(mreq.getParameter("notice")));
-		  
+		  */
 		dao1.insertBoard(dto1);
 		
 		

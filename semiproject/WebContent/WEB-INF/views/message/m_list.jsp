@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
+<% 
     request.setCharacterEncoding("utf-8");
 	String cp=request.getContextPath();
 %>
@@ -110,7 +110,7 @@ function deleteMessage() {
 		
  			
  <form method="post" name="listForm">
-<table style="width: 900px; margin: 0px auto; border-spacing: 1px; background: #cccccc;">
+<table style="width: 900px; margin: 0px auto; border-spacing: 1px; background: #eeeeee;">
 <tr height="30" bgcolor="#eeeeee" align="center">
 	<td width="35">
 	    <input type="checkbox" name="chkAll" value="all" onclick="check();">
@@ -125,7 +125,7 @@ function deleteMessage() {
 
 
 <c:forEach var="dto" items="${list}">
-<tr height="25" bgcolor="#ffffff" align="center">
+<tr height="25" bgcolor="white" align="center">
 	<td>
 	    <input type="checkbox" name="messages" value="${dto.message_num}">
 	</td>
