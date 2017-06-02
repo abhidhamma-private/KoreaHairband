@@ -321,10 +321,10 @@ public class PetTalkServlet extends MyServlet {
 		
 		String page = mreq.getParameter("page");
 		
-		if(req.getMethod().equals("GET")){
+		/*if(req.getMethod().equals("GET")){
 			resp.sendRedirect(cp+"/pet/petTalk/list.do?page="+page);
 			return;
-		}
+		}*/
 		PetTalkDTO dto = new PetTalkDTO();
 		dto.setMem_id(info.getMem_Id());
 		/*dto.setNotice(Integer.parseInt(req.getParameter("notice")));*/

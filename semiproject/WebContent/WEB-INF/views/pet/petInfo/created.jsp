@@ -91,7 +91,7 @@ function sendOk(){
 			  <tr align="left" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center; padding-top:5px;" valign="top">내&nbsp;&nbsp;&nbsp;&nbsp;용</td>
 			      <td valign="top" style="padding:5px 0px 5px 10px;"> 
-			        <textarea id="content" name="content" rows="12" class="boxTA" style="width: 95%;"><c:if test="${mode=='created'}">${dto.content}</c:if></textarea>
+			        <textarea id="content" name="content" rows="12" class="boxTA" style="width: 95%;">${dto.content}</textarea>
 			      </td>
 			  </tr>
 			  </table>
