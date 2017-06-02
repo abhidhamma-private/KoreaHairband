@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title>자유게시판</title>
 
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
@@ -67,27 +67,24 @@
 	});
 	
 	function moveinfo(){
-		  var f=document.popup;  //폼 name
-		  var mem_Id = $('#popupID').html();
-		  f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
-		  f.action="<%=cp%>/member/infopage.do";  //이동할 페이지
-		  f.method="post";  //POST방식
-		  f.submit();
-	}
-	
-	function movemsg(){
-		  var f=document.popup;  //폼 name
-		  var mem_Id = $('#popupID').html();
-		  f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
-		  f.action="<%=cp%>/message/m_created.do";  //이동할 페이지
-		  f.method="post";  //POST방식
-		  f.submit();
-	}
-	
-	
-	
-	
-	
+        var f=document.popup;  //폼 name
+        var mem_Id = $('#popupID').html();
+        f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
+        f.action="<%=cp%>/member/infopage.do";  //이동할 페이지
+        f.method="post";  //POST방식
+        f.submit();
+   }
+   
+   function movemsg(){
+        var f=document.popup;  //폼 name
+        var mem_Id = $('#popupID').html();
+        var returnpage = "/it/board.do";
+        f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은  
+        f.returnpage.value = returnpage;  //POST방식으로 넘기고 싶은  
+        f.action="<%=cp%>/message/m_created.do?page="+${page};  //이동할 페이지
+        f.method="post";  //POST방식
+        f.submit();
+   }
 	
 </script>
 
@@ -118,16 +115,17 @@
     <div class="body-container" style="width: 900px;">
         <div class="body-title">
         </div>
+        
         <form name="popup" method="post">
 		<div class="popupLayer">
 			<span id="popupID">ID가 나타날곳</span><br>
 			<hr>
-			<!-- <a href="javascript:void(0);" onclick="infoPage();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br> -->
 			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
 			<a href="javascript:void(0);" onclick="movemsg();"  id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
 			<span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
 		</div>
 		<input type="hidden" name="mem_Id1" value="">
+		<input type="hidden" name="returnpage" value="">
 		</form>
 
         <div>
