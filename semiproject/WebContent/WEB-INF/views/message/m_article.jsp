@@ -13,6 +13,10 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>    
+
+
 <script type="text/javascript">
 function deleteMessage() {
 	var f=document.articleForm;
@@ -21,15 +25,28 @@ function deleteMessage() {
 		f.submit();
 	}
 }
-function sendMessage(){
+
+function sendMessage() {
 	var f=document.articleForm;
-	f.action = "<%=cp%>/message/m_created.do";
-	f.submit();
+	
+		f.action = "<%=cp%>/message/m_created.do";
+		f.submit();
+	
 }
+
+$(function(){
+	$('.m_send').click(function(){
+		//alert("dd");
+	
+		$(".modalbg #loginmodal1").fadeIn(100);
+		$(".modal").css({"display":""});
+	});
+	
+});
+
 </script>
 </head>
 <body>
-
 <div class="header">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
@@ -46,10 +63,11 @@ function sendMessage(){
 			
 		</table>
 		
-		<form method="post" name="articleForm">
+		<form method="post" name="articleForm" >
 		
        <input type="button" value="삭제" class="btn" onclick="deleteMessage();">
-  	   <input type="button" value="답장" class="btn" onclick="sendMessage();">
+  	   <input type="button" value="답장"  onclick="sendMessage(); ">
+	
   	   <input type="hidden" name="message_num" value="${dto.message_num}">
 	   <input type="hidden"  name="mem_Id1" value="${dto.mem_Id1}">
 

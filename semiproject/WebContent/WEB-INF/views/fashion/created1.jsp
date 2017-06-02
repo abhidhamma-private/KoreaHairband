@@ -181,7 +181,7 @@ $("#save").click(function(){
 
 // textArea에 이미지 첨부
 function pasteHTML(filepath){
-    var sHTML = '<img src="<%=cp%>/uploads/fashion/'+filepath+'">';
+    var sHTML = '<img src="<%=cp%>/uploads/semi/'+filepath+'">';
     oEditors.getById["content"].exec("PASTE_HTML", [sHTML]);
 }
  

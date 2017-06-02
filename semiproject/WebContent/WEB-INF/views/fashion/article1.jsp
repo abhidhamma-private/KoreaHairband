@@ -143,6 +143,7 @@ function sendReply() {
 <style type="text/css">
 	.layer-popup {display:none; position:absolute; left:50%; top:175px; z-index:10; padding:30px 30px 35px; margin-left:-235px; background-color:#fff; border:1px solid #000;}
 	#modal {display:none;background-color:#FFFFFF;position:absolute;top:300px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}
+	.td_cont img{max-width:900px}
 </style>
 
 </head>
@@ -204,7 +205,7 @@ function sendReply() {
 			    </td>
 			</tr>
 			<tr>
-			  <td colspan="3" align="left" style="padding: 10px 5px;" valign="top" height="200">
+			  <td class="td_cont" colspan="3" align="left" style="padding: 10px 5px;" valign="top" height="200">
 			  ${dto1.content }
 			   </td>
 			</tr>

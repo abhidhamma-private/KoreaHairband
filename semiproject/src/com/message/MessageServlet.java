@@ -23,6 +23,7 @@ public class MessageServlet extends MyServlet{
 	protected void process(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		
+		
 		String uri = req.getRequestURI();
 		String cp =req.getContextPath();
 		
@@ -52,14 +53,19 @@ public class MessageServlet extends MyServlet{
 	protected void m_list(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String cp =req.getContextPath();
+		String page = req.getParameter("page");
 		
 		MessageDAO dao = new MessageDAO();
 		MyUtil util = new MyUtil();
 		
 		int dataCount = dao.messageCount(info.getMem_Id());
-		System.out.println(info.getMem_Id());
+		//System.out.println(info.getMem_Id());
 		//String page = req.getParameter("page");
 		int current_page =1;
+		if(page != null)
+			current_page = Integer.parseInt(page);
+		
+		
 		int rows=10;
 		
 		int total_page = util.pageCount(rows, dataCount);
@@ -94,13 +100,31 @@ public class MessageServlet extends MyServlet{
 	}
 	protected void m_SendForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String mem_Id1 = req.getParameter("mem_Id1"); 
+		String returnpage = req.getParameter("returnpage"); 
 		
 		req.setAttribute("mem_Id1", mem_Id1);
+		req.setAttribute("returnpage", returnpage);
 		forward(req, resp, "/WEB-INF/views/message/m_created.jsp");
 		
 	}
 	protected void m_SendSubmint(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String cp = req.getContextPath();
+		MyUtil util = new MyUtil();
+		String returnpage = req.getParameter("returnpage");
+		System.out.println(returnpage);
+		MessageDAO dao = new MessageDAO();
+		MessageDTO dto = new MessageDTO();
+		String content = util.htmlSymbols(req.getParameter("content"));
 		
+		dto.setMem_Id1(info.getMem_Id());
+		dto.setMem_Id2(req.getParameter("mem_Id2"));
+		dto.setContent(content);
+		dao.insertMessage(dto);
+		
+		if(returnpage.length()!=0)
+			resp.sendRedirect(cp+returnpage);
+		else
+			resp.sendRedirect(cp+"/message/m_list.do");
 	}
 	protected void m_Article(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String cp = req.getContextPath();

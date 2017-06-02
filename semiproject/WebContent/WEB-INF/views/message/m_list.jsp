@@ -13,6 +13,7 @@
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
 <link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+
 <script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 function deleteList() {
@@ -79,6 +80,7 @@ function deleteMessage() {
 </script>
 </head>
 <body>
+
 <div class="header">
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
@@ -89,7 +91,7 @@ function deleteMessage() {
 			<tr height="45">
 				<td align="left" class="title">
 				<h3>${sessionScope.member.mem_Name} 님의 메시지함 ${dataCount }개(${page }/${total_page }페이지)</h3><br>
-				읽지않은 메시지 : 3개
+				
 				</td>
 			</tr>
 			
@@ -142,6 +144,11 @@ function deleteMessage() {
 
 </table>
 
+<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
+			<tr height="35">
+				<td align="center">${paging}</td>
+			</tr>
+		</table>
 
 </form>
   </div>

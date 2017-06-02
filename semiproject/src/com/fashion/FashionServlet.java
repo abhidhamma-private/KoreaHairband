@@ -1,4 +1,4 @@
-package com.fashion;
+	package com.fashion;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,7 +51,7 @@ public class FashionServlet extends MyServlet{
 	
 	// 파일을 저장할 경로(pathname)
 	String root=session.getServletContext().getRealPath("/");
-	pathname=root+File.separator+"uploads"+File.separator+"fashion";
+	pathname=root+File.separator+"uploads"+File.separator+"semi";
 	File f=new File(pathname);
 	if(! f.exists()) {
 		f.mkdirs();

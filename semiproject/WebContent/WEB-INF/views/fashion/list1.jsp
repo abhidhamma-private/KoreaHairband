@@ -120,7 +120,7 @@ function searchList() {
 
 		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
 			<tr height="35">
-				<td align="center">${paging }</td>
+				<td align="center">${paging}</td>
 			</tr>
 		</table>
  
