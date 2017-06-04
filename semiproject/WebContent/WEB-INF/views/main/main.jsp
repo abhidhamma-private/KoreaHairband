@@ -52,6 +52,12 @@ padding:0;
 a {
 line-height:10px;
 }
+
+#rank>li>a,
+#rank>li>a:focus,
+#rank>li>a:hover {
+width:105px;
+} 
 </style>
 
 
@@ -76,7 +82,7 @@ line-height:10px;
 			    	<c:forEach var="abdto" items="${ablist}">
 				    	<tr>
 				    		<td style="width:20%">
-				    		<img alt="" src="" width="80px" height="80px" >
+				    		<img alt="이미지없음" src="<%=cp%>/uploads/semi/${abdto.savefilename}" width="80px" height="80px" >
 				    		</td>
 				    		<td style="width:80%">
 					    		<div style="height:50%">
@@ -112,11 +118,11 @@ line-height:10px;
 				<!-- 로고 이미지 -->
 				<img src="<%=cp%>/resource/img/mainbbs2.png" style="margin: 10px">
 		    	<!-- 메뉴 -->
-			    <ul class="nav nav-tabs" role="tablist">
-			      <li role="presentation" class="active"><a href="#board1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><strong>다작</strong></a></li>
-			      <li role="presentation"><a href="#board2" role="tab" id="profile-tab" data-toggle="tab" ><strong>댓글수</strong></a></li>
-			      <li role="presentation"><a href="#board3" role="tab" id="profile-tab" data-toggle="tab" ><strong>포인트</strong></a></li>
-			      <li role="presentation"><a href="#board4" role="tab" id="profile-tab" data-toggle="tab" ><strong>좋아요</strong></a></li>
+			    <ul class="nav nav-tabs" id="rank" role="tablist">
+			      <li role="presentation" class="active"><a href="#board1"  role="tab" data-toggle="tab" aria-expanded="true"><strong>다작</strong></a></li>
+			      <li role="presentation"><a href="#board2" role="tab"  data-toggle="tab" ><strong>댓글수</strong></a></li>
+			      <li role="presentation"><a href="#board3" role="tab"  data-toggle="tab" ><strong>포인트</strong></a></li>
+			      <li role="presentation"><a href="#board4" role="tab"  data-toggle="tab" ><strong>좋아요</strong></a></li>
 			    </ul>
 			    
 			    <!-- 토글데이터 -->
@@ -158,8 +164,8 @@ line-height:10px;
 			      <div role="tabpanel" class="tab-pane " id="board4" aria-labelledBy="home-tab">
 			        	<div class="boardbox">
 							<ul class="list-group">
-								<c:forEach var="hhdto" items="${hhlist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${hhdto.url}${hhdto.bbs_Num}">${hhdto.subject}</a><small style="float:right">조회수${hhdto.hitCount}</small></li>
+								<c:forEach var="memgooddto" items="${memgood_list}" varStatus="status">
+								<li class="list-group-item">${status.count}&nbsp;${memgooddto.mem_Name}<small style="float:right">좋아요${memgooddto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>

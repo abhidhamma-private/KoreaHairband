@@ -101,7 +101,7 @@ function sendLikeBoard(num) {
 	                
 		                    <tr>
 		                        <td class="text-center" width="20%" style="float:left" bordercolor="blue">		
-										<img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
+										<img src="<%=cp%>/uploads/semi/${dto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
 								</td>
 								
 		                        <td width="80%" colspan="5">

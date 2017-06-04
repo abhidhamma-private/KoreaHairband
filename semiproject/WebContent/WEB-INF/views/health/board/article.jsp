@@ -164,7 +164,7 @@ function sendReply() {
                              <td colspan="2">
                                 
                              <c:if test="${dto.savefilename!='0'}">
-                                 <img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
+                                 <img src="<%=cp%>/uploads/semi/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
                              </c:if>
                              	
                              </td>

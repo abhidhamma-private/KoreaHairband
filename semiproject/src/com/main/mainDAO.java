@@ -19,32 +19,42 @@ public class mainDAO {
 		ResultSet rs = null;
 		String sql="";
 		
+		
+		
 		try {
 			sql = "SELECT ROWNUM rnum, tb.* FROM ("
 				+ " ("
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/soccer/board/article.do?bbs_num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/soccer/board/article.do?bbs_num=' AS url, '축구' AS boardname, savefilename "
 				+ " FROM SOCCER1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM SOCCER1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN SOCCER1_file F ON H.bbs_num = F.bbs_num"
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/articleB.do?num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/articleB.do?num=' AS url, '건강' AS boardname, savefilename "
 				+ " FROM health1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN health1_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/article.do?num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/article.do?num=' AS url, '건강' AS boardname, savefilename "
 				+ " FROM health2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN health2_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/fashion/article1.do?bbs_num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/fashion/article1.do?bbs_num=' AS url, '패션' AS boardname, '0' as savefilename "
 				+ " FROM fashion1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM fashion1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN fashion1_file F ON H.bbs_num = F.bbs_num"
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/food2/article.do?num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/food2/article.do?num=' AS url, '요리' AS boardname, savefilename "
 				+ " FROM food2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM food2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN food2_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/pet/petInfo/article.do?bbs_num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/pet/petInfo/article.do?bbs_num=' AS url, '반려동물' AS boardname, savefilename "
 				+ " FROM pet1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM pet1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN pet1_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/pet/petTalk/article.do?bbs_num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/pet/petTalk/article.do?bbs_num=' AS url, '반려동물' AS boardname, savefilename "
 				+ " FROM pet2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM pet2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN pet2_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url, 'IT' AS boardname, savefilename "
 				+ " FROM it2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM it2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " JOIN it2_file F ON H.bbs_num = F.bbs_num "
 
 				+ ") ORDER BY likeCount DESC"
 				+ " ) tb WHERE ROWNUM <= 3";
@@ -60,6 +70,7 @@ public class mainDAO {
 				dto.setHitCount(rs.getInt("hitCount"));
 				dto.setLikeCount(rs.getInt("likeCount"));
 				dto.setUrl(rs.getString("url"));
+				dto.setSavefilename(rs.getString("savefilename"));
 				list.add(dto);
 			}
 		} catch (Exception e) {
@@ -356,27 +367,41 @@ public class mainDAO {
 		}
 		
 		public List<boardDTO> goodMem() {
-			List<boardDTO> list = new ArrayList<boardDTO>();
-			PreparedStatement pstmt = null;
-			ResultSet rs = null;
-			String sql="";
-			
-			try {
-				sql = "";
-				
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();
-				while(rs.next()) {
-					boardDTO dto = new boardDTO();
-					dto.setLikeCount(rs.getInt("memslike"));
-					dto.setMem_Name(rs.getString("mem_name"));
-					list.add(dto);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			return list;
-		}
+		    List<boardDTO> list = new ArrayList<boardDTO>();
+		    PreparedStatement pstmt = null;
+		    ResultSet rs = null;
+		    String sql="";
+		    
+		    try {
+		       sql = "SELECT  distinct sum(memslike) Over(PARTITION by mem_NAME)memslike , mem_Name FROM ( ";
+		       sql += " SELECT  tb.* FROM ( ";
+		       sql += " select count(*) memslike, mem_Name FROM it1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM it2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM fashion1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM fashion2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM pet1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM pet2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM soccer1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM food1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM food2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM health1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
+		       sql += " select count(*) memslike, mem_Name FROM health2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name ";
+		       sql += " )tb ";
+		       sql += ")ORDER by memslike DESC";
+		       
+		       pstmt = conn.prepareStatement(sql);
+		       rs = pstmt.executeQuery();
+		       while(rs.next()) {
+		          boardDTO dto = new boardDTO();
+		          dto.setLikeCount(rs.getInt("memslike"));
+		          dto.setMem_Name(rs.getString("mem_Name"));
+		          list.add(dto);
+		       }
+		    } catch (Exception e) {
+		       e.printStackTrace();
+		    }
+		    return list;
+		 }
 		
 		
 		

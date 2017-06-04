@@ -107,7 +107,7 @@ function sendLikeBoard(num) {
                          <tr style="border-bottom:none;">
                              <td colspan="2">
                               
-                                 <img src="<%=cp%>/uploads/photo/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
+                                 <img src="<%=cp%>/uploads/semi/${dto.savefilename}" alt="이미지" style="max-width:100%; height:auto; resize:both;">
                              
                              
                              </td>

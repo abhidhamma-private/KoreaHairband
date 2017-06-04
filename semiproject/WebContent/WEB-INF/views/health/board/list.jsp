@@ -75,12 +75,25 @@ function movemsg(){
 
 </script>
 <style type="text/css">
-.list-group{
+ul.list-group{
 border-radius:0;
+height:150px;
+margin:0px;
+}
+.list-group-item:first-child {
+border-top-right-radius:0;
+border-top-left-radius:0;
+}
+.list-group-item:last-child {
+border-top-right-radius:0;
+border-top-left-radius:0;
+
 }
 .list-group-item {
 border-top-right-radius:0;
 border-top-left-radius:0;
+padding: 1px 0px;
+height:17%;
 }
 .popupSelect {
 	cursor: pointer;
@@ -131,12 +144,12 @@ border-top-left-radius:0;
 					<table>
 					<tr>
 		                        <td class="text-center" width="20%" style="float:left;" bordercolor="blue">		
-										<img src="<%=cp%>/uploads/photo/${bdto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
+										<img src="<%=cp%>/uploads/semi/${bdto.savefilename}" alt="이미지없음" style="width:150px; height:150px; border:1px solid #337AB7;">	
 								</td>
 								
 		                        <td width="80%" colspan="5">
 			                        
-			                        <ul class="list-group" style="padding:0;">
+			                        <ul class="list-group" style="padding:0; height:150px;">
 										<li class="list-group-item" style="font-size:"><span class="glyphicon glyphicon-star"></span> <a href="javascript:article('${bdto.bbs_Num}');" style="text-decoration:none;color:black;">Best article (추천 : ${bdto.likeCount})</a></li>
 										<li class="list-group-item">제목 | ${bdto.subject}</li>
 										<li class="list-group-item">내용 | ${bdto.content}</li>
@@ -155,7 +168,7 @@ border-top-left-radius:0;
 				</div>
 				
 				<div style="border:1px solid #337AB7; float:left; height:150px;width:50%">
-					<ul class="list-group" style="padding:0;">
+					<ul class="list-group" style="padding:0; height:150px;">
 						<li class="list-group-item"><span class="glyphicon glyphicon-search"></span> Hit article <span style="float:right">조회수</span></li>
 						
 						<c:forEach var="hdto" items="${hlist}">
@@ -166,7 +179,7 @@ border-top-left-radius:0;
 				</div>
 			 </div>
 		
-		<br><br><br><br><br>
+		
 	
         <div class="table" style="clear: both; width: 900px; margin: 0 auto; position:relative;">
 	            <table class="table table-hover" id="maintable">

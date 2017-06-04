@@ -60,7 +60,7 @@ public class MainServlet extends MyServlet {
 		List<boardDTO> memal_list = dao.manyArticle();
 		List<boardDTO> memre_list = dao.manyreplArticle();
 		List<boardDTO> mempo_list = dao.pointMem();
-		List<boardDTO> memgood_list = null;
+		List<boardDTO> memgood_list = dao.goodMem();
 		
 		//리스트 만들거 총 17개
 		//전체 추천3위 1개
@@ -87,6 +87,7 @@ public class MainServlet extends MyServlet {
 		req.setAttribute("memal_list", memal_list);
 		req.setAttribute("memre_list", memre_list);
 		req.setAttribute("mempo_list", mempo_list);
+		req.setAttribute("memgood_list", memgood_list);
 		
 		forward(req, resp, "/WEB-INF/views/main/main.jsp");
 		
