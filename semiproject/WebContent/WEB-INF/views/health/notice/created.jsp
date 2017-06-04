@@ -1,24 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="/resource/health/setting.jsp" %>
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
-<script type="text/javascript">
-<%-- function sendOk() {
-	
-		f.action="<%=cp%>/health/created_ok.do";
-	
-
-    f.submit();
-} --%>
-
-</script>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<title> Insert title here</title>
 <script type="text/javascript">
 function sendOk() {
 	var f = document.noticeForm;

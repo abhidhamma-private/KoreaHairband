@@ -1,12 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="/resource/health/setting.jsp" %>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title> Insert title here</title>
 <script type="text/javascript">
 function article(num) {
 	var url="${articleUrl}&num="+num;
@@ -64,9 +63,6 @@ function sendLikeBoard(num) {
 	});
 }
 </script>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
 </head>
 
 <body>
@@ -87,7 +83,8 @@ function sendLikeBoard(num) {
 			</div>
 		  </div> -->
 		
-	
+		<!-- 로고 이미지 -->
+		<img src="<%=cp%>/resource/img/m_infoboard.png" style="margin: 10px">
 	
         <div class="table" style="clear: both;">
         	

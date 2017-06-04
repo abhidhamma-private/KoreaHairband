@@ -1,20 +1,11 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-   String cp = request.getContextPath();
-%>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
-
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<title> Insert title here</title>
 
 <style type="text/css">
 	.td_cont img{max-width:900px}

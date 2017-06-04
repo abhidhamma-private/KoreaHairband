@@ -1,11 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-	String cp = request.getContextPath();
-%>
-
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="/resource/css/setting.jsp" %>
 <div style="clear: both; padding-top: 20px; width: 900px;">
 	<div style="float: left;">
 		<span style="color: #3EA9CD; font-weight: bold;">댓글

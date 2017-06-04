@@ -1,15 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="/resource/health/setting.jsp" %>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<title> Insert title here</title>
 <script type="text/javascript">
 function deleteNotice(num) {
    if(confirm("게시물을 삭제 하시겠습니까 ?")) {

@@ -60,7 +60,6 @@ public class MessageServlet extends MyServlet{
 		MyUtil util = new MyUtil();
 		
 		int dataCount = dao.messageCount(info.getMem_Id());
-		//System.out.println(info.getMem_Id());
 		//String page = req.getParameter("page");
 		int current_page =1;
 		if(page != null)
@@ -103,14 +102,10 @@ public class MessageServlet extends MyServlet{
 		String cp = req.getContextPath();
 		String mem_Id1 = req.getParameter("mem_Id1"); 
 		String returnpage = req.getParameter("returnpage"); 
-		System.out.println(cp);
-		
 		if(mem_Id1.equals(info.getMem_Id())){
 			resp.sendRedirect(cp+returnpage);
 			return;
 		}
-		
-		
 		req.setAttribute("mem_Id1", mem_Id1);
 		req.setAttribute("returnpage", returnpage);
 		forward(req, resp, "/WEB-INF/views/message/m_created.jsp");
@@ -120,7 +115,6 @@ public class MessageServlet extends MyServlet{
 		String cp = req.getContextPath();
 		MyUtil util = new MyUtil();
 		String returnpage = req.getParameter("returnpage");
-		System.out.println(returnpage);
 		MessageDAO dao = new MessageDAO();
 		MessageDTO dto = new MessageDTO();
 		String content = util.htmlSymbols(req.getParameter("content"));

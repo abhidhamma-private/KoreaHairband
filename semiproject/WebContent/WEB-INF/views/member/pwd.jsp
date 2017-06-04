@@ -1,23 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-
-<%
-   String cp = request.getContextPath();
-%>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
-
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<title> Insert title here</title>
 
 <style type="text/css">
 .lbl {

@@ -1,23 +1,79 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ include file="/resource/health/setting.jsp" %>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
+<title> Insert title here</title>
 <script type="text/javascript">
 function article(num) {
 	var url="${articleUrl}&num="+num;
 	location.href=url;
 }
 
-</script>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+/* 레이어를 닫아준다. */
+function closeLayer( obj ) {
+	$(obj).parent().hide();
+}
 
+$(function(){
+	/* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
+	$('.popupSelect').click(function(e)
+	{
+		var mem_Id = $(this).attr("data-id"); //값을 받아오는 태그
+		
+		$("#popupID").html(mem_Id);
+		<%-- $("#popupInfo").attr("href", "<%=cp%>/member/infopage.do") --%>
+
+		var sWidth = window.innerWidth;
+		var sHeight = window.innerHeight;
+
+		var oWidth = $('.popupLayer').width();
+		var oHeight = $('.popupLayer').height();
+
+		// 레이어가 나타날 위치를 셋팅한다.
+		var divLeft = e.clientX - 510;
+		var divTop = e.clientY;
+
+		// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+		if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+		if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+		// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+		if( divLeft < 0 ) divLeft = 0;
+		if( divTop < 0 ) divTop = 0;
+
+		$('.popupLayer').css({
+			"top": divTop,
+			"left": divLeft,
+			"position": "absolute"
+		}).show();
+	});
+
+});
+
+function moveinfo(){
+	  var f=document.popup;  //폼 name
+	  var mem_Id = $('#popupID').html();
+	  f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
+	  f.action="<%=cp%>/member/infopage.do";  //이동할 페이지
+	  f.method="post";  //POST방식
+	  f.submit();
+}
+
+function movemsg(){
+    var f=document.popup;  //폼 name
+    var mem_Id = $('#popupID').html();
+    var returnpage = "/health/board.do";
+    f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은  
+    f.returnpage.value = returnpage;  //POST방식으로 넘기고 싶은  
+    f.action="<%=cp%>/message/m_created.do?page="+${page};  //이동할 페이지
+    f.method="post";  //POST방식
+    f.submit();
+}
+
+</script>
 <style type="text/css">
 .list-group{
 border-radius:0;
@@ -25,6 +81,21 @@ border-radius:0;
 .list-group-item {
 border-top-right-radius:0;
 border-top-left-radius:0;
+}
+.popupSelect {
+	cursor: pointer;
+}
+
+.popupLayer {
+	z-index:10;
+	cursor: pointer;
+	position: absolute;
+	display: none;
+	background-color: #ffffff;
+	border: solid 2px #d0d0d0;
+	width: 100px;
+	height: 120px;
+	padding: 10px;
 }
 </style>
 
@@ -38,6 +109,20 @@ border-top-left-radius:0;
 </div>
 <br><br>
 	
+	
+	    <form name="popup" method="post">
+		<div class="popupLayer">
+			<span id="popupID">ID가 나타날곳</span><br>
+			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
+			<a href="javascript:void(0);" onclick="movemsg();"  id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
+			<span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
+		</div>
+		<input type="hidden" name="mem_Id1" value="">
+		<input type="hidden" name="returnpage" value="">
+		</form>
+		
+		<!-- 로고 이미지 -->
+		<img src="<%=cp%>/resource/img/m_freeboard.png" style="margin: 10px">
 
 
 		<div class="container" style="width: 900px; margin: 0 auto; padding:0; position:relative;">
@@ -81,7 +166,7 @@ border-top-left-radius:0;
 				</div>
 			 </div>
 		
-	
+		<br><br><br><br><br>
 	
         <div class="table" style="clear: both; width: 900px; margin: 0 auto; position:relative;">
 	            <table class="table table-hover" id="maintable">
@@ -108,7 +193,7 @@ border-top-left-radius:0;
 	                            </c:if>
 	                        <a href="javascript:article('${dto.bbs_Num}');">${dto.subject}</a>
 	                        </td>
-	                        <td class="text-center">${dto.mem_Name}</td>
+	                        <td><a class="popupSelect" data-id="${dto.mem_Id}">${dto.mem_Name}</a></td>
 	                        <td class="text-center">${dto.created}</td>
 	                        <td class="text-center">${dto.hitCount }</td> 
 	                        <td class="text-center">${dto.likeCount}</td> 

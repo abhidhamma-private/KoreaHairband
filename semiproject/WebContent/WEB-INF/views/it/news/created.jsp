@@ -1,23 +1,12 @@
-﻿<%@ page contentType="text/html; charset=UTF-8" %>
+﻿<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-   request.setCharacterEncoding("utf-8");
-   String cp = request.getContextPath();
-%>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Create</title>
+<title> Insert title here</title>
 
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <!-- 에디터 -->
 <script type="text/javascript" src="<%=cp%>/resource/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="<%=cp%>/resource/editor/photo_uploader/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
@@ -51,10 +40,6 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
-    <div class="body-container" style="width: 900px;">
-        <div class="body-title">
-        </div>
         
         <div>
 			<form name="boardForm" id="boardForm" method="post" enctype="multipart/form-data">
@@ -132,8 +117,6 @@
 			</form>
         </div>
 
-    </div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

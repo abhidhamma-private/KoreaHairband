@@ -1,18 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%
-	request.setCharacterEncoding("utf-8");
-	String cp = request.getContextPath();
-%>
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>반려동물 정보공유 작성중...</title>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<title> Insert title here</title>
 
 <!-- 아래 2개 인클루드 -->
 <script type="text/javascript" src="<%=cp%>/resource/editor/js/HuskyEZCreator.js" charset="utf-8"></script>

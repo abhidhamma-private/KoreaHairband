@@ -1,23 +1,11 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-   String cp = request.getContextPath();
-%>
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>spring</title>
-
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
-<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<title> Insert title here</title>
 <script type="text/javascript">
 	function searchList() {
 		var f=document.searchForm;
@@ -46,7 +34,7 @@
 			var oHeight = $('.popupLayer').height();
 
 			// 레이어가 나타날 위치를 셋팅한다.
-			var divLeft = e.clientX - 400;
+			var divLeft = e.clientX - 510;
 			var divTop = e.clientY;
 
 			// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
@@ -76,13 +64,15 @@
 	}
 	
 	function movemsg(){
-		  var f=document.popup;  //폼 name
-		  var mem_Id = $('#popupID').html();
-		  f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
-		  f.action="<%=cp%>/message/m_created.do";  //이동할 페이지
-		  f.method="post";  //POST방식
-		  f.submit();
-	}
+        var f=document.popup;  //폼 name
+        var mem_Id = $('#popupID').html();
+        var returnpage = "/pet/petInfo/list.do";
+        f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은  
+        f.returnpage.value = returnpage;  //POST방식으로 넘기고 싶은  
+        f.action="<%=cp%>/message/m_created.do?page="+${page};  //이동할 페이지
+        f.method="post";  //POST방식
+        f.submit();
+   }
 	
 	
 	
@@ -97,15 +87,17 @@
 }
 
 .popupLayer {
+	z-index:10;
 	cursor: pointer;
 	position: absolute;
 	display: none;
 	background-color: #ffffff;
 	border: solid 2px #d0d0d0;
 	width: 100px;
-	height: 100px;
+	height: 120px;
 	padding: 10px;
 }
+</style>
 </style>
 </head>
 <body>
@@ -114,23 +106,21 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
-    <div class="body-container" style="width: 900px;">
-        <div class="body-title">
-        </div>
         <form name="popup" method="post">
 		<div class="popupLayer">
 			<span id="popupID">ID가 나타날곳</span><br>
-			<hr>
-			<!-- <a href="javascript:void(0);" onclick="infoPage();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br> -->
 			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
 			<a href="javascript:void(0);" onclick="movemsg();"  id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
 			<span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
 		</div>
 		<input type="hidden" name="mem_Id1" value="">
+		<input type="hidden" name="returnpage" value="">
 		</form>
 
         <div>
+			<!-- 로고 이미지 -->
+			<img src="<%=cp%>/resource/img/m_infoboard.png" style="margin: 10px">
+
 			<table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			   <tr height="35">
 			      <td align="left" width="50%">
@@ -229,9 +219,6 @@
 			   </tr>
 			</table>
         </div>
-
-    </div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

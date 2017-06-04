@@ -1,20 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	request.setCharacterEncoding("utf-8");
-	String cp = request.getContextPath();
-%>
+<%@ include file="/resource/css/setting.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript"
-	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
 $(function() {
 	 $("select[name=category]").hide(); 
@@ -39,9 +30,83 @@ function searchList() {
 	f.submit();
 }
 
+/* 레이어를 닫아준다. */
+function closeLayer( obj ) {
+	$(obj).parent().hide();
+}
 
+$(function(){
+	/* 클릭 클릭시 클릭을 클릭한 위치 근처에 레이어가 나타난다. */
+	$('.popupSelect').click(function(e)
+	{
+		var mem_Id = $(this).attr("data-id"); //값을 받아오는 태그
+		
+		$("#popupID").html(mem_Id);
+		<%-- $("#popupInfo").attr("href", "<%=cp%>/member/infopage.do") --%>
+
+		var sWidth = window.innerWidth;
+		var sHeight = window.innerHeight;
+
+		var oWidth = $('.popupLayer').width();
+		var oHeight = $('.popupLayer').height();
+
+		// 레이어가 나타날 위치를 셋팅한다.
+		var divLeft = e.clientX - 510;
+		var divTop = e.clientY;
+
+		// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
+		if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
+		if( divTop + oHeight > sHeight ) divTop -= oHeight;
+
+		// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+		if( divLeft < 0 ) divLeft = 0;
+		if( divTop < 0 ) divTop = 0;
+
+		$('.popupLayer').css({
+			"top": divTop,
+			"left": divLeft,
+			"position": "absolute"
+		}).show();
+	});
+
+});
+
+function moveinfo(){
+	  var f=document.popup;  //폼 name
+	  var mem_Id = $('#popupID').html();
+	  f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은 값
+	  f.action="<%=cp%>/member/infopage.do";  //이동할 페이지
+	  f.method="post";  //POST방식
+	  f.submit();
+}
+
+function movemsg(){
+    var f=document.popup;  //폼 name
+    var mem_Id = $('#popupID').html();
+    var returnpage = "/pet/petInfo/list.do";
+    f.mem_Id1.value = mem_Id;  //POST방식으로 넘기고 싶은  
+    f.returnpage.value = returnpage;  //POST방식으로 넘기고 싶은  
+    f.action="<%=cp%>/message/m_created.do?page="+${page};  //이동할 페이지
+    f.method="post";  //POST방식
+    f.submit();
+}
 </script>
+<style type="text/css">
+.popupSelect {
+	cursor: pointer;
+}
 
+.popupLayer {
+	cursor: pointer;
+	position: absolute;
+	display: none;
+	background-color: #ffffff;
+	border: solid 2px #d0d0d0;
+	width: 100px;
+	height: 120px;
+	padding: 10px;
+}
+</style>
 </head>
 <body>
 
@@ -49,7 +114,18 @@ function searchList() {
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 	</div>
 
-
+	<form name="popup" method="post">
+		<div class="popupLayer">
+			<span id="popupID">ID가 나타날곳</span><br> <a
+				href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span
+				id="popupInfo">회원 정보</span></a><br> <a href="javascript:void(0);"
+				onclick="movemsg();" id="popupMsg"><span id="popupMsg">쪽지
+					보내기</span></a><br> <span onClick="closeLayer(this)"
+				style="cursor: pointer; font-size: 1.5em" title="닫기">X</span>
+		</div>
+		<input type="hidden" name="mem_Id1" value=""> <input
+			type="hidden" name="returnpage" value="">
+	</form>
 
 	<div class="f_container">
 
@@ -57,7 +133,8 @@ function searchList() {
 			style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
 			<tr height="45">
 				<td align="left" class="title">
-				<h3>	<a href ="<%=cp%>/fashion/list1.do">패션-중고거래게시판</a></h3>
+					<!-- 로고 이미지 -->
+					<img src="<%=cp%>/resource/img/m_dealboard.png" style="margin: 10px">
 				</td>
 			</tr>
 		</table>
@@ -78,36 +155,31 @@ function searchList() {
 			</tr>
 		</table>
 
-		<table style="width: 900px; margin: 0px auto; border-spacing: 0px;">
-			<tr>
-				<td height="1" colspan="6" bgcolor="#cccccc"></td>
-			</tr>
-			<tr align="center" height="35">
+		<table
+			style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
+			<tr align="center" bgcolor="#eeeeee" height="35"
+				style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;">
 				<th width="60" style="color: #787878;">번호</th>
-				<th width="100" style="color: #787878;">카테고리</th>
+				<th width="80" style="color: #787878;">카테고리</th>
 				<th style="color: #787878;">제목</th>
-				<th width="80" style="color: #787878;">작성자</th>
+				<th width="100" style="color: #787878;">작성자</th>
 				<th width="100" style="color: #787878;">작성일</th>
-				<th width="40" style="color: #787878;">조회수</th>
-			</tr>
-			<tr>
-				<td height="1" colspan="6" bgcolor="#cccccc"></td>
+				<th width="60" style="color: #787878;">조회수</th>
+				<th width="60" style="color: #787878;">추천수</th>
 			</tr>
 
 			<c:forEach var="dto1" items="${list}">
-				<tr align="center" bgcolor="#ffffff" height="35">
-					<td align="center">${dto1.listNum}</td>
-					<td align="left">${dto1.category}</td>
-					<td align="left" style="padding-left: 10px;"><a
-						href="${articleUrl}&bbs_num=${dto1.bbs_num}">${dto1.subject}<c:if test="${dto1.reply!=0}">[${dto1.reply}]</c:if></a>
-						 <c:if test="${dto1.gap < 1 }">
-			      			<img src="<%= cp %>/resource/img/new.gif">
-			      	  	 </c:if> 
-			      	  	 <c:if test="${dto1.checkImg }">
-			      			<img src="<%= cp %>/resource/img/gallery-24.png">
-			      	  	 </c:if> 
-			      	  	 </td>
-					<td align="center">${dto1.mem_Name}</td>
+				<tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
+					<td>${dto1.listNum}</td>
+					<td>${dto1.category}</td>
+					<td align="left" style="padding-left: 10px;">
+					<a	href="${articleUrl}&bbs_num=${dto1.bbs_num}">${dto1.subject}<c:if test="${dto1.reply!=0}">[${dto1.reply}]</c:if></a>
+					<c:if test="${dto1.gap < 1 }">
+							<img src="<%=cp%>/resource/img/new.gif">
+						</c:if> <c:if test="${dto1.checkImg }">
+							<img src="<%=cp%>/resource/img/gallery-24.png">
+						</c:if></td>
+					<td><a class="popupSelect" data-id="${dto1.mem_Id}">${dto1.mem_Name}</a></td>
 					<td align="center">${dto1.created}</td>
 					<td align="center">${dto1.hitCount}</td>
 				</tr>
@@ -123,7 +195,7 @@ function searchList() {
 				<td align="center">${paging}</td>
 			</tr>
 		</table>
- 
+
 		<form name="searchForm" action="" method="post">
 			<table style="width: 900px; margin: 10px auto; border-spacing: 0px;">
 				<tr height="40">
@@ -147,7 +219,8 @@ function searchList() {
 					</td>
 
 					<td align="left" width="100">
-						<button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/fashion/list1.do?mylist';">내가쓴글보기</button>
+						<button type="button" class="btn"
+							onclick="javascript:location.href='<%=cp%>/fashion/list1.do?mylist';">내가쓴글보기</button>
 					</td>
 				</tr>
 			</table>

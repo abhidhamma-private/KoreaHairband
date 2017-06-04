@@ -1,20 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%
-	request.setCharacterEncoding("utf-8");
-	String cp = request.getContextPath();
-%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>공지사항(${dto.subject })</title>
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript"
-	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<title> Insert title here</title>
 <script type="text/javascript">
 
 function updateBoard(){

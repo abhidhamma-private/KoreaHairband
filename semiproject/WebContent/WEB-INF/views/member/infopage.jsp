@@ -1,23 +1,11 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
-<%@ page trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%
-	request.setCharacterEncoding("utf-8");
-	String cp = request.getContextPath();
-%>
+<%@ page trimDirectiveWhitespaces="true" %>
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>InfoPage</title>
-
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
-<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
-<script type="text/javascript"
-	src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<title> Insert title here</title>
 <style>
 #profile-container {
 	width: 900px;
@@ -68,10 +56,12 @@
 
 	<div id="profile-container">
 		<div id="profile-header">
-			<h1>InfoPage</h1>
+			<!-- 로고 이미지 -->
+			<img src="<%=cp%>/resource/img/infopage.png" style="margin: 10px">
 		</div>
 		<div id="profile-photo">
-			<h2>Photo</h2>
+			<!-- 로고 이미지 -->
+			<img src="<%=cp%>/resource/img/profilephoto.png" style="margin: 10px">
 			<c:if test="${dto.mem_img!=null||dto.mem_img=='null'}}">
 				<img src="<%=cp%>/uploads/photo/${dto.mem_img}"
 					style="max-width: 250px; height: auto; resize: both;">
@@ -82,7 +72,8 @@
 			</c:if>
 		</div>
 		<div id="profile-info">
-			<h2>Info</h2>
+			<!-- 로고 이미지 -->
+			<img src="<%=cp%>/resource/img/memberinfo.png" style="margin: 10px"><br>
 			ID : ${dto.mem_Id}<br>
 			이름 : ${dto.mem_Name}<br>
 			포인트 : ${dto.point}<br>

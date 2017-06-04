@@ -1,24 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ page trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="/resource/health/setting.jsp" %>
-
-
-
-
-
-
-
-
+<%@ include file="/resource/css/setting.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Community</title>
-
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/slider.css" />
-<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<title> Insert title here</title>
+<link rel="stylesheet" href="<%=cp%>/resource/css/bootstrap/style.css" type="text/css"/>
 
 <style type="text/css">
 #left {
@@ -33,12 +21,6 @@ width:430px;
 
 }
 
-/* .boardbox {
-	box-sizing:border-box;
-}
-
-
-
 .boardbox {
 text-align:left;
 }  */
@@ -52,8 +34,6 @@ padding:0px;
 border-radius:0;
 text-align: center;
 }
-
-
 
 .list-group-item {
 border-radius:0px;
@@ -88,7 +68,8 @@ line-height:10px;
 		<div id="left">
 			<!-- 전체인기글 -->
 			<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-			    <h3><span class="glyphicon glyphicon-asterisk"></span><strong>인기글</strong></h3>
+			    <!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/mainbbs1.png" style="margin: 10px">
 			    
 			    <table style="width:430px; height:200px; margin:0">
 			    	
@@ -128,7 +109,8 @@ line-height:10px;
 		 <div id="right">
 		 	<!-- 카테고리별 화제의글  -->	
 			<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-				<h3><span class="glyphicon glyphicon-heart"></span><strong>회원랭킹</strong></h3>
+				<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/mainbbs2.png" style="margin: 10px">
 		    	<!-- 메뉴 -->
 			    <ul class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active"><a href="#board1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><strong>다작</strong></a></li>
@@ -196,7 +178,8 @@ line-height:10px;
 			
 			<!-- 게시판별 조회수글 -->
 			<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-			    <h3><span class="glyphicon glyphicon-heart"></span><strong>게시판별 화제의글(조회수)</strong></h3>
+			    <!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/mainbbs4.png" style="margin: 10px">
 			    <ul class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active"><a href="#board5" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><strong>스포츠</strong></a></li>
 			      <li role="presentation"><a href="#board6" role="tab" id="profile-tab" data-toggle="tab" ><strong>건강</strong></a></li>
@@ -283,7 +266,8 @@ line-height:10px;
 		 	<!-- 카테고리별 화제의글  -->	
 		 	<!-- 게시판별 추천글 -->
 			<div class="bs-example bs-example-tabs" role="tabpanel" data-example-id="togglable-tabs">
-				<h3><span class="glyphicon glyphicon-asterisk"></span><strong>게시판별 인기글(추천)</strong></h3>
+				<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/mainbbs3.png" style="margin: 10px">
 		    	<!-- 메뉴 -->
 			    <ul class="nav nav-tabs" role="tablist">
 			      <li role="presentation" class="active"><a href="#board11" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true"><strong>스포츠</strong></a></li>
