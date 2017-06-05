@@ -53,7 +53,7 @@ public class NoticeServlet extends MyServlet {
 		} else if (uri.indexOf("update_ok.do") != -1) {
 			updateSubmit(req, resp);
 		} else if (uri.indexOf("delete.do") != -1) {
-
+			deleted(req, resp);
 		}
 	}
 
@@ -269,14 +269,105 @@ public class NoticeServlet extends MyServlet {
 	}
 
 	protected void updateForm(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 폼
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
+		NoticeDAO dao = new NoticeDAO();
+		String cp = req.getContextPath();
+
+		if (info == null) {
+			resp.sendRedirect(cp + "/member/login.do");
+			return;
+		}
+
+		String page = req.getParameter("page");
+		int num = Integer.parseInt(req.getParameter("num"));
+
+		NoticeDTO dto = dao.readNotice(num);
+		if (dto == null) {
+			resp.sendRedirect(cp + "/notice/list.do?page=" + page);
+			return;
+		}
+
+		// 글을 등록한 사람만 수정 가능
+		if (!info.getMem_Id().equals(dto.getMem_id())) {
+			resp.sendRedirect(cp + "/notice/list.do?page=" + page);
+			return;
+		}
+
+		req.setAttribute("dto", dto);
+		req.setAttribute("page", page);
+
+		req.setAttribute("mode", "update");
+		String path = "/WEB-INF/views/notice/created.jsp";
+		forward(req, resp, path);
 	}
 
 	protected void updateSubmit(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 수정 완료
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
+
+		NoticeDAO dao = new NoticeDAO();
+		String cp = req.getContextPath();
+
+		if (info == null) {
+			resp.sendRedirect(cp + "/member/login.do");
+			return;
+		}
+		// 관리자만 글을 등록할 수 있게
+		if (!info.getMem_Id().equals("admin")) {
+			resp.sendRedirect(cp + "/notice/list.do");
+			return;
+		}
+
+		NoticeDTO dto = new NoticeDTO();
+
+		dto.setMem_id(info.getMem_Id());
+		if (req.getParameter("notice") != null)
+			dto.setNotice(Integer.parseInt(req.getParameter("notice")));
+		dto.setSubject(req.getParameter("subject"));
+		dto.setContent(req.getParameter("content"));
+
+		dao.insertNotice(dto);
+
+		resp.sendRedirect(cp + "/notice/list.do");
+		
 
 	}
 
 	protected void deleted(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// 삭제
+		HttpSession session = req.getSession();
+		SessionInfo info = (SessionInfo) session.getAttribute("member");
 
+		NoticeDAO dao = new NoticeDAO();
+		String cp = req.getContextPath();
+
+		if (info == null) {
+			resp.sendRedirect(cp + "/member/login.do");
+			return;
+		}
+
+		int not_num = Integer.parseInt(req.getParameter("num"));
+		String page = req.getParameter("page");
+
+		NoticeDTO dto = dao.readNotice(not_num);
+		if (dto == null) {
+			resp.sendRedirect(cp + "/notice/list.do?page=" + page);
+			return;
+		}
+
+		// 글 등록한 사람, admin 만 삭제 가능
+
+		if (!info.getMem_Id().equals(dto.getMem_id()) && !info.getMem_Id().equals("admin")) {
+			resp.sendRedirect(cp + "/notice/list.do?page=" + page);
+			return;
+		}
+
+		dao.deleteNotice(not_num);
+
+		resp.sendRedirect(cp + "/notice/list.do?page=" + page);
 	}
 }
