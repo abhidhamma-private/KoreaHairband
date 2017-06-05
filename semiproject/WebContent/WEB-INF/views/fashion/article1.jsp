@@ -145,13 +145,15 @@ function sendReply() {
 
 <div class="f_container">
 
-<table style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
-<tr height="45">
-	<td align="left" class="title">
-		<h3><a href ="<%=cp%>/fashion/list1.do">패션-중고거래게시판</a></h3>
-	</td>
-</tr>
-</table>
+		<table
+			style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
+			<tr height="45">
+				<td align="left" class="title">
+					<!-- 로고 이미지 -->
+					<img src="<%=cp%>/resource/img/m_dealboard.png" style="margin: 10px">
+				</td>
+			</tr>
+		</table>
 
 		<table style="width:900px; margin: 0px auto 20px; border-spacing: 0px;">
 			<tr height="45">

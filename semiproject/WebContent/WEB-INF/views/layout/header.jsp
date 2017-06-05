@@ -52,7 +52,7 @@
 					</ul></li>
 				<li class='active sub'><a href='#'>패션</a>
 					<ul>
-						<li><a href='<%=cp%>/fashion/list2.do'>자유게시판</a></li>
+						<li><a href='<%=cp%>/fashion/Fashion2.do'>자유게시판</a></li>
 						<li><a href='<%=cp%>/fashion/list1.do'>중고거래</a></li>
 					</ul></li>
 				<li class='active sub'><a href='#'>푸드</a>
