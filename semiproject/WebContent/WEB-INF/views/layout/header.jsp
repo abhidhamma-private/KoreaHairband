@@ -58,7 +58,7 @@
 				<li class='active sub'><a href='#'>푸드</a>
 					<ul>
 						<li><a href='<%=cp%>/food/board.do'>레시피요청</a></li>
-						<li><a href='<%=cp%>/food/photo.do'>레시피공유</a></li>
+						<li><a href='<%=cp%>/food/recipe.do'>레시피공유</a></li>
 					</ul></li>
 				<li class='active sub'><a href='#'>반려동물</a>
 					<ul>
