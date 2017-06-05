@@ -52,8 +52,11 @@ public class mainDAO {
 				+ " FROM pet2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM pet2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 				+ " JOIN pet2_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url, 'IT-뉴스/신제품' AS boardname, '0' as savefilename "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/news_article.do?bbs_num=' AS url, 'IT-뉴스/신제품' AS boardname, '0' as savefilename "
 				+ " FROM it1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM it1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " UNION"
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url, 'IT-자유게시판' AS boardname, '0' as savefilename "
+				+ " FROM it2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM it2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 
 				+ ") ORDER BY likeCount DESC"
 				+ " ) tb WHERE ROWNUM <= 3";
@@ -191,7 +194,7 @@ public class mainDAO {
 			url1="/fashion/article1.do?bbs_num=";
 			url2="/fashion/article1.do?bbs_num=";
 		} else if(tablename.equals("it")) {
-			url1="/it/board_article.do?bbs_num=";
+			url1="/it/news_article.do?bbs_num=";
 			url2="/it/board_article.do?bbs_num=";
 		} else if(tablename.equals("food")) {
 			url1="/food1/article.do?num=";
@@ -285,7 +288,7 @@ public class mainDAO {
 					+ " select count(*) memsarticle, mem_Name FROM food2 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM health1 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM health2 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name "
-					+ " )tb  "
+					+ " )tb WHERE ROWNUM <= 5 "
 					+ " )ORDER by memsarticle desc ";
 				
 				pstmt = conn.prepareStatement(sql);
@@ -322,7 +325,7 @@ public class mainDAO {
 					+ " select count(*) memsrepl, mem_Name FROM food2_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM health1_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM health2_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name "
-					+ " )tb "
+					+ " )tb WHERE ROWNUM <= 5 "
 					+ " )ORDER by memsrepl desc ";
 				
 				pstmt = conn.prepareStatement(sql);
@@ -386,7 +389,7 @@ public class mainDAO {
 		       sql += " select count(*) memslike, mem_Name FROM food2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM health1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM health2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name ";
-		       sql += " )tb ";
+		       sql += " )tb WHERE ROWNUM <= 5 ";
 		       sql += ")ORDER by memslike DESC";
 		       
 		       pstmt = conn.prepareStatement(sql);
