@@ -8,11 +8,11 @@
 <div class="footer">
 	<div class="footermenu">
 		<ul>
-			<li><a href='#'>정책 및 약관</a></li>
-			<li><a href='#'>사이트 소개</a></li>
-			<li><a href='#'>제휴 제안</a></li>
-			<li><a href='#'>이용 약관</a></li>
-			<li><a href='#'>고객정보취급방침</a></li>
+			<li><a href='<%=cp%>/foot/policy.do'>정책 및 약관</a></li>
+			<li><a href='<%=cp%>/foot/info.do'>사이트 소개</a></li>
+			<li><a href='<%=cp%>/foot/proposal.do'>제휴 제안</a></li>
+			<li><a href='<%=cp%>/foot/service.do'>이용 약관</a></li>
+			<li><a href='<%=cp%>/foot/privacy.do'>고객정보취급방침</a></li>
 		</ul>
 	</div>
 </div>
