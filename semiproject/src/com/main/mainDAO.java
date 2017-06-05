@@ -24,12 +24,16 @@ public class mainDAO {
 		try {
 			sql = "SELECT ROWNUM rnum, tb.* FROM ("
 				+ " ("
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/soccer/board/article.do?bbs_num=' AS url, '축구-자유게시판' AS boardname, savefilename "
-				+ " FROM SOCCER1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM SOCCER1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount,"
+				+ " '/soccer/board/article.do?bbs_num=' AS url, '축구-자유게시판' AS boardname, savefilename "
+				+ " FROM SOCCER1 H JOIN member M ON H.MEM_ID=M.MEM_ID "
+				+ " LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM SOCCER1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 				+ " JOIN SOCCER1_file F ON H.bbs_num = F.bbs_num"
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/articleB.do?num=' AS url, '건강-정보게시판' AS boardname, savefilename "
-				+ " FROM health1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount,"
+				+ " '/health/articleB.do?num=' AS url, '건강-정보게시판' AS boardname, savefilename "
+				+ " FROM health1 H JOIN member M ON H.MEM_ID=M.MEM_ID "
+				+ " LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 				+ " JOIN health1_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
 				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/health/article.do?num=' AS url, '건강-자유게시판' AS boardname, savefilename "
@@ -216,14 +220,16 @@ public class mainDAO {
 		}
 		
 		try {
-			sql = " SELECT ROWNUM rnum, tb.* FROM ( "
-				+ " (SELECT H.BBS_Num, subject, NVL(likeCount, 0) likeCount, '"+url1+"' AS url "
-				+ " FROM "+tablename+"1 H LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM "+tablename+"1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
-				+ " UNION "
-				+ "  SELECT H.BBS_Num, subject, NVL(likeCount, 0) likeCount, '"+url2+"' AS url "
-				+ "  FROM "+tablename+"2 H LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM "+tablename+"2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num) "
-				+ "  ORDER BY likeCount DESC "
-				+ "  ) tb WHERE ROWNUM <= 5 ";
+sql = " SELECT ROWNUM rnum, tb.* FROM ( "
+	+ " (SELECT H.BBS_Num, subject, NVL(likeCount, 0) likeCount, '"+url1+"' AS url "
+	+ " FROM "+tablename+"1 H LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, "
+	+ "BBS_NUM FROM "+tablename+"1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
+	+ " UNION "
+	+ "  SELECT H.BBS_Num, subject, NVL(likeCount, 0) likeCount, '"+url2+"' AS url "
+	+ "  FROM "+tablename+"2 H LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, "
+	+ "BBS_NUM FROM "+tablename+"2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num) "
+	+ "  ORDER BY likeCount DESC "
+	+ "  ) tb WHERE ROWNUM <= 5 ";
 			
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
@@ -232,7 +238,7 @@ public class mainDAO {
 				dto.setSubject(rs.getString("subject"));
 				dto.setBbs_Num(rs.getInt("Bbs_Num"));
 				dto.setUrl(rs.getString("url"));
-				dto.setHitCount(rs.getInt("likeCount"));
+				dto.setLikeCount(rs.getInt("likecount"));
 				list.add(dto);
 			}
 			

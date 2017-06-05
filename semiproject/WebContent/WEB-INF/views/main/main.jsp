@@ -143,7 +143,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="memredto" items="${memre_list}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;${memredto.mem_Name}<small style="float:right">조회수${memredto.memsrepl}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;${memredto.mem_Name}<small style="float:right">댓글수${memredto.memsrepl}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -291,7 +291,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="sbdto" items="${sblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${sbdto.url}${sbdto.bbs_Num}">${sbdto.subject}</a><small style="float:right">조회수${sbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${sbdto.url}${sbdto.bbs_Num}">${sbdto.subject}</a><small style="float:right">추천수${sbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -302,7 +302,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="hbdto" items="${hblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${hbdto.url}${hbdto.bbs_Num}">${hbdto.subject}</a><small style="float:right">조회수${hbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${hbdto.url}${hbdto.bbs_Num}">${hbdto.subject}</a><small style="float:right">추천수${hbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -313,7 +313,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="fsbdto" items="${fsblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${fsbdto.url}${fsbdto.bbs_Num}">${fsbdto.subject}</a><small style="float:right">조회수${fsbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${fsbdto.url}${fsbdto.bbs_Num}">${fsbdto.subject}</a><small style="float:right">추천수${fsbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -324,7 +324,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="fbdto" items="${fblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${fbdto.url}${fbdto.bbs_Num}">${fbdto.subject}</a><small style="float:right">조회수${fbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${fbdto.url}${fbdto.bbs_Num}">${fbdto.subject}</a><small style="float:right">추천수${fbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -335,7 +335,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="pbdto" items="${pblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${pbdto.url}${pbdto.bbs_Num}">${pbdto.subject}</a><small style="float:right">조회수${pbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${pbdto.url}${pbdto.bbs_Num}">${pbdto.subject}</a><small style="float:right">추천수${pbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
