@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
@@ -225,8 +224,9 @@ public class SoccerServlet extends MyServlet
 				dto.setCreated(dto.getCreated().substring(0, 10));
 				dto.setGap(gap);
 				
-			} catch(ParseException e) {
+			} catch(Exception e) {
 				
+				e.printStackTrace();
 			}
 			
 			n++;
@@ -248,7 +248,7 @@ public class SoccerServlet extends MyServlet
 			listUrl += "?" + query;
 			articleUrl += "&" + query;
 		}
-		
+
 		// ∆‰¿Ã¬° √≥∏Æ
 		String paging = util.paging(current_page, total_page, listUrl);
 		

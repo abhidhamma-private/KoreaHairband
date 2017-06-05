@@ -268,7 +268,8 @@ public class SCBoardDAO
 		{
 			sb.append(" SELECT s1.bbs_num, notice, category, s1.mem_Id, mem_Name, ");
 			sb.append("        subject, content, groupNum, orderNo, depth, hitCount, ");
-			sb.append("        TO_CHAR(created, 'YYYY-MM-DD') created, ");
+			// sb.append("        TO_CHAR(created, 'YYYY-MM-DD') created, ");
+			sb.append("        created, ");
 			sb.append("        file_num, saveFilename, originalFilename, fileSize ");
 			sb.append(" FROM soccer1 s1 ");
 			sb.append(" LEFT OUTER JOIN member m ON s1.mem_Id = m.mem_Id ");
@@ -345,7 +346,8 @@ public class SCBoardDAO
 			sb.append("    SELECT ROWNUM rnum, tb.* FROM ( ");
 			sb.append("         SELECT s1.bbs_num, notice, category, s1.mem_Id, mem_Name, ");
 			sb.append("                subject, content, groupNum, orderNo, depth, hitCount, ");
-			sb.append("                TO_CHAR(created, 'YYYY-MM-DD') created, ");
+			// sb.append("                TO_CHAR(created, 'YYYY-MM-DD') created, ");
+			sb.append("                created, ");
 			sb.append("                file_num, saveFilename, originalFilename, fileSize ");
 			sb.append("         FROM soccer1 s1 ");
 			sb.append("         LEFT OUTER JOIN member m ON s1.mem_Id = m.mem_Id ");
