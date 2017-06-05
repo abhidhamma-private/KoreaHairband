@@ -153,11 +153,11 @@
 				      </td>
 				  	  <td>
 				  	  	  <c:if test="${dto.saveFilename != null}">
-				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  	  
 				  	  	  <c:if test="${dto.saveFilename == null}">
-				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  	  <img src="" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  </td>
 				      <td align="left" style="padding-left: 10px;">
@@ -179,11 +179,11 @@
 				      <td> ${dto.listNum } </td>
 				  	  <td>
 				  	  	 <c:if test="${dto.saveFilename != null}">
-				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  	  
 				  	  	  <c:if test="${dto.saveFilename == null}">
-				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  	  <img src="" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  </td>
 				      <td align="left" style="padding-left: 10px;">
@@ -220,9 +220,9 @@
 			                  <option value="mem_Name">작성자</option>
 			                  <option value="content">내용</option>
 			                  <option value="created">등록일</option>
-			            </select>
-			            <input type="text" name="searchValue" class="boxTF">
-			            <button type="button" class="btn" onclick="searchList()">검색</button>
+			              </select>
+			          <input type="text" name="searchValue" class="boxTF">
+			          <button type="button" class="btn" onclick="searchList()">검색</button>
 			        </form>
 			      </td>
 			      <td align="right" width="100">
