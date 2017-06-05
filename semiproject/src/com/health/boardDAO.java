@@ -140,8 +140,7 @@ public class boardDAO {
 			rs = pstmt.executeQuery();
 			
 
-			pstmt.close();
-			rs.close();
+		
 			while (rs.next()) {
 				boardDTO dto = new boardDTO();
 				dto.setBbs_Num(rs.getInt("Bbs_Num"));
@@ -157,6 +156,7 @@ public class boardDAO {
 				dto.setLikeCount(rs.getInt("likeCount"));
 				list.add(dto);
 			}
+			
 			rs.close();
 			pstmt.close();
 

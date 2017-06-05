@@ -77,7 +77,7 @@ public class noticeDAO {
 			rs = pstmt.executeQuery();
 			
 			
-			pstmt.close();
+			
 			while (rs.next()) {
 				noticeDTO dto = new noticeDTO();
 				dto.setBbs_num(rs.getInt("bbs_num"));
@@ -92,7 +92,8 @@ public class noticeDAO {
 
 				list.add(dto);
 			}
-
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

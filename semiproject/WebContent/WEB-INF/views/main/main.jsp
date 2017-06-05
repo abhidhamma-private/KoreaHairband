@@ -346,7 +346,7 @@ width:105px;
 			        	<div class="boardbox">
 							<ul class="list-group">
 								<c:forEach var="itbdto" items="${itblist}" varStatus="status">
-								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${itbdto.url}${itbdto.bbs_Num}">${itbdto.subject}</a><small style="float:right">조회수${itbdto.hitCount}</small></li>
+								<li class="list-group-item">${status.count}&nbsp;<a href="<%=cp%>${itbdto.url}${itbdto.bbs_Num}">${itbdto.subject}</a><small style="float:right">추천수${itbdto.likeCount}</small></li>
 								</c:forEach>
 							</ul>
 						</div>
