@@ -115,7 +115,7 @@
 <div>
     <div style="width: 870px; margin: 0px auto;">
     <!-- 로고 이미지 -->
-	<img src="<%=cp%>/resource/img/m_freeboard.png" style="margin: 10px">
+	<img src="<%=cp%>/resource/img/m_freeboard.png" style="margin-left: 330px; margin-top: 30px;" align="middle">
         
         <div>
 			<table style="width: 870px; margin: 20px auto 0px; border-spacing: 0px;">
@@ -137,12 +137,12 @@
 			</table>
 			 
 			<table style="width: 870px; margin: 5px auto; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
-			      <th width="60" style="color: #787878;">번호</th>
-			      <th width="100" style="color: #787878;">사진</th>
-			      <th style="color: #787878;">제목</th>
-			      <th width="100" style="color: #787878;">작성자</th>
-			      <th width="80" style="color: #787878;">작성일</th>
+			  <tr bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			      <th width="80" style="color: #787878; padding-left: 25px;">번호</th>
+			      <th width="100" style="color: #787878; padding-left: 25px;">사진</th>
+			      <th style="color: #787878; padding-left: 10px;">제목</th>
+			      <th width="100" style="color: #787878; padding-left: 25px;">작성자</th>
+			      <th width="80" style="color: #787878; padding-left: 10px;">작성일</th>
 			      <th width="60" style="color: #787878;">조회수</th>
 			  </tr>
 			  
@@ -151,13 +151,13 @@
 				      <td>
 				           <span style="display: inline-block; width: 38px; height:18px; line-height:18px; background: #ED4C00; color: #FFFFFF;">공지</span>
 				      </td>
-				  	  <td>
+				  	  <td style="padding-right: 15px;">
 				  	  	  <c:if test="${dto.saveFilename != null}">
-				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  	  
 				  	  	  <c:if test="${dto.saveFilename == null}">
-				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  	  <img src="" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  </td>
 				      <td align="left" style="padding-left: 10px;">
@@ -177,13 +177,13 @@
 			  <c:forEach var="dto" items="${list }">
 				  <tr align="center" bgcolor="#ffffff" height="35" style="border-bottom: 1px solid #cccccc;">
 				      <td> ${dto.listNum } </td>
-				  	  <td>
+				  	  <td style="padding-right: 15px;">
 				  	  	 <c:if test="${dto.saveFilename != null}">
-				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="77" height="77" border="0">
+				  	      	  <img src="<%=cp%>/uploads/semi/${dto.saveFilename}" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  	  
 				  	  	  <c:if test="${dto.saveFilename == null}">
-				  	  	  	  <img src="" width="77" height="77" border="0">
+				  	  	  	  <img src="" width="55" height="55" border="0">
 				  	  	  </c:if>
 				  	  </td>
 				      <td align="left" style="padding-left: 10px;">
@@ -220,9 +220,9 @@
 			                  <option value="mem_Name">작성자</option>
 			                  <option value="content">내용</option>
 			                  <option value="created">등록일</option>
-			            </select>
-			            <input type="text" name="searchValue" class="boxTF">
-			            <button type="button" class="btn" onclick="searchList()">검색</button>
+			              </select>
+			          <input type="text" name="searchValue" class="boxTF">
+			          <button type="button" class="btn" onclick="searchList()">검색</button>
 			        </form>
 			      </td>
 			      <td align="right" width="100">

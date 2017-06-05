@@ -88,7 +88,7 @@ width:105px;
 					    		<div style="height:50%">
 					    		
 					    		<ol class="breadcrumb" style="float:right; font-size:13px; margin:0px">
-										  <li><a href="#">게시판명 ${abdto.boardname}</a></li>
+										  <li><a href="#">${abdto.boardname}</a></li>
 										  
 										  <li>
 										  <a id="countLikeBoard${abdto.bbs_Num}" >좋아요 ${abdto.likeCount} </a> 
