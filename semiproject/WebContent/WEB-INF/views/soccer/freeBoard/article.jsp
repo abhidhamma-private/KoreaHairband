@@ -175,8 +175,8 @@
 			
 		<div class="container">
 		    <div class="body-container" style="width: 870px;">
-		        <div class="body-title">
-		            <h3> SCBoard Read..... </h3>
+		        <div align="center" style="padding-bottom: 20px; padding-top: 10px;">
+		            <h3> 자유게시판 글보기 </h3>
 		        </div>
 		        
 		        <div>

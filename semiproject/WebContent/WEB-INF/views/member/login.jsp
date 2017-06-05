@@ -67,7 +67,8 @@ function sendLogin() {
 
 	    <div style="margin: 80px auto 70px; width:360px;">
 	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
+	        	<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/login.png" style="margin: 10px"><br>
 	        </div>
 	        
 			<form name="loginForm" method="post" action="">
@@ -98,8 +99,6 @@ function sendLogin() {
 
 			  <tr align="center" height="45">
 			      <td>
-			       		<a href="<%=cp%>/">아이디찾기</a>&nbsp;&nbsp;&nbsp;
-			       		<a href="<%=cp%>/">패스워드찾기</a>&nbsp;&nbsp;&nbsp;
 			       		<a href="<%=cp%>/member/member.do">회원가입</a>
 			      </td>
 			  </tr>

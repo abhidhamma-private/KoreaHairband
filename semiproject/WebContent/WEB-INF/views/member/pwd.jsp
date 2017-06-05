@@ -62,13 +62,11 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
-	<div>
-	
 	    <div style="margin: 70px auto 60px; width:420px;">
 		
 	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">[${title}] 패스워드 재확인</span>
+	        	<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/pwd.png" style="margin: 10px"><br>
 	        </div>
 		
 			<form name="pwdForm" method="post" action="">
@@ -121,9 +119,6 @@
 			</table>
 		</div>
 			
-	</div>
-
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

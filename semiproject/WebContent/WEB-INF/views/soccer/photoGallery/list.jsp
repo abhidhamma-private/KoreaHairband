@@ -6,8 +6,8 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
-
 <style type="text/css">
+
 .imgLayout {
 	width: 190px;
 	height: 205px;
@@ -15,13 +15,11 @@
 	margin: 5px;
 	border: 1px solid #DAD9FF;
 }
-
 .subject {
 	width: 180px;
 	height: 25px;
-	line-height: 25px;
+	line-height: 15px;
 	margin: 5px auto;
-	border-top: 1px solid #DAD9FF;
 	display: inline-block;
 	white-space: nowrap;
 	overflow: hidden;
@@ -62,12 +60,10 @@
 						<c:if test="${status.index!=0 && status.index%3==0}">
 							<c:out value="</tr><tr>" escapeXml="false" />
 						</c:if>
-						<td width="210" align="center">
-							<div class="imgLayout">
-								<img src="<%=cp%>/uploads/semi/${pdto.imageFilename}"
-									width="180" height="180" border="0"> <span
-									class="subject"
-									onclick="javascript:article('${pdto.bbs_num }');">
+						<td width="210" height="" align="center">
+							<div class="imgLayout" style="margin: 10px auto;">
+								<img src="<%=cp%>/uploads/semi/${pdto.imageFilename}" width="180" height="180" border="0"> 
+								<span class="subject" onclick="javascript:article('${pdto.bbs_num }');">
 									${pdto.subject}<br>
 								</span>
 							</div>

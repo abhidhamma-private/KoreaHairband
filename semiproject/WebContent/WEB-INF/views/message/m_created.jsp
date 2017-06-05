@@ -26,8 +26,8 @@ function submitMessage(){
 			style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
 			<tr height="45">
 				<td align="left" class="title">
-				<h3>쪽지쓰기 </h3><br>
-				
+				<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/msg_send.png" style="margin: 10px"><br>
 				</td>
 			</tr>
 			

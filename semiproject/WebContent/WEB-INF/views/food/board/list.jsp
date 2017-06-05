@@ -41,7 +41,7 @@
 			var oHeight = $('.popupLayer').height();
 
 			// 레이어가 나타날 위치를 셋팅한다.
-			var divLeft = e.clientX - 400;
+			var divLeft = e.clientX - 510;
 			var divTop = e.clientY;
 
 			// 레이어가 화면 크기를 벗어나면 위치를 바꾸어 배치한다.
@@ -84,6 +84,9 @@
 </script>
 
 <style type="text/css">
+#bbs-title th{
+text-align: center;
+}
 .popupSelect {
 	cursor: pointer;
 }
@@ -95,7 +98,7 @@
 	background-color: #ffffff;
 	border: solid 2px #d0d0d0;
 	width: 100px;
-	height: 100px;
+	height: 120px;
 	padding: 10px;
 }
 </style>
@@ -106,7 +109,6 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
     <div class="body-container" style="width: 900px;">
         <div class="body-title">
         </div>
@@ -114,7 +116,6 @@
         <form name="popup" method="post">
 		<div class="popupLayer">
 			<span id="popupID">ID가 나타날곳</span><br>
-			<hr>
 			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
 			<a href="javascript:void(0);" onclick="movemsg();"  id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
 			<span onClick="closeLayer(this)" style="cursor:pointer;font-size:1.5em" title="닫기">X</span>
@@ -137,7 +138,7 @@
 			</table>
 			
 			<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			  <tr id="bbs-title" align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <th width="60" style="color: #787878;">번호</th>
 			      <th width="80" style="color: #787878;">카테고리</th>
 			      <th style="color: #787878;">제목</th>
@@ -233,7 +234,6 @@
         </div>
 
     </div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
