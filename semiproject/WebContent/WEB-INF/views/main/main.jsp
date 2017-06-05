@@ -82,7 +82,7 @@ width:105px;
 			    	<c:forEach var="abdto" items="${ablist}">
 				    	<tr>
 				    		<td style="width:20%">
-				    		<img alt="<%=cp%>/resource/img/hair.jpg" src="<%=cp%>/uploads/semi/${abdto.savefilename}" width="80px" height="80px" >
+				    		<img onerror="this.src='<%=cp%>/resource/img/noimg.png'" src="<%=cp%>/uploads/semi/${abdto.savefilename}" width="80px" height="80px" >
 				    		</td>
 				    		<td style="width:80%">
 					    		<div style="height:50%">

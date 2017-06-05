@@ -154,7 +154,7 @@ function sendReply() {
 	                 <tbody>
 	                     <tr>
 	                         <td style="text-align: left;">
-	                             	${sessionScope.member.mem_Name}
+	                             	${dto.mem_Name}
 	                         </td>
 	                         <td style="text-align: right;">
 	                          	날짜 ${dto.created}/조회 ${dto.hitCount }/좋아요
