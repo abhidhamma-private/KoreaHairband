@@ -63,11 +63,11 @@
 			<!-- 로고 이미지 -->
 			<img src="<%=cp%>/resource/img/profilephoto.png" style="margin: 10px">
 			<c:if test="${dto.mem_img!=null||dto.mem_img=='null'}}">
-				<img src="<%=cp%>/uploads/photo/${dto.mem_img}"
+				<img src="<%=cp%>/resource/img/noimg.png"
 					style="max-width: 250px; height: auto; resize: both;">
 			</c:if>
-			<c:if test="${dto.mem_img==null||dto.mem_img=='null'}">
-				<img src="<%=cp%>/resource/img/noimg.png"
+			<c:if test="${dto.mem_img!=null||dto.mem_img!='null'}">
+				<img src="<%=cp%>/uploads/photo/${dto.mem_img}"
 					style="max-width: 250px; height: auto; resize: both;">
 			</c:if>
 		</div>

@@ -25,7 +25,6 @@
 			var mem_Id = $(this).attr("data-id"); //값을 받아오는 태그
 			
 			$("#popupID").html(mem_Id);
-			<%-- $("#popupInfo").attr("href", "<%=cp%>/member/infopage.do") --%>
 
 			var sWidth = window.innerWidth;
 			var sHeight = window.innerHeight;
@@ -41,7 +40,7 @@
 			if( divLeft + oWidth > sWidth ) divLeft -= oWidth;
 			if( divTop + oHeight > sHeight ) divTop -= oHeight;
 
-			// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치하자.
+			// 레이어 위치를 바꾸었더니 상단기준점(0,0) 밖으로 벗어난다면 상단기준점(0,0)에 배치.
 			if( divLeft < 0 ) divLeft = 0;
 			if( divTop < 0 ) divTop = 0;
 
@@ -105,15 +104,13 @@ text-align: center;
 
 	<form name="popup" method="post">
 		<div class="popupLayer">
-			<span id="popupID">ID가 나타날곳</span><br> <a
-				href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span
-				id="popupInfo">회원 정보</span></a><br> <a href="javascript:void(0);"
-				onclick="movemsg();" id="popupMsg"><span id="popupMsg">쪽지
-					보내기</span></a><br> <span onClick="closeLayer(this)"
-				style="cursor: pointer; font-size: 1.5em" title="닫기">X</span>
+			<span id="popupID">ID가 나타날곳</span><br>
+			<a href="javascript:void(0);" onclick="moveinfo();" id="popupInfo"><span id="popupInfo">회원 정보</span></a><br>
+			<a href="javascript:void(0);" onclick="movemsg();" id="popupMsg"><span id="popupMsg">쪽지 보내기</span></a><br>
+			<span onClick="closeLayer(this)" style="cursor: pointer; font-size: 1.5em" title="닫기">X</span>
 		</div>
-		<input type="hidden" name="mem_Id1" value=""> <input
-			type="hidden" name="returnpage" value="">
+		<input type="hidden" name="mem_Id1" value="">
+		<input type="hidden" name="returnpage" value="">
 	</form>
 
 

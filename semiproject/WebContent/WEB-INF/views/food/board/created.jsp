@@ -69,7 +69,6 @@
 			      </td>
 			  </tr>
 			  </c:if>
-	     	  <c:if test="${mode=='created'}">
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
@@ -79,7 +78,6 @@
 			          </select>
 			      </td>
 			  </tr>
-		      </c:if>
 			  <tr align="left" height="40" style="border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">작성자</td>
 			      <td style="padding-left:10px;"> 
