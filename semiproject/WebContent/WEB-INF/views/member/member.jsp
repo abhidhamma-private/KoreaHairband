@@ -209,9 +209,8 @@
 	<div class="container">
 		<div class="body-container" style="width: 700px;">
 			<div class="body-title">
-				<h3>
-					<span style="font-family: Webdings">2</span> ${title}
-				</h3>
+					<!-- 로고 이미지 -->
+					<img src="<%=cp%>/resource/img/join.png" style="margin: 10px"><br>
 			</div>
 
 			<div>

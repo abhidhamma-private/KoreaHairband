@@ -67,7 +67,8 @@ function sendLogin() {
 
 	    <div style="margin: 80px auto 70px; width:360px;">
 	    	<div style="text-align: center;">
-	        	<span style="font-weight: bold; font-size:27px; color: #424951;">회원 로그인</span>
+	        	<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/login.png" style="margin: 10px"><br>
 	        </div>
 	        
 			<form name="loginForm" method="post" action="">

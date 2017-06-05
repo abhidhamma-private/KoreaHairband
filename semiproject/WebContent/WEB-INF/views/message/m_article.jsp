@@ -41,14 +41,13 @@ $(function(){
 <div class="header">
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
-
 <div class="f_container">
 		<table
 			style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
 			<tr height="45">
 				<td align="left" class="title">
-				<h3>${sessionScope.member.mem_Name} 님의 메시지</h3><br>
-				
+				<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/msg_read.png" style="margin: 10px"><br>
 				</td>
 			</tr>
 			
@@ -57,7 +56,7 @@ $(function(){
 		<form method="post" name="articleForm" >
 		
        <input type="button" value="삭제" class="btn" onclick="deleteMessage();">
-  	   <input type="button" value="답장"  onclick="sendMessage(); ">
+  	   <input type="button" value="답장" class="btn" onclick="sendMessage(); ">
 	
   	   <input type="hidden" name="message_num" value="${dto.message_num}">
 	   <input type="hidden"  name="mem_Id1" value="${dto.mem_Id1}">
