@@ -314,6 +314,11 @@ public class PetTalkDAO {
 					pstmt.close();
 				} catch (Exception e2) {
 				}
+			}if(rs!=null){
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
 			}
 		}
 		return dto;
@@ -373,6 +378,11 @@ public class PetTalkDAO {
 					pstmt.close();
 				} catch (Exception e2) {
 				}
+			}if(rs!=null){
+				try {
+					rs.close();
+				} catch (Exception e2) {
+				}
 			}
 		}
 		return dto;
@@ -430,6 +440,11 @@ public class PetTalkDAO {
 			if (pstmt != null) {
 				try {
 					pstmt.close();
+				} catch (Exception e2) {
+				}
+			}if(rs!=null){
+				try {
+					rs.close();
 				} catch (Exception e2) {
 				}
 			}
