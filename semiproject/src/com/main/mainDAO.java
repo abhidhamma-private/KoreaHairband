@@ -98,7 +98,7 @@ public class mainDAO {
 				url1="/fashion/article1.do?bbs_num=";
 				url2="/fashion/article2.do?bbs_num=";
 			} else if(tablename.equals("it")) {
-				url1="/it/board_article.do?bbs_num=";
+				url1="/it/news_article.do?bbs_num=";
 				url2="/it/board_article.do?bbs_num=";
 			} else if(tablename.equals("food")) {
 				url1="/food1/article.do?num=";
