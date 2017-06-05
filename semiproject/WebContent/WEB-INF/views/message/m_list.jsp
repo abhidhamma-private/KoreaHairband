@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Insert title here</title>pt>
+<title> Insert title here</title>
 <script type="text/javascript">
 function deleteList() {
 	var f=document.listForm;
