@@ -52,9 +52,8 @@ public class mainDAO {
 				+ " FROM pet2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM pet2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 				+ " JOIN pet2_file F ON H.bbs_num = F.bbs_num "
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url, 'IT' AS boardname, savefilename "
-				+ " FROM it2 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM it2_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
-				+ " JOIN it2_file F ON H.bbs_num = F.bbs_num "
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, '/it/board_article.do?bbs_num=' AS url, 'IT' AS boardname, '0' as savefilename "
+				+ " FROM it1 H JOIN member M ON H.MEM_ID=M.MEM_ID LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM it1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 
 				+ ") ORDER BY likeCount DESC"
 				+ " ) tb WHERE ROWNUM <= 3";
@@ -71,6 +70,7 @@ public class mainDAO {
 				dto.setLikeCount(rs.getInt("likeCount"));
 				dto.setUrl(rs.getString("url"));
 				dto.setSavefilename(rs.getString("savefilename"));
+				dto.setBoardname(rs.getString("boardname"));
 				list.add(dto);
 			}
 		} catch (Exception e) {

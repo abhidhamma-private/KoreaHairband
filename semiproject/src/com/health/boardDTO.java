@@ -14,6 +14,8 @@ public class boardDTO {
 	private int memsrepl;
 	//포인트
 	private int point;
+	//보드네임
+	private String boardname;
 	
 	//health1
 	private int bbs_Num;
@@ -147,6 +149,12 @@ public class boardDTO {
 	}
 	public void setPoint(int point) {
 		this.point = point;
+	}
+	public String getBoardname() {
+		return boardname;
+	}
+	public void setBoardname(String boardname) {
+		this.boardname = boardname;
 	}
 	
 }
