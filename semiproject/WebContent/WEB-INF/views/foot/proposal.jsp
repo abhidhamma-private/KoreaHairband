@@ -26,6 +26,8 @@
 	
 <div class="container">
     <div class="body-container" style="border: 0px;resize:none">
+		<!-- 로고 이미지 -->
+		<img src="<%=cp%>/resource/img/f_proposal.png" style="margin: 10px"><br>
         <div class="body-title">
         <textarea rows="39px" cols="125px" style="border: 0px;resize:none" >
 

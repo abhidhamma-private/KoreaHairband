@@ -26,6 +26,8 @@
 	
 <div class="container">
     <div class="body-container" style="width: 900px;">
+		<!-- 로고 이미지 -->
+		<img src="<%=cp%>/resource/img/f_privacy.png" style="margin: 10px"><br>
         <div class="body-title">
         <textarea rows="39px" cols="125px" style="border: 0px;resize:none" >
 1. 개인정보 수집에 대한 동의

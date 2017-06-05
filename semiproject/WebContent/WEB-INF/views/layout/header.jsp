@@ -73,8 +73,6 @@
 				<li class='active sub'><a href='#'>고객센터</a>
 					<ul>
 						<li><a href='<%=cp%>/notice/list.do'>공지사항</a></li>
-						<li><a href='<%=cp%>/ask/list.do'>자주묻는질문</a></li>
-						<li><a href='<%=cp%>/qna/list.do'>Q&A</a></li>
 					</ul></li>
 			</ul>
 		</div>

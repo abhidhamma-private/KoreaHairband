@@ -81,8 +81,9 @@ function deleteMessage() {
 			style="width: 900px; margin: 30px auto 0px; border-spacing: 0px;">
 			<tr height="45">
 				<td align="left" class="title">
-				<h3>${sessionScope.member.mem_Name} 님의 메시지함 ${dataCount }개(${page }/${total_page }페이지)</h3><br>
-				
+				<!-- 로고 이미지 -->
+				<img src="<%=cp%>/resource/img/msg.png" style="margin: 10px"><br>
+				<h4>[${sessionScope.member.mem_Name}]님의 쪽지함 ${dataCount }개(${page }/${total_page }페이지)</h4><br>
 				</td>
 			</tr>
 			
