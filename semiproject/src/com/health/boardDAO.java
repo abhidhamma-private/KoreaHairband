@@ -58,7 +58,11 @@ public class boardDAO {
 			pstmt.setInt(9, dto.getBbs_Num());
 			pstmt.setString(10, dto.getSavefilename());
 			result = pstmt.executeUpdate();
+			
+			
 
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,7 +83,9 @@ public class boardDAO {
 			pstmt.setInt(2, orderNo);
 			result = pstmt.executeUpdate();
 
+
 			pstmt.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -132,7 +138,10 @@ public class boardDAO {
 			pstmt.setInt(2, start);
 
 			rs = pstmt.executeQuery();
+			
 
+			pstmt.close();
+			rs.close();
 			while (rs.next()) {
 				boardDTO dto = new boardDTO();
 				dto.setBbs_Num(rs.getInt("Bbs_Num"));
@@ -187,7 +196,10 @@ public class boardDAO {
 
 				
 			}
+			
 
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -212,7 +224,9 @@ public class boardDAO {
 			pstmt.setInt(1, bbs_num);
 			result = pstmt.executeUpdate();
 
+
 			pstmt.close();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -255,7 +269,7 @@ public class boardDAO {
 			result = pstmt.executeUpdate();
 
 			pstmt.close();
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -273,6 +287,8 @@ public class boardDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
 			pstmt.executeUpdate();
+			
+			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -292,6 +308,7 @@ public class boardDAO {
 				pstmt.setString(2, userId);
 				result = pstmt.executeUpdate();
 				
+				pstmt.close();
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			} finally {
@@ -321,6 +338,8 @@ public class boardDAO {
 				if(rs.next())
 					result=rs.getInt(1);
 				
+				
+				pstmt.close();
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			} finally {
@@ -360,6 +379,8 @@ public class boardDAO {
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
 				
+				
+				
 				if(rs.next()) {
 					dto.setBbs_Num(rs.getInt("Bbs_Num"));
 					dto.setMem_Id(rs.getString("Mem_Id"));
@@ -375,6 +396,9 @@ public class boardDAO {
 					dto.setSavefilename(rs.getString("savefilename"));
 				}
 				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -408,6 +432,10 @@ public class boardDAO {
 					dto.setHitCount(rs.getInt("hitcount"));
 					list.add(dto);
 				}
+				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -433,6 +461,7 @@ public class boardDAO {
 				
 				result=pstmt.executeUpdate();
 				
+				pstmt.close();
 			} catch (Exception e) {
 				System.out.println(e.toString());
 			} finally {

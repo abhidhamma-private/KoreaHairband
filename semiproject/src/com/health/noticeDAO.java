@@ -29,7 +29,8 @@ public class noticeDAO {
 			pstmt.setString(4, dto.getSavefilename());
 
 			result = pstmt.executeUpdate();
-
+			
+			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -49,6 +50,8 @@ public class noticeDAO {
 			rs = pstmt.executeQuery();
 			if (rs.next())
 				result = rs.getInt(1);
+			
+			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -72,7 +75,9 @@ public class noticeDAO {
 			pstmt.setInt(1, end);
 			pstmt.setInt(2, start);
 			rs = pstmt.executeQuery();
-
+			
+			
+			pstmt.close();
 			while (rs.next()) {
 				noticeDTO dto = new noticeDTO();
 				dto.setBbs_num(rs.getInt("bbs_num"));
@@ -117,7 +122,8 @@ public class noticeDAO {
 				dto.setCreated(rs.getString("created"));
 				dto.setHitcount(rs.getInt("hitcount"));
 			}
-
+			
+			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -200,6 +206,8 @@ public class noticeDAO {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setInt(1, bbs_num);
 			pstmt.executeUpdate();
+			
+			pstmt.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -219,6 +227,7 @@ public class noticeDAO {
 					pstmt.setString(2, userId);
 					result = pstmt.executeUpdate();
 					
+					pstmt.close();
 				} catch (Exception e) {
 					System.out.println(e.toString());
 				} finally {
@@ -248,6 +257,7 @@ public class noticeDAO {
 					if(rs.next())
 						result=rs.getInt(1);
 					
+					pstmt.close();
 				} catch (Exception e) {
 					System.out.println(e.toString());
 				} finally {
