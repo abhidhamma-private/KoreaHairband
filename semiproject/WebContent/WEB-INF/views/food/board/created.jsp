@@ -1,36 +1,44 @@
-<%@ page contentType="text/html; charset=UTF-8"%>
+﻿<%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <%@ include file="/resource/css/setting.jsp" %>
+
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title> Insert title here</title>
+<title>Create</title>
 
-<!-- 아래 2개 인클루드 -->
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/header.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/content.css" />
+<link rel="stylesheet" type="text/css" href="<%=cp%>/css/footer.css" />
+<script type="text/javascript" src="<%=cp%>/resource/js/util.js"></script>
+<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
+<!-- 에디터 -->
 <script type="text/javascript" src="<%=cp%>/resource/editor/js/HuskyEZCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="<%=cp%>/resource/editor/photo_uploader/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>
 
-<script type="text/javascript" src="<%=cp%>/resource/jquery/js/jquery-1.12.4.min.js"></script>
 <script type="text/javascript">
-function sendOk(){
-	var f = document.infoCreateForm;
-	
-	var str = f.subject.value;
-    if(!str) {
-        alert("제목을 입력하세요. ");
-        f.subject.focus();
-        return;
+    function sendOk() {
+        var f = document.boardForm;
+
+    	var str = f.subject.value;
+        if(!str) {
+            alert("제목을 입력하세요. ");
+            f.subject.focus();
+            return;
+        }
+
+    	var mode="${mode}";
+    	if(mode=="created")
+    		f.action="<%=cp%>/food/board_created_ok.do";
+    	else if(mode=="update")
+    		f.action="<%=cp%>/food/board_update_ok.do";
+       	else if(mode=="reply")
+       		f.action="<%=cp%>/food/board_reply_ok.do";
+
+        f.submit();
     }
-
-	var mode="${mode}";
-	if(mode=="created")
-		f.action="<%=cp%>/pet/petInfo/created_ok.do";
-	else if(mode=="update")
-		f.action="<%=cp%>/pet/petInfo/update_ok.do";
-
-    f.submit();
-}
 </script>
 </head>
 <body>
@@ -45,7 +53,7 @@ function sendOk(){
         </div>
         
         <div>
-			<form name="infoCreateForm" id="boardForm" method="post" enctype="multipart/form-data">
+			<form name="boardForm" id="boardForm" method="post" enctype="multipart/form-data">
 			  <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px; border-collapse: collapse;">
 			  <tr align="left" height="40" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">제&nbsp;&nbsp;&nbsp;&nbsp;목</td>
@@ -66,13 +74,8 @@ function sendOk(){
 			      <td width="100" bgcolor="#eeeeee" style="text-align: center;">카테고리</td>
 			      <td style="padding-left:10px;"> 
 			          <select name="category" class="selectField">
-			                  <option value="품종정보">품종정보</option>
-			                  <option value="용품후기">용품후기</option>
-			                  <option value="분양정보">분양정보</option>
-			                  <option value="병원후기">병원후기</option>
-			                  <c:if test="${sessionScope.member.mem_Id=='admin'}">
-			                  <option value="공지" selected="selected">공지</option>
-			                  </c:if>
+			                  <option value="잡담">잡담</option>
+			                  <option value="질문">질문</option>
 			          </select>
 			      </td>
 			  </tr>
@@ -97,7 +100,7 @@ function sendOk(){
 			      <td align="center" >
 			        <button type="button" id="save" class="btn" onclick="sendOk();">${mode=='update'?'수정완료':'등록하기'}</button>
 			        <button type="reset" class="btn">다시입력</button>
-			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/pet/petinfo/list.do';">${mode=='update'?'수정취소':'등록취소'}</button>
+			        <button type="button" class="btn" onclick="javascript:location.href='<%=cp%>/food/board.do';">${mode=='update'?'수정취소':'등록취소'}</button>
 			        
 			         <c:if test="${mode=='update'}">
 			         	 <input type="hidden" name="bbs_num" value="${dto.bbs_num}">
