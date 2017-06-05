@@ -1060,6 +1060,14 @@ public class SCBoardDAO
 			
 		} finally {
 			
+			if(rs != null) {
+				try {
+					rs.close();	
+				} catch(Exception e2) {		}
+			}
+			
+			rs = null;
+			
 			if(pstmt != null) {
 				try {
 					pstmt.close();	
@@ -1249,6 +1257,14 @@ public class SCBoardDAO
 			
 		} finally {
 			
+			if(rs != null) {
+				try {
+					rs.close();	
+				} catch(Exception e2) {		}
+			}
+			
+			rs = null;
+			
 			if(pstmt != null) {
 				try {
 					pstmt.close();	
@@ -1288,6 +1304,14 @@ public class SCBoardDAO
 			e.printStackTrace();
 			
 		} finally {
+			
+			if(rs != null) {
+				try {
+					rs.close();	
+				} catch(Exception e2) {		}
+			}
+			
+			rs = null;
 			
 			if(pstmt != null) {
 				try {
