@@ -76,6 +76,9 @@
 </script>
 
 <style type="text/css">
+#bbs-title th{
+text-align: center;
+}
 .popupSelect {
 	cursor: pointer;
 }
@@ -98,7 +101,6 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container">
     <div class="body-container" style="width: 900px;">
         <div class="body-title">
         </div>
@@ -128,7 +130,7 @@
 			</table>
 			
 			<table style="width: 100%; margin: 0px auto; border-spacing: 0px; border-collapse: collapse;">
-			  <tr align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
+			  <tr id="bbs-title" align="center" bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <th width="60" style="color: #787878;">번호</th>
 			      <th style="color: #787878;">제목</th>
 			      <th width="100" style="color: #787878;">작성자</th>
@@ -194,7 +196,6 @@
         </div>
 
     </div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>

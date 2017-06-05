@@ -112,31 +112,22 @@
 		<input type="hidden" name="mem_Id1" value="">
 		<input type="hidden" name="returnpage" value="">
 		</form>
-<div>
-    <div style="width: 870px; margin: 0px auto;">
-    <!-- 로고 이미지 -->
-	<img src="<%=cp%>/resource/img/m_freeboard.png" style="margin-left: 330px; margin-top: 30px;" align="middle">
+		<div>
+    	<!-- 로고 이미지 -->
+		<img src="<%=cp%>/resource/img/m_freeboard.png">
         
-        <div>
-			<table style="width: 870px; margin: 20px auto 0px; border-spacing: 0px;">
-			   <tr> <td align="right"> 게시물 총  ${dataCount }개 </td> </tr>
+        <table style="width: 100%; margin: 20px auto 0px; border-spacing: 0px;">
 			   <tr height="35">
-			      <td colspan="2" align="right">
-			      		(현재 : ${page }페이지 / 전체 : ${total_page }페이지)
-			      	  <!--  
-					  <select id="rows" name="rows" class="selectField" onchange="selectList();">
-					  	  <option value="3"> 3개씩 보기 </option>
-						  <option value="5"> 5개씩 보기 </option>
-						  <option value="7"> 7개씩 보기 </option>
-						  <option value="10"> 10개씩 보기 </option>
-						  <option value="15"> 15개씩 보기 </option>
-					  </select>
-					  -->
-				  </td>
+			      <td align="left" width="50%">
+			          ${dataCount}개(${page}/${total_page} 페이지)
+			      </td>
+			      <td align="right">
+			          &nbsp;
+			      </td>
 			   </tr>
 			</table>
 			 
-			<table style="width: 870px; margin: 5px auto; border-spacing: 0px; border-collapse: collapse;">
+			<table style="width: 900px; margin: 5px auto; border-spacing: 0px; border-collapse: collapse;">
 			  <tr bgcolor="#eeeeee" height="35" style="border-top: 1px solid #cccccc; border-bottom: 1px solid #cccccc;"> 
 			      <th width="80" style="color: #787878; padding-left: 25px;">번호</th>
 			      <th width="100" style="color: #787878; padding-left: 25px;">사진</th>
@@ -231,8 +222,6 @@
 			   </tr>
 			</table>
         </div>
-    </div>
-</div>
 
 <div class="footer">
     <jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
