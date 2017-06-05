@@ -20,10 +20,10 @@
 			</c:if>
 			<c:if test="${not empty sessionScope.member}">
 				<span style="color: blue;">${sessionScope.member.mem_Name}</span>님 <i></i>
-				<c:if test="${sessionScope.member.mem_Id=='admin'}">
+				<%-- <c:if test="${sessionScope.member.mem_Id=='admin'}">
 					<a href="<%=cp%>/admin/main.do">관리자페이지</a>
 					<i></i>
-				</c:if>
+				</c:if> --%>
 				<a href="<%=cp%>/member/mypage.do"><span class="glyphicon glyphicon-mypage"></span> 마이페이지</a>
 					<i></i>
 				<a href="<%=cp%>/message/m_list.do"><span class="glyphicon glyphicon-mypage"></span> 쪽지함</a>
