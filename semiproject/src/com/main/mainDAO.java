@@ -24,13 +24,13 @@ public class mainDAO {
 		try {
 			sql = "SELECT ROWNUM rnum, tb.* FROM ("
 				+ " ("
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount,"
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, "
 				+ " '/soccer/board/article.do?bbs_num=' AS url, '축구-자유게시판' AS boardname, savefilename "
 				+ " FROM SOCCER1 H JOIN member M ON H.MEM_ID=M.MEM_ID "
 				+ " LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM SOCCER1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
 				+ " JOIN SOCCER1_file F ON H.bbs_num = F.bbs_num"
 				+ " UNION "
-				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount,"
+				+ " SELECT h.BBS_Num, M.MEM_NAME, subject, hitCount, TO_CHAR(created, 'YY/MM/DD') created, NVL(likeCount, 0) likeCount, "
 				+ " '/health/articleB.do?num=' AS url, '건강-정보게시판' AS boardname, savefilename "
 				+ " FROM health1 H JOIN member M ON H.MEM_ID=M.MEM_ID "
 				+ " LEFT OUTER JOIN (SELECT NVL(COUNT(*), 0) likeCount, BBS_NUM FROM health1_Like GROUP BY BBS_NUM) lc ON h.bbs_num = lc.bbs_num "
@@ -297,8 +297,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 			String sql="";
 			
 			try {
-				sql = " SELECT  distinct sum(memsarticle) Over(PARTITION by mem_NAME)memsarticle , mem_Name FROM ( "
-					+ " SELECT  tb.* FROM ( "
+				sql = " SELECT  tb.* FROM ( "
+					+ " SELECT  distinct sum(memsarticle) Over(PARTITION by mem_NAME)memsarticle , mem_Name FROM ( "
 					+ " select count(*) memsarticle, mem_Name FROM it1 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM it2 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM fashion1 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
@@ -311,8 +311,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 					+ " select count(*) memsarticle, mem_Name FROM food2 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM health1 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsarticle, mem_Name FROM health2 f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name "
-					+ " )tb WHERE ROWNUM <= 5 "
-					+ " )ORDER by memsarticle desc ";
+					+ " )ORDER by memsarticle desc "
+					+ " )tb WHERE ROWNUM <= 5 ";
 				
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
@@ -339,8 +339,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 			String sql="";
 			
 			try {
-				sql = " SELECT  distinct sum(memsrepl) Over(PARTITION by mem_NAME)memsrepl , mem_Name FROM ( "
-					+ " SELECT  tb.* FROM ( "
+				sql = " SELECT  tb.* FROM ( "
+					+ " SELECT  distinct sum(memsrepl) Over(PARTITION by mem_NAME)memsrepl , mem_Name FROM ( "
 					+ " select count(*) memsrepl, mem_Name FROM it1_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM it2_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM fashion1_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
@@ -352,8 +352,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 					+ " select count(*) memsrepl, mem_Name FROM food2_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM health1_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION "
 					+ " select count(*) memsrepl, mem_Name FROM health2_reply f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name "
-					+ " )tb WHERE ROWNUM <= 5 "
-					+ " )ORDER by memsrepl desc ";
+					+ " )ORDER by memsrepl desc "
+					+ " )tb WHERE ROWNUM <= 5 ";
 				
 				pstmt = conn.prepareStatement(sql);
 				rs = pstmt.executeQuery();
@@ -414,8 +414,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 		    String sql="";
 		    
 		    try {
-		       sql = "SELECT  distinct sum(memslike) Over(PARTITION by mem_NAME)memslike , mem_Name FROM ( ";
-		       sql += " SELECT  tb.* FROM ( ";
+		       sql = " SELECT  tb.* FROM ( ";
+		       sql += "SELECT  distinct sum(memslike) Over(PARTITION by mem_NAME)memslike , mem_Name FROM ( ";
 		       sql += " select count(*) memslike, mem_Name FROM it1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM it2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM fashion1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
@@ -427,8 +427,8 @@ sql = " SELECT ROWNUM rnum, tb.* FROM ( "
 		       sql += " select count(*) memslike, mem_Name FROM food2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM health1_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name UNION ";
 		       sql += " select count(*) memslike, mem_Name FROM health2_like f1 JOIN member m ON f1.mem_Id = m.mem_Id group by mem_Name ";
-		       sql += " )tb WHERE ROWNUM <= 5 ";
 		       sql += ")ORDER by memslike DESC";
+		       sql += " )tb WHERE ROWNUM <= 5 ";
 		       
 		       pstmt = conn.prepareStatement(sql);
 		       rs = pstmt.executeQuery();
