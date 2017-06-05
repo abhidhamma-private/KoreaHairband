@@ -165,7 +165,7 @@ function movemsg(){
 				<th width="100" style="color: #787878;">작성자</th>
 				<th width="100" style="color: #787878;">작성일</th>
 				<th width="60" style="color: #787878;">조회수</th>
-				<th width="60" style="color: #787878;">추천수</th>
+				<!-- <th width="60" style="color: #787878;">추천수</th> -->
 			</tr>
 
 			<c:forEach var="dto1" items="${list}">

@@ -173,7 +173,7 @@
 		    <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 		</div>
 			
-		<div class="container" align="center">
+		<div class="container">
 		    <div class="body-container" style="width: 870px;">
 		        <div class="body-title">
 		            <h3> SCBoard Read..... </h3>

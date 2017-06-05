@@ -48,8 +48,8 @@
     <jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 </div>
 	
-<div class="container" align="center">
-    <div class="body-container" style="width: 700px;">
+<div>
+    <div class="body-container" style="width: 700px; margin:0 auto" align="center">
         <div class="body-title">
             <h3><span style="font-family: Webdings">2</span> Photo Gallery </h3>
         </div>
