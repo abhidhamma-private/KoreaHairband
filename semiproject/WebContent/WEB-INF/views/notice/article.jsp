@@ -10,9 +10,9 @@
 
 function updateBoard(){
 	<c:if test="${sessionScope.member.mem_Id==dto.mem_id}">
-			var bbs_num = "${dto.not_num}";
+			var not_num = "${dto.not_num}";
 			var page = "${page}";
-			var query = "not_num="+not_num+"&page="+page;
+			var query = "num="+not_num+"&page="+page;
 	 		var url = "<%=cp%>/notice/update.do?" + query;
 			location.href=url;
 	</c:if>
@@ -24,9 +24,9 @@ function updateBoard(){
 
 function deleteBoard(){
 	<c:if test="${sessionScope.member.mem_Id=='admin' || sessionScope.member.mem_Id==dto.mem_id}">
-   		var bbs_num = "${dto.not_num}";
+   		var not_num = "${dto.not_num}";
    		var page = "${page}";
-   		var query = "not_num="+not_num+"&page="+page;
+   		var query = "num="+not_num+"&page="+page;
    		var url = "<%=cp%>/notice/delete.do?" + query;
 
    		if(confirm("위 자료를 삭제 하시 겠습니까 ? "))
