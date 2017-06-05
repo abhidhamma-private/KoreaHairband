@@ -76,6 +76,9 @@ public class mainDAO {
 				dto.setBoardname(rs.getString("boardname"));
 				list.add(dto);
 			}
+			
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,6 +138,9 @@ public class mainDAO {
 					dto.setHitCount(rs.getInt("hitCount"));
 					list.add(dto);
 				}
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -170,6 +176,9 @@ public class mainDAO {
 				dto.setHitCount(rs.getInt("hitCount"));
 				list.add(dto);
 			}
+
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,6 +235,10 @@ public class mainDAO {
 				dto.setHitCount(rs.getInt("likeCount"));
 				list.add(dto);
 			}
+			
+
+			pstmt.close();
+			rs.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -260,6 +273,10 @@ public class mainDAO {
 					dto.setLikeCount(rs.getInt("likeCount"));
 					list.add(dto);
 				}
+				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -299,6 +316,10 @@ public class mainDAO {
 					dto.setMem_Name(rs.getString("mem_name"));
 					list.add(dto);
 				}
+				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -336,6 +357,10 @@ public class mainDAO {
 					dto.setMem_Name(rs.getString("mem_name"));
 					list.add(dto);
 				}
+				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -363,9 +388,16 @@ public class mainDAO {
 					dto.setMem_Name(rs.getString("mem_name"));
 					list.add(dto);
 				}
+				
+
+				pstmt.close();
+				rs.close();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			
+
+			
 			return list;
 		}
 		
@@ -400,6 +432,10 @@ public class mainDAO {
 		          dto.setMem_Name(rs.getString("mem_Name"));
 		          list.add(dto);
 		       }
+		       
+
+				pstmt.close();
+				rs.close();
 		    } catch (Exception e) {
 		       e.printStackTrace();
 		    }
