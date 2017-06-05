@@ -70,6 +70,9 @@ function sendOk(){
 			                  <option value="질문">질문</option>
 			                  <option value="중고거래">중고거래</option>
 			                  <option value="무료나눔">무료나눔</option>
+			                  <c:if test="${sessionScope.member.mem_Id=='admin'}">
+			                  <option value="공지" selected="selected">공지</option>
+			                  </c:if>
 			          </select>
 			      </td>
 			  </tr>
