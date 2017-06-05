@@ -26,7 +26,8 @@
 </div>
 	
 <div style="width: 900px;height:900px;">
-
+			<!-- 로고 이미지 -->
+			<img src="<%=cp%>/resource/img/f_info.png" style="margin: 10px"><br>
         	<img src="<%=cp%>/resource/img/hair.jpg" width="100px" height="100px" style="margin:400px;">
         
         
